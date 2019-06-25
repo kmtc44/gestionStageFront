@@ -1,0 +1,19 @@
+#imgAuth {
+  width: 75%;
+  height: 25%;
+}
+
+#imgAuthLast {
+  width: 60%;
+  height: 25%;
+}
+
+#authTitle {
+  font-size: 70%;
+}
+
+.authTable {
+  margin-top: 7%;
+  display: flex;
+  justify-content: space-around;
+}

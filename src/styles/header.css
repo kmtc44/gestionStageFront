@@ -1,0 +1,20 @@
+#navbar {
+  border-radius: 8px;
+  margin-top: 5%;
+}
+
+#homeImage {
+  width: 100px;
+  border-radius: 20%;
+}
+
+.title {
+  float: right;
+  position: absolute;
+  font-weight: bold;
+  font-size: 150%;
+  color: #376092;
+  right: 30%;
+  top: 30%;
+  font-family: sans-serif;
+}
