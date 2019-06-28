@@ -1,16 +1,20 @@
 import React from "react";
 import "./App.css";
-import Header from "./components/header";
-import Authentification from "./components/authentification";
-import Footer from "./components/footer";
+import Header from "./components/home/Header";
+import Home from "./components/home/Home";
+import Footer from "./components/home/Footer";
+import { BrowserRouter } from "react-router-dom";
+// import { connect } from "react-redux";
 
 function App() {
   return (
-    <React.Fragment>
-      <Header />
-      <Authentification />
-      <Footer />
-    </React.Fragment>
+    <BrowserRouter>
+      <React.Fragment>
+        <Header />
+        <Home />
+        <Footer />
+      </React.Fragment>
+    </BrowserRouter>
   );
 }
 
