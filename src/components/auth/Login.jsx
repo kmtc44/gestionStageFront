@@ -16,6 +16,7 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    this.props.checkAuth();
     if (newProps.token) {
       console.log("object");
       this.props.history.push("/");
@@ -134,7 +135,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     toAuth: (username, password, status) =>
-      dispatch(action.authLogin(username, password, status))
+      dispatch(action.authLogin(username, password, status)),
+    checkAuth: () => {
+      dispatch(action.authCheckState());
+    }
   };
 };
 

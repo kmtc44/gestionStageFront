@@ -64,7 +64,7 @@ export const authLogin = (username, password, status) => {
         }
         if (status !== status_user) {
           console.log("Pas normale");
-          dispatch(authLogout())
+          dispatch(authFail("Vous n'avez pas les droits acces"))
         } else {
           const user = {
             username: res.data.user.username,
