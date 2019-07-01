@@ -8,8 +8,7 @@ const { Option } = Select;
 
 class RegistrationForm extends Component {
   state = {
-    confirmDirty: false,
-    autoCompleteResult: []
+    confirmDirty: false
   };
 
   returnLogin(path) {

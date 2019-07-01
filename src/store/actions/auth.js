@@ -21,11 +21,18 @@ export const authFail = error => {
 };
 
 export const authLogout = () => {
+  // const user = JSON.parse(localStorage.getItem('user'))
   localStorage.removeItem("user");
+  // axios.defaults.headers = {
+  //   "Authorization": `Token ${user.token}`
+  // }
   // axios.post("http://localhost:8000/auth/logout")
+  //   .then(res => {
   return {
     type: actionType.AUTH_LOGOUT
   };
+  // })
+  // .catch(err => console.log(err))
 };
 
 export const checkAuthTimeout = expirationTime => {
@@ -46,6 +53,7 @@ export const authLogin = (username, password, status) => {
         password: password
       })
       .then(res => {
+        console.log("res", res);
         let status_user = null
         if (res.data.user.teacher !== null) {
           status_user = res.data.user.teacher.status
@@ -72,7 +80,7 @@ export const authLogin = (username, password, status) => {
       })
       .catch(err => {
         console.log("il ya erreur")
-        dispatch(authFail(err));
+        dispatch(authFail("username or paaword not valide"));
       });
   };
 };
@@ -106,7 +114,7 @@ export const authRegisterStudent = (username, email, password, status, firstname
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        dispatch(authFail(err));
+        dispatch(authFail("username or paaword not valide"));
       });
   };
 };

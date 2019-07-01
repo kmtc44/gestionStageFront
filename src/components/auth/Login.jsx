@@ -15,6 +15,15 @@ class Login extends Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.token) {
+      console.log("object");
+      this.props.history.push("/");
+    } else if (newProps.error) {
+      console.log("auth error");
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -37,7 +46,7 @@ class Login extends Component {
             console.log("error");
         }
         this.props.toAuth(values.username, values.password, status);
-        this.props.history.push("/");
+        // this.props.history.push("/");
       }
     });
   };
@@ -53,7 +62,7 @@ class Login extends Component {
         <hr /> <br />
         {errorMessage}
         {this.props.loading ? (
-          <Spin />
+          <Spin className="container text-justify" />
         ) : (
           <Form
             onSubmit={this.handleSubmit}
@@ -117,7 +126,8 @@ const mapStateToProps = state => {
   return {
     loading: state.loading,
     error: state.error,
-    etat: state
+    etat: state,
+    token: state.token
   };
 };
 
