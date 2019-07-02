@@ -15,16 +15,6 @@ class Login extends Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    this.props.checkAuth();
-    if (newProps.token) {
-      console.log("object");
-      this.props.history.push("/");
-    } else if (newProps.error) {
-      console.log("auth error");
-    }
-  }
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -33,6 +23,7 @@ class Login extends Component {
         console.log("Received values of form: ", values);
         console.log(this.props.location.pathname);
         let status = null;
+        console.log(this.props.location.pathname);
         switch (this.props.location.pathname) {
           case "/login/student":
             status = "student";
@@ -47,7 +38,6 @@ class Login extends Component {
             console.log("error");
         }
         this.props.toAuth(values.username, values.password, status);
-        // this.props.history.push("/");
       }
     });
   };

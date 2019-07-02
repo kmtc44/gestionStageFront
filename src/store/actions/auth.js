@@ -53,7 +53,6 @@ export const authLogin = (username, password, status) => {
         password: password
       })
       .then(res => {
-        console.log("res", res);
         let status_user = null
         if (res.data.user.teacher !== null) {
           status_user = res.data.user.teacher.status
@@ -62,6 +61,8 @@ export const authLogin = (username, password, status) => {
         } else if (res.data.user.student !== null) {
           status_user = res.data.user.student.status
         }
+        console.log("going: ", status)
+        console.log("Comming: ", status_user)
         if (status !== status_user) {
           console.log("Pas normale");
           dispatch(authFail("Vous n'avez pas les droits acces"))
@@ -72,7 +73,6 @@ export const authLogin = (username, password, status) => {
             expirationDate: new Date(new Date().getTime() + 3600 * 1000),
             status: status_user
           }
-          console.log("user : ", user)
           localStorage.setItem("user", JSON.stringify(user));
           dispatch(authSuccess(user));
           dispatch(checkAuthTimeout(3600))
@@ -193,8 +193,7 @@ export const authCheckState = () => {
           dispatch(authSuccess(user));
           dispatch(
             checkAuthTimeout(
-              // (expirationDate.getTime() - new Date().getTime()) / 1000
-              2000
+              (new Date(expirationDate).getTime() - new Date().getTime()) / 1000
             )
           );
         }

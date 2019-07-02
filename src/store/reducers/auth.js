@@ -19,7 +19,6 @@ const authStart = (state, action) => {
 }
 
 const authSuccess = (state, action) => {
-    console.log("action en realite : ", action)
     return updateObject(state, {
         token: action.user.token,
         status: action.user.status,
@@ -48,19 +47,15 @@ const authLogout = (state, action) => {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionType.AUTH_START:
-            console.log("auth start");
             return authStart(state, action)
 
         case actionType.AUTH_SUCCESS:
-            console.log("auth succes");
             return authSuccess(state, action)
 
         case actionType.AUTH_FAIL:
-            console.log("auth fail");
             return authFail(state, action)
 
         case actionType.AUTH_LOGOUT:
-            console.log("auth logout");
             return authLogout(state, action)
 
         default:

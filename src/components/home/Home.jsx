@@ -1,59 +1,44 @@
 import React, { Component } from "react";
 import "../../assets/css/home.css";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Menu from "./Menu";
 import Login from "../auth/Login";
 import Register from "../auth/Register";
-
 import * as action from "../../store/actions/auth";
-import { Button } from "antd";
+import Footer from "./Footer";
+import Header from "./Header";
 
 class Home extends Component {
-  componentDidMount() {
-    this.props.checkAuth();
-  }
-
   render() {
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/dashboard" />;
+    }
     return (
       <div>
-        {this.props.isAuthenticated ? (
-          <Button onClick={this.props.logout}> Logout </Button>
-        ) : (
-          <Switch>
-            <Redirect exact from="/login" to="/" />
-            <Redirect exact from="/register" to="/" />
-            <Route exact path="/" component={Menu} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Redirect to="/" />
-          </Switch>
-        )}
+        <Header />
+        <Switch>
+          <Redirect exact from="/login" to="/" />
+          <Redirect exact from="/register" to="/" />
+          <Route path="/login" component={Login} />
+          <Route exact path="/" component={Menu} />
+          <Route path="/register" component={Register} />
+        </Switch>
+        <Footer />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  console.log("L'etat state : ", state);
-  return {
-    isAuthenticated: state.token !== null,
-    status: state.status,
-    token: state.token
-  };
-};
 const mapDispatchToProps = dispatch => {
   return {
     checkAuth: () => {
       dispatch(action.authCheckState());
-    },
-    logout: () => {
-      dispatch(action.authLogout());
     }
   };
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Home);
