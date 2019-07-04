@@ -1,6 +1,6 @@
-#imgAuth {
-  width: 75%;
-  height: 25%;
+.imgAuth {
+  width: 100%;
+  height: 60%;
 }
 
 #imgAuthLast {

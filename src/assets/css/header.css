@@ -24,6 +24,8 @@
   background-color: rgb(47, 164, 231);
   border-radius: 1%;
   margin-top: 2%;
+  color: cyan;
+  color: brown;
 }
 
 @media only screen and (max-width: 600px) {

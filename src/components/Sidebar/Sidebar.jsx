@@ -1,14 +1,15 @@
 /*eslint-disable*/
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Nav } from "reactstrap";
 import { Button } from "antd";
+import PropTypes from "prop-types";
 
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
 
-import logo from "./../../logo-white.svg";
-import routes from "../../routes.js";
+// import logo from "./../../logo-white.svg";
+import logo from "../../assets/img/ept.png";
 
 var ps;
 
@@ -19,7 +20,6 @@ class Sidebar extends React.Component {
   }
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
-    console.log(this.props);
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
   componentDidMount() {
@@ -45,26 +45,18 @@ class Sidebar extends React.Component {
       >
         <Button> Logout </Button>
         <div className="logo">
-          <a
-            href="https://www.creative-tim.com?ref=nudr-sidebar"
-            className="simple-text logo-mini"
-            target="_blank"
-          >
+          <Link to="/dashboard" className="simple-text logo-mini">
             <div className="logo-img">
               <img src={logo} alt="react-logo" />
             </div>
-          </a>
-          <a
-            href="https://www.creative-tim.com?ref=nudr-sidebar"
-            className="simple-text logo-normal"
-            target="_blank"
-          >
+          </Link>
+          <Link to="/dashboard" className="simple-text logo-normal">
             Gestion des stages
-          </a>
+          </Link>
         </div>
         <div className="sidebar-wrapper" ref="sidebar">
           <Nav>
-            {routes.map((prop, key) => {
+            {this.props.routes.map((prop, key) => {
               if (prop.redirect) return null;
               return (
                 <li
@@ -91,5 +83,9 @@ class Sidebar extends React.Component {
     );
   }
 }
+
+Sidebar.propTypes = {
+  routes: PropTypes.array
+};
 
 export default Sidebar;
