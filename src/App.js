@@ -1,17 +1,52 @@
-import React from "react";
+import React, { Component } from "react";
 import "./App.css";
-import Header from "./components/header";
-import Authentification from "./components/authentification";
-import Footer from "./components/footer";
+import Home from "./components/home/Home";
+import Layout from "./components/layout/Layout";
+import PrivateRoute from "./components/PrivateRoute";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import * as action from "./store/actions/auth";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <React.Fragment>
-      <Header />
-      <Authentification />
-      <Footer />
-    </React.Fragment>
-  );
+class App extends Component {
+  componentDidMount() {
+    this.props.checkAuth();
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <PrivateRoute path="/dashboard" component={Layout} />
+          )} />
+          <Route
+            path="/"
+            render={isAuthenticated => (
+              <Home {...isAuthenticated} {...this.props} />
+            )}
+          />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => {
+  console.log("L'etat state : ", state);
+  return {
+    isAuthenticated: state.token !== null,
+    status: state.status,
+    token: state.token
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    checkAuth: () => {
+      dispatch(action.authCheckState());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
