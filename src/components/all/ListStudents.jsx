@@ -61,7 +61,8 @@ function StudentTable(props) {
               <th>Prenom</th>
               <th>Nom</th>
               <th>Birthdate</th>
-              <th> Operation </th>
+              <th> Email </th>
+              <th> Telephone </th>
             </tr>
           </thead>
           <tbody>
@@ -72,47 +73,17 @@ function StudentTable(props) {
                     <img
                       src={student.image}
                       alt={student.name}
-                      className="img-thumbnail"
+                      className="img-thumbnail img-student"
                     />
                   </div>
                 </td>
-                <td className="td-name">{student.first_name}</td>
-                <td>{student.last_name}</td>
-                <td className="td-number">
+                <td className="td-student">{student.first_name}</td>
+                <td className="td-student">{student.last_name}</td>
+                <td className="td-student">
                   {moment(student.birthdate).format("YYYY-MM-DD")}
                 </td>
-                <td className="td-actions">
-                  <button
-                    type="button"
-                    rel="tooltip"
-                    data-placement="left"
-                    title="Voir L'eleve "
-                    className="btn btn-info btn-simple btn-icon"
-                    data-original-title="View Post"
-                  >
-                    <i className="fa fa-image" />
-                  </button>
-                  <button
-                    type="button"
-                    rel="tooltip"
-                    data-placement="left"
-                    title="Modifier"
-                    className="btn btn-success btn-simple btn-icon"
-                    data-original-title="Edit Post"
-                  >
-                    <i className="fa fa-edit" />
-                  </button>
-                  <button
-                    type="button"
-                    rel="tooltip"
-                    data-placement="left"
-                    title="Supprimer"
-                    className="btn btn-danger btn-simple btn-icon "
-                    data-original-title="Remove Post"
-                  >
-                    <i className="fa fa-times" />
-                  </button>
-                </td>
+                <td className="td-student">{student.user.email}</td>
+                <td className="td-student">{student.phone}</td>
               </tr>
             ))}
           </tbody>

@@ -1,4 +1,9 @@
 .img-students {
     width: 15%;
     height: 20%;
+    border-radius: 20%;
+}
+
+.img-student {
+    border-radius: 20%;
 }

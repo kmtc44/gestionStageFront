@@ -21,7 +21,7 @@ class User extends React.Component {
     return (
       <>
         {/* <PanelHeader size="sm" /> */}
-        <div className="content">
+        <div className="container">
           <Row>
             <Col md="8">
               <Card>
