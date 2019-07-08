@@ -6,6 +6,10 @@ import Footer from "../Footer/Footer";
 import { Switch, Route } from "react-router-dom";
 import routes from "../../routes";
 import { connect } from "react-redux";
+import ListStudents from "../all/ListStudents";
+import ListEnterprises from "../all/ListEnterprise";
+import Enterprise from "../all/Enterprise";
+import Bread from "../Bread";
 
 import PerfectScrollbar from "perfect-scrollbar";
 
@@ -39,13 +43,14 @@ class Layout extends Component {
   };
   componentWillReceiveProps(newProps) {
     if (newProps.status === "student") {
-      this.setState({ backgroundColor: "peru" });
-    } else if (newProps.status === "teacher") {
       this.setState({ backgroundColor: "blue" });
+    } else if (newProps.status === "teacher") {
+      this.setState({ backgroundColor: "red" });
     } else if (newProps.status === "framer") {
       this.setState({ backgroundColor: "green" });
     }
   }
+
   render() {
     return (
       <div className="wrapper">
@@ -56,8 +61,16 @@ class Layout extends Component {
         />
         <div className="main-panel" ref={this.mainPanel}>
           <PanelHeader size="sm" />
+          <Bread />
           <DemoNavbar {...this.props} />
           <Switch>
+            <Route
+              exact
+              path="/dashboard/enterprise/detail/:id"
+              component={Enterprise}
+            />
+            <Route path="/dashboard/students/" component={ListStudents} />
+            <Route path="/dashboard/enterprise/" component={ListEnterprises} />
             {routes.map((prop, key) => {
               return (
                 <Route

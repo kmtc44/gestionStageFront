@@ -80,7 +80,7 @@ export const authLogin = (username, password, status) => {
       })
       .catch(err => {
         console.log("il ya erreur")
-        dispatch(authFail("username or paaword not valide"));
+        dispatch(authFail("Le nom utilisateur ou mot de passe pas  valide"));
       });
   };
 };
@@ -114,7 +114,7 @@ export const authRegisterStudent = (username, email, password, status, firstname
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        dispatch(authFail("username or paaword not valide"));
+        dispatch(authFail("Nom utilisateur ou email deja pris"));
       });
   };
 };
@@ -145,7 +145,7 @@ export const authRegisterAdministration = (username, email, password, status, fi
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        dispatch(authFail(err));
+        dispatch(authFail("Nom utilisateur ou email deja pris"));
       });
   };
 };
@@ -174,7 +174,7 @@ export const authRegisterEnterprise = (username, email, password, status, firstn
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        dispatch(authFail(err));
+        dispatch(authFail("Nom utilisateur ou email deja pris"));
       });
   };
 };

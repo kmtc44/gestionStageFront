@@ -1,11 +1,19 @@
-import Enterprise from "./components/all/Enterprise";
+// import Enterprise from "./components/all/Enterprise";
+import User from './components/Profile/Profile'
 
-
-var dashRoutes = [{
-    path: "/enterprise",
-    name: "Enterprise",
+var dashRoutes = [
+  // {
+  //     path: "/enterprise",
+  //     name: "Enterprise",
+  //     icon: "design_app",
+  //     component: Enterprise,
+  //     layout: "/dashboard"
+  //   },
+  {
+    path: "/profile",
+    name: "Profile",
     icon: "design_app",
-    component: Enterprise,
+    component: User,
     layout: "/dashboard"
   },
 
