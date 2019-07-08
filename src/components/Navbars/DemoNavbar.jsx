@@ -19,6 +19,9 @@ import {
 } from "reactstrap";
 
 import routes from "../../routes.js";
+import * as action from "../../store/actions/auth";
+import { connect } from "react-redux";
+import "./navba.css";
 
 class Header extends React.Component {
   state = {
@@ -174,7 +177,9 @@ class Header extends React.Component {
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem tag="a">Action</DropdownItem>
+                  <DropdownItem tag="a" onClick={this.props.logout}>
+                    Logout
+                  </DropdownItem>
                   <DropdownItem tag="a">Another Action</DropdownItem>
                   <DropdownItem tag="a">Something else here</DropdownItem>
                 </DropdownMenu>
@@ -195,4 +200,15 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => {
+      dispatch(action.authLogout());
+    }
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Header);
