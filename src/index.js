@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
 import "./assets/scss/now-ui-dashboard.scss";
 import "./assets/css/demo.css";
+import "./assets/css/style.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";

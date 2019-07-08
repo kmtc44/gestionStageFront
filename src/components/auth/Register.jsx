@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Form, Input, Select, Button } from "antd";
+import { Form, Input, Select, Button, Spin } from "antd";
 import { connect } from "react-redux";
+import { Alert } from "antd";
 import { Link } from "react-router-dom";
 import * as action from "../../store/actions/auth";
+import "../../assets/css/login.css";
 
 const { Option } = Select;
 
@@ -140,6 +142,19 @@ class RegistrationForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
 
+    let errorMessage = null;
+    if (this.props.error) {
+      errorMessage = (
+        <Alert
+          className="container mx-auto"
+          message="Erreur !!!"
+          description={this.props.error}
+          type="error"
+          showIcon
+        />
+      );
+    }
+
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -169,114 +184,131 @@ class RegistrationForm extends Component {
     );
 
     return (
-      <Form.Item className="container col-md-9  p-5">
-        <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-          <Form.Item label={<span>Nom d'utilisateur</span>}>
-            {getFieldDecorator("username", {
-              rules: [
-                {
-                  required: true,
-                  message: "S'il vous plaît entrer votre nom d'utilisateur !",
-                  whitespace: true
-                }
-              ]
-            })(<Input />)}
-          </Form.Item>
+      <div className="container">
+        <br />
+        {errorMessage}
+        {this.props.loading ? (
+          <Spin className="center container " />
+        ) : (
+          <Form.Item className="container col-md-9  p-5">
+            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+              <Form.Item label={<span>Nom d'utilisateur</span>}>
+                {getFieldDecorator("username", {
+                  rules: [
+                    {
+                      required: true,
+                      message:
+                        "S'il vous plaît entrer votre nom d'utilisateur !",
+                      whitespace: true
+                    }
+                  ]
+                })(<Input />)}
+              </Form.Item>
 
-          <Form.Item label={<span>Prenom</span>}>
-            {getFieldDecorator("firstname", {
-              rules: [
-                {
-                  required: true,
-                  message: "S'il vous plaît entrer votre prenom !",
-                  whitespace: true
-                }
-              ]
-            })(<Input />)}
-          </Form.Item>
+              <Form.Item label={<span>Prenom</span>}>
+                {getFieldDecorator("firstname", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "S'il vous plaît entrer votre prenom !",
+                      whitespace: true
+                    }
+                  ]
+                })(<Input />)}
+              </Form.Item>
 
-          <Form.Item label={<span>Nom</span>}>
-            {getFieldDecorator("lastname", {
-              rules: [
-                {
-                  required: true,
-                  message: "S'il vous plaît entrer votre nom !",
-                  whitespace: true
-                }
-              ]
-            })(<Input />)}
-          </Form.Item>
+              <Form.Item label={<span>Nom</span>}>
+                {getFieldDecorator("lastname", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "S'il vous plaît entrer votre nom !",
+                      whitespace: true
+                    }
+                  ]
+                })(<Input />)}
+              </Form.Item>
 
-          <Form.Item label="E-mail">
-            {getFieldDecorator("email", {
-              rules: [
-                {
-                  type: "email",
-                  message: "L'entrée n'est pas valide E-mail!"
-                },
-                {
-                  required: true,
-                  message: "S'il vous plaît entrer votre e-mail!"
-                }
-              ]
-            })(<Input />)}
-          </Form.Item>
-          <Form.Item label="Password" hasFeedback>
-            {getFieldDecorator("password", {
-              rules: [
-                {
-                  required: true,
-                  message: "Please input your password!"
-                },
-                {
-                  validator: this.validateToNextPassword
-                }
-              ]
-            })(<Input.Password />)}
-          </Form.Item>
-          <Form.Item label="Confirm Password" hasFeedback>
-            {getFieldDecorator("confirm", {
-              rules: [
-                {
-                  required: true,
-                  message: "Please confirm your password!"
-                },
-                {
-                  validator: this.compareToFirstPassword
-                }
-              ]
-            })(<Input.Password onBlur={this.handleConfirmBlur} />)}
-          </Form.Item>
+              <Form.Item label="E-mail">
+                {getFieldDecorator("email", {
+                  rules: [
+                    {
+                      type: "email",
+                      message: "L'entrée n'est pas valide E-mail!"
+                    },
+                    {
+                      required: true,
+                      message: "S'il vous plaît entrer votre e-mail!"
+                    }
+                  ]
+                })(<Input />)}
+              </Form.Item>
+              <Form.Item label="Password" hasFeedback>
+                {getFieldDecorator("password", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your password!"
+                    },
+                    {
+                      validator: this.validateToNextPassword
+                    }
+                  ]
+                })(<Input.Password />)}
+              </Form.Item>
+              <Form.Item label="Confirm Password" hasFeedback>
+                {getFieldDecorator("confirm", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please confirm your password!"
+                    },
+                    {
+                      validator: this.compareToFirstPassword
+                    }
+                  ]
+                })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+              </Form.Item>
 
-          <Form.Item label="Phone Number">
-            {getFieldDecorator("phone", {
-              rules: [
-                { required: true, message: "Please input your phone number!" }
-              ]
-            })(
-              <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
-            )}
-          </Form.Item>
+              <Form.Item label="Phone Number">
+                {getFieldDecorator("phone", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your phone number!"
+                    }
+                  ]
+                })(
+                  <Input
+                    addonBefore={prefixSelector}
+                    style={{ width: "100%" }}
+                  />
+                )}
+              </Form.Item>
 
-          {this.props.location.pathname === "/register/student"
-            ? this.classeSelector()
-            : ""}
-          {this.props.location.pathname === "/register/administration" ||
-          this.props.location.pathname === "/register/student"
-            ? this.departmentSelector()
-            : ""}
-          {this.props.location.pathname === "/register/enterprise" ? "" : ""}
+              {this.props.location.pathname === "/register/student"
+                ? this.classeSelector()
+                : ""}
+              {this.props.location.pathname === "/register/administration" ||
+              this.props.location.pathname === "/register/student"
+                ? this.departmentSelector()
+                : ""}
+              {this.props.location.pathname === "/register/enterprise"
+                ? ""
+                : ""}
 
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-              Envoyer
-            </Button>{" "}
-            <br />
-            Vous avez deja un compte ?{" "}
-            {this.returnLogin(this.props.location.pathname)}
+              <Form.Item {...tailFormItemLayout}>
+                <Button type="primary" htmlType="submit">
+                  Envoyer
+                </Button>{" "}
+                <br />
+                Vous avez deja un compte ?{" "}
+                {this.returnLogin(this.props.location.pathname)}
+              </Form.Item>
+            </Form>
           </Form.Item>
-        </Form>
-      </Form.Item>
+        )}
+      </div>
     );
   }
 }
@@ -284,6 +316,15 @@ class RegistrationForm extends Component {
 const WrappedRegistrationForm = Form.create({ name: "register" })(
   RegistrationForm
 );
+
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    error: state.error,
+    etat: state,
+    token: state.token
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -359,6 +400,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(WrappedRegistrationForm);

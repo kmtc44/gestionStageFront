@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Form, Icon, Input, Button, Spin } from "antd";
 import { connect } from "react-redux";
+import { Alert } from "antd";
 import { Link } from "react-router-dom";
 import * as action from "../../store/actions/auth";
+import "../../assets/css/login.css";
 
 class Login extends Component {
   returnRegister(path) {
@@ -46,14 +48,21 @@ class Login extends Component {
     const { getFieldDecorator } = this.props.form;
     let errorMessage = null;
     if (this.props.error) {
-      errorMessage = <p> {this.props.error} </p>;
+      errorMessage = (
+        <Alert
+          message="Erreur !!!"
+          description={this.props.error}
+          type="error"
+          showIcon
+        />
+      );
     }
     return (
       <div className="container">
-        <hr /> <br />
+        <br />
         {errorMessage}
         {this.props.loading ? (
-          <Spin className="container text-justify" />
+          <Spin className="center container " />
         ) : (
           <Form
             onSubmit={this.handleSubmit}

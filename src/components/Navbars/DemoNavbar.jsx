@@ -21,7 +21,6 @@ import {
 import routes from "../../routes.js";
 import * as action from "../../store/actions/auth";
 import { connect } from "react-redux";
-import "./navba.css";
 
 class Header extends React.Component {
   state = {
