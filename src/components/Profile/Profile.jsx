@@ -111,13 +111,11 @@ class User extends React.Component {
                     </Row>
                    </ListGroup>
                 </CardBody>
-
                 <Row>
                      <Col md="12">
                      <UpdateProfileForm requestType="put" userID={this.state.student.student.id} />
                      </Col>
                 </Row>
-
               </Card>
             </Col>
           </Row>

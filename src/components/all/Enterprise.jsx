@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Spin } from "antd";
 import "../../assets/css/login.css";
+import AddStudents from "./AddStudents";
 import {
   Button,
   Card,
-  CardHeader,
   CardGroup,
   CardBody,
   CardImg,
@@ -46,7 +46,7 @@ function Enterprise(props) {
 
   console.log(enterprise);
   return loading ? (
-    <Spin className="center container " />
+    <Spin className="center container-fluid " />
   ) : (
     <div>
       {" "}
@@ -83,10 +83,33 @@ function Enterprise(props) {
               evolue dans le domaine <br />
               de {enterprise.field}"
             </p>
+            <div className="container">
+              <p>
+                <i className="now-ui-icons ui-1_email-85" /> :{" "}
+                {enterprise.email}
+              </p>
+              <p>
+                <i className="now-ui-icons tech_mobile" /> : {enterprise.phone}
+              </p>
+              <p>
+                <i className="now-ui-icons location_pin" /> :{" "}
+                {enterprise.address}
+              </p>
+              <p>
+                <i className="now-ui-icons business_globe" /> :{" "}
+                <a
+                  href={enterprise.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {enterprise.website}
+                </a>
+              </p>
+            </div>
           </CardBody>
         </Card>
       </Col>
-      {enterprise.students ? (
+      {enterprise.is_partner ? (
         <div className="container">
           <h3 className="text-center">
             {" "}
@@ -103,16 +126,15 @@ function Enterprise(props) {
                     <Card key={index}>
                       {student.image ? (
                         <CardImg
+                          className="img-student-enterprise"
                           top
-                          width="20%"
-                          height="25%"
                           src={student.image}
                           alt="Card image cap"
                         />
                       ) : (
                         <CardImg
+                          className="img-student-enterprise"
                           top
-                          width="20%"
                           src={require("../../assets/img/student.png")}
                           alt="Card image cap"
                         />
@@ -126,7 +148,9 @@ function Enterprise(props) {
                           Some quick example text to build on the card title and
                           make up the bulk of the card's content.
                         </CardText>
-                        <Button>Button</Button>
+                        <Button className="btn btn-danger">
+                          Enlever de cette entreprise
+                        </Button>
                       </CardBody>
                     </Card>
                   </Col>
@@ -134,6 +158,8 @@ function Enterprise(props) {
               })}
             </CardGroup>
           </Row>
+
+          <AddStudents enterpriseId={enterprise.id} />
         </div>
       ) : (
         ""

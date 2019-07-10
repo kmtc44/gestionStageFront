@@ -88,21 +88,25 @@ class Sidebar extends React.Component {
                     <li className="nav">
                       <li
                         className={
-                          this.activeRoute("/conventions/new") ? "active" : null
+                          this.activeRoute("/dashboard/conventions/new")
+                            ? "active"
+                            : null
                         }
                       >
-                        <Link to="/conventions/new">
+                        <Link to="/dashboard/conventions/new">
                           Creer une nouvelle convention
                         </Link>
                       </li>
                       <li
                         className={
-                          this.activeRoute("/conventions/list")
+                          this.activeRoute("/dashboard/conventions/all")
                             ? "active"
                             : null
                         }
                       >
-                        <Link to="/conventions/list">Liste de conventions</Link>
+                        <Link to="/dashboard/conventions/all">
+                          Liste de conventions
+                        </Link>
                       </li>
                     </li>
                   </div>

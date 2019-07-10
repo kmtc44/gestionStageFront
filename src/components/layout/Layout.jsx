@@ -9,6 +9,10 @@ import { connect } from "react-redux";
 import ListStudents from "../all/ListStudents";
 import ListEnterprises from "../all/ListEnterprise";
 import Enterprise from "../all/Enterprise";
+import FormEnterprise from "../all/FormEnterprise";
+import FormConvention from "../Convention/FormConvention";
+import ListConventions from "../Convention/ListConvention";
+
 import Bread from "../Bread";
 
 import PerfectScrollbar from "perfect-scrollbar";
@@ -69,8 +73,22 @@ class Layout extends Component {
               path="/dashboard/enterprise/detail/:id"
               component={Enterprise}
             />
+            <Route
+              exact
+              path="/dashboard/enterprise/new"
+              component={FormEnterprise}
+            />
+            <Route
+              exact
+              path="/dashboard/conventions/new"
+              component={FormConvention}
+            />
             <Route path="/dashboard/students/" component={ListStudents} />
             <Route path="/dashboard/enterprise/" component={ListEnterprises} />
+            <Route
+              path="/dashboard/conventions/all"
+              component={ListConventions}
+            />
             {routes.map((prop, key) => {
               return (
                 <Route

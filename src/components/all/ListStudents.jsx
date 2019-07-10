@@ -60,9 +60,10 @@ function StudentTable(props) {
               <th className="text-center">Image </th>
               <th>Prenom</th>
               <th>Nom</th>
-              <th>Birthdate</th>
+              <th>Date de naissance</th>
               <th> Email </th>
               <th> Telephone </th>
+              <th> Entreprise </th>
             </tr>
           </thead>
           <tbody>
@@ -80,10 +81,15 @@ function StudentTable(props) {
                 <td className="td-student">{student.first_name}</td>
                 <td className="td-student">{student.last_name}</td>
                 <td className="td-student">
-                  {moment(student.birthdate).format("YYYY-MM-DD")}
+                  {moment(student.birthday).format("YYYY-MM-DD")}
                 </td>
                 <td className="td-student">{student.user.email}</td>
                 <td className="td-student">{student.phone}</td>
+                {student.enterprise ? (
+                  <td className="td-student">{student.enterprise.name}</td>
+                ) : (
+                  <td className="td-student" />
+                )}
               </tr>
             ))}
           </tbody>
