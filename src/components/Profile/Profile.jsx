@@ -1,6 +1,7 @@
 import React from "react";
-
+import axios from "axios";
 // reactstrap components
+
 import {
   Button,
   Card,
@@ -10,199 +11,124 @@ import {
   Form,
   Input,
   Row,
-  Col
+  Col,
+  UncontrolledCollapse,
+  ListGroup,
+  ListGroupItem
 } from "reactstrap";
-
+import { Spin } from "antd";
 // core components
+
+import UpdateProfileForm from './UpdateProfile';
 // import PanelHeader from "../PanelHeader/PanelHeader.jsx";
 
-class User extends React.Component {
+
+class User extends React.Component { 
+
+  state = {
+    student: {},
+    loading: true
+  }
+
+  componentDidMount() {
+
+    const user = JSON.parse(localStorage.getItem("user"))
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization:  `Token ${user.token}`
+    }
+    axios.get(`http://127.0.0.1:8000/auth/user`)
+      .then(res => {
+        this.setState({
+          student: res.data
+        });
+
+        this.setState({loading : false})
+      })
+  }
+
   render() {
     return (
-      <>
-        {/* <PanelHeader size="sm" /> */}
+    
+       <div>
+       {
+      this.state.loading === false ? (
         <div className="container">
           <Row>
-            <Col md="8">
+          <Col md={12}>
+          <img className="avatar center" style={{ borderRadius: '50%', marginLeft: '25%' }} src={require("../../assets/img/student2.png")} />
+          </Col>
+            <Col md={12}>
               <Card>
                 <CardHeader>
-                  <h5 className="title">Edit Profile</h5>
+                <Button className='btn btn-info btn-block' id="toggler" style={{ marginBottom: '1rem' }}>
+                           Edit Profile
+                          </Button>
+                  
                 </CardHeader>
+
                 <CardBody>
-                  <Form>
+                   <ListGroup className="list-group-flush" style={{ position: 'center' }}>
                     <Row>
-                      <Col className="pr-1" md="5">
-                        <FormGroup>
-                          <label>Company (disabled)</label>
-                          <Input
-                            defaultValue="Creative Code Inc."
-                            disabled
-                            placeholder="Company"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="3">
-                        <FormGroup>
-                          <label>Username</label>
-                          <Input
-                            defaultValue="michael23"
-                            placeholder="Username"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-1" md="4">
-                        <FormGroup>
-                          <label htmlFor="exampleInputEmail1">
-                            Email address
-                          </label>
-                          <Input placeholder="Email" type="email" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className="pr-1" md="6">
-                        <FormGroup>
-                          <label>First Name</label>
-                          <Input
-                            defaultValue="Mike"
-                            placeholder="Company"
-                            type="text"
-                          />
-                        </FormGroup>
+                      <Col className="px-1" md="6">
+                          <ListGroupItem ><h6><u>Utilisateur:</u></h6> {this.state.student.student.user.username}</ListGroupItem>
                       </Col>
                       <Col className="pl-1" md="6">
-                        <FormGroup>
-                          <label>Last Name</label>
-                          <Input
-                            defaultValue="Andrew"
-                            placeholder="Last Name"
-                            type="text"
-                          />
-                        </FormGroup>
+                          <ListGroupItem ><h6><u>Prénom: </u></h6>{this.state.student.student.first_name}</ListGroupItem>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col className="pr-1 " md="6">
+                        <ListGroupItem ><h6><u>Nom: </u></h6> {this.state.student.student.last_name}</ListGroupItem>
+                      </Col>
+                      <Col className="pl-1" md="6">
+                        <ListGroupItem ><h6><u>email: </u></h6> {this.state.student.student.user.email}</ListGroupItem>
+                      </Col>
+                    </Row>
+
+                    <Row>
+                      <Col md="12">
+                        <ListGroupItem ><h6><u>Téléphone: </u></h6> {this.state.student.student.phone}</ListGroupItem>
                       </Col>
                     </Row>
                     <Row>
                       <Col md="12">
-                        <FormGroup>
-                          <label>Address</label>
-                          <Input
-                            defaultValue="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                            placeholder="Home Address"
-                            type="text"
-                          />
-                        </FormGroup>
+                        <div>
+                          <Button className='btn btn-info btn-block' id="toggler" style={{ marginBottom: '1rem' }}>
+                            Voir le C.V.
+                          </Button>
+                          <UncontrolledCollapse toggler="#toggler">
+                          <Card>
+                            <CardBody>
+                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt magni, voluptas debitis
+                              similique porro a molestias consequuntur earum odio officiis natus, amet hic, iste sed
+                              dignissimos esse fuga! Minus, alias.
+                            </CardBody>
+                          </Card>
+                        </UncontrolledCollapse>
+                      </div>
                       </Col>
                     </Row>
-                    <Row>
-                      <Col className="pr-1" md="4">
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue="Mike"
-                            placeholder="City"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="px-1" md="4">
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue="Andrew"
-                            placeholder="Country"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className="pl-1" md="4">
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md="12">
-                        <FormGroup>
-                          <label>About Me</label>
-                          <Input
-                            cols="80"
-                            defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
-                            placeholder="Here can be your description"
-                            rows="4"
-                            type="textarea"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </Form>
+                   </ListGroup>
                 </CardBody>
-              </Card>
-            </Col>
-            <Col md="4">
-              <Card className="card-user">
-                <div className="image">
-                  <img
-                    alt="..."
-                    src={require("../../assets/img/enterprise1.png")}
-                  />
-                </div>
-                <CardBody>
-                  <div className="author">
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        className="avatar border-gray"
-                        src={require("../../assets/img/enterprise.png")}
-                      />
-                      <h5 className="title">Mike Andrew</h5>
-                    </a>
-                    <p className="description">michael24</p>
-                  </div>
-                  <p className="description text-center">
-                    "Lamborghini Mercy <br />
-                    Your chick she so thirsty <br />
-                    I'm in that two seat Lambo"
-                  </p>
-                </CardBody>
-                <hr />
-                <div className="button-container">
-                  <Button
-                    className="btn-neutral btn-icon btn-round"
-                    color="default"
-                    href="#pablo"
-                    onClick={e => e.preventDefault()}
-                    size="lg"
-                  >
-                    <i className="fab fa-facebook-f" />
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-icon btn-round"
-                    color="default"
-                    href="#pablo"
-                    onClick={e => e.preventDefault()}
-                    size="lg"
-                  >
-                    <i className="fab fa-twitter" />
-                  </Button>
-                  <Button
-                    className="btn-neutral btn-icon btn-round"
-                    color="default"
-                    href="#pablo"
-                    onClick={e => e.preventDefault()}
-                    size="lg"
-                  >
-                    <i className="fab fa-google-plus-g" />
-                  </Button>
-                </div>
+
+                <Row>
+                     <Col md="12">
+                     <UpdateProfileForm requestType="put" userID={this.state.student.student.id} />
+                     </Col>
+                </Row>
+
               </Card>
             </Col>
           </Row>
         </div>
-      </>
+         ) : <Spin className="center container" /> } 
+
+
+
+      </div>
+    
+             
     );
   }
 }
