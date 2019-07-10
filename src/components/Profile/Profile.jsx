@@ -145,10 +145,7 @@ class User extends React.Component {
             <Col md="4">
               <Card className="card-user">
                 <div className="image">
-                  <img
-                    alt="..."
-                    src={require("../../assets/img/enterprise1.png")}
-                  />
+                  <img alt="..." src={require("../../assets/img/ept.png")} />
                 </div>
                 <CardBody>
                   <div className="author">

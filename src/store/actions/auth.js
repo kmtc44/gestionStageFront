@@ -85,7 +85,7 @@ export const authLogin = (username, password, status) => {
   };
 };
 
-export const authRegisterStudent = (username, email, password, status, firstname, lastname, phone, department, classe, promotion) => {
+export const authRegisterStudent = (username, email, password, status, firstname, lastname, phone, department, classe, promotion, birthday) => {
   return dispatch => {
     dispatch(authStart());
     axios
@@ -99,10 +99,10 @@ export const authRegisterStudent = (username, email, password, status, firstname
         phone: phone,
         department: department,
         classe: classe,
-        promotion: promotion
+        promotion: promotion,
+        birthday
       })
       .then(res => {
-
         const user = {
           username: res.data.user.username,
           token: res.data.token,

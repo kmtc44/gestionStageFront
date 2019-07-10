@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import {
   Card,
@@ -13,7 +12,6 @@ import {
   Col
 } from "reactstrap";
 
-import { tbody } from "../../variables/general";
 import "../../assets/css/login.css";
 
 const baseSite = "http://localhost:8000";
@@ -24,19 +22,18 @@ const thead = [
   "Email",
   "Telephone",
   "Site Web",
-  "Nombre d'etudiants"
+  "Nombre d'etudiants",
+  "Nom du directeur"
 ];
 function EnterpriseTable(props) {
   const [enterprises, setEnterprise] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const goto = url => {
-    // props.router.transitionTo(url);
     props.history.push(url);
-    console.log(url);
   };
   const chooseType = path => {
-    const p = path.substring(22, 31);
+    const p = path.substring(22);
     switch (p) {
       case "partner":
         return "partner";
@@ -75,8 +72,8 @@ function EnterpriseTable(props) {
       <Col xs={12}>
         <Card>
           <CardHeader>
-            <CardTitle tag="h4">
-              Liste des Entreprises {props.location.pathname.substring(22, 31)}{" "}
+            <CardTitle tag="h4" className="text-center">
+              Liste des Entreprises {props.location.pathname.substring(22)}{" "}
             </CardTitle>
           </CardHeader>
           <CardBody>
@@ -100,13 +97,21 @@ function EnterpriseTable(props) {
                         goto(`/dashboard/enterprise/detail/${enterprise.id}`);
                       }}
                     >
-                      <td>{enterprise.logo}</td>
+                      <td className="img-students">
+                        {" "}
+                        <img
+                          className="img-student"
+                          alt="..."
+                          src={enterprise.logo}
+                        />
+                      </td>
                       <td>{enterprise.name} </td>
                       <td>{enterprise.field}</td>
                       <td>{enterprise.email}</td>
                       <td>{enterprise.phone}</td>
                       <td>{enterprise.website}</td>
                       <td>{enterprise.students.length}</td>
+                      <td>{enterprise.leader_name}</td>
                     </tr>
                   );
                 })}
