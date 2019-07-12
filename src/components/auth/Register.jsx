@@ -218,9 +218,9 @@ class RegistrationForm extends Component {
     );
 
     return (
-      <div>
+      <div classNameName="container">
         <Row>
-          <Col md="5" className="mx-auto m-5">
+          <Col md="9" lg="6" className="mx-auto p-5 m-2">
             <Card>
               <CardHeader className="text-center">
                 <h1>

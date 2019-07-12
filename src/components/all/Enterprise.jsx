@@ -3,6 +3,7 @@ import axios from "axios";
 import { Spin } from "antd";
 import "../../assets/css/login.css";
 import AddStudents from "./AddStudents";
+
 import {
   Button,
   Card,
@@ -39,6 +40,7 @@ function Enterprise(props) {
       );
 
       setEnterprise(res.data);
+      console.log(res.data);
       setLoading(false);
     };
     fetchEnterprise();
@@ -49,7 +51,6 @@ function Enterprise(props) {
     <Spin className="center container-fluid " />
   ) : (
     <div>
-      {" "}
       <Col className="mx-auto" lg="9" md="9">
         <Card className="card-user">
           <div className="image">
@@ -64,7 +65,7 @@ function Enterprise(props) {
           </div>
           <CardBody>
             <div className="author">
-              <a href="#pablo" onClick={e => e.preventDefault()}>
+              <a href="#ok" onClick={e => e.preventDefault()}>
                 <img
                   alt="..."
                   className="avatar border-gray"
@@ -120,10 +121,10 @@ function Enterprise(props) {
 
           <Row>
             <CardGroup className="mx-auto">
-              {enterprise.students.map((student, index) => {
+              {enterprise.students.map(student => {
                 return (
                   <Col md="3" sm="9">
-                    <Card key={index}>
+                    <Card key={student.id}>
                       {student.image ? (
                         <CardImg
                           className="img-student-enterprise"

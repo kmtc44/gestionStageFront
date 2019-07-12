@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import axios from "axios";
 import { Spin } from "antd";
+import { Link } from "react-router-dom";
 import "../../assets/css/login.css";
 import {
   Button,
@@ -12,7 +13,6 @@ import {
   CardTitle,
   CardSubtitle,
   CardText,
-  Row,
   Col
 } from "reactstrap";
 
@@ -30,7 +30,6 @@ function ListConvention(props) {
         Authorization: `Token ${user.token}`
       };
       const res = await axios(`${baseSite}/internship/convention/`);
-      console.log(res.data);
       setConvention(res.data);
       setLoading(false);
     };
@@ -45,26 +44,34 @@ function ListConvention(props) {
       <CardGroup className="mx-auto">
         {conventions.map((convention, index) => {
           return (
-            <Col md="3" sm="9">
+            <Col md="4" lg="3" sm="4">
               <Card className="m-1" key={index}>
                 {convention.enterprise.logo ? (
-                  <CardImg
-                    className="img-student-enterprise"
-                    top
-                    src={convention.enterprise.logo}
-                    alt="Card image cap"
-                  />
+                  <Link to={`/dashboard/convention/detail/${convention.id}`}>
+                    <CardImg
+                      className="img-student-enterprise"
+                      top
+                      src={convention.enterprise.logo}
+                      alt="Card image cap"
+                    />
+                  </Link>
                 ) : (
-                  <CardImg
-                    className="img-student-enterprise"
-                    top
-                    src={require("../../assets/img/student.png")}
-                    alt="Card image cap"
-                  />
+                  <Link to={`/dashboard/convention/detail/${convention.id}`}>
+                    <CardImg
+                      className="img-student-enterprise"
+                      top
+                      src={require("../../assets/img/convention.jpg")}
+                      alt="Card image cap"
+                    />
+                  </Link>
                 )}
                 <CardBody>
-                  <CardTitle>{convention.title}</CardTitle>
-                  <CardSubtitle>
+                  <Link to={`/dashboard/convention/detail/${convention.id}`}>
+                    <CardTitle style={{ fontSize: 17, fontWeight: "bold" }}>
+                      {convention.title}
+                    </CardTitle>
+                  </Link>
+                  <CardSubtitle style={{ fontSize: 15 }}>
                     Cooperation avec {convention.enterprise.name}
                   </CardSubtitle>
                   <CardText>

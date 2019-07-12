@@ -3,6 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Form, Input, Select, Checkbox, Button, AutoComplete } from "antd";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import NotificationAlert from "react-notification-alert";
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -11,10 +12,30 @@ class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
-    logo: null,
+    logo: false,
     sended: false,
     partner: false
   };
+  constructor(props) {
+    super(props);
+    this.notify = this.notify.bind(this);
+  }
+
+  notify(place, message, type) {
+    var options = {};
+    options = {
+      place: place,
+      message: (
+        <div>
+          <div>{message}</div>
+        </div>
+      ),
+      type: type,
+      icon: "now-ui-icons ui-1_bell-53",
+      autoDismiss: 7
+    };
+    this.refs.notificationAlert.notificationAlert(options);
+  }
 
   onLogo(e) {
     console.log(e.target.files[0]);
@@ -35,6 +56,9 @@ class RegistrationForm extends React.Component {
           enterprise.append("is_partner", values.is_partner);
           this.setState({ partner: true });
         }
+        if (this.state.logo) {
+          enterprise.append("logo", this.state.logo);
+        }
         enterprise.append("name", values.name);
         enterprise.append("field", values.field);
         enterprise.append("email", values.email);
@@ -42,12 +66,18 @@ class RegistrationForm extends React.Component {
         enterprise.append("website", values.website);
         enterprise.append("phone", values.phone);
         enterprise.append("leader_name", values.leader_name);
-        enterprise.append("logo", this.state.logo);
         axios
           .post("http://localhost:8000/internship/enterprise/", enterprise)
           .then(res => {
             console.log(res);
-            this.setState({ sended: true });
+            this.notify(
+              "tc",
+              `L'entreprise ${values.name} est cree avec succes`,
+              "success"
+            );
+            setTimeout(() => {
+              this.setState({ sended: true });
+            }, 1500);
           })
           .catch(err => console.log(err));
       }
@@ -134,6 +164,7 @@ class RegistrationForm extends React.Component {
 
     return (
       <div classNameName="container">
+        <NotificationAlert ref="notificationAlert" />
         <Row>
           <Col md="9" className="mx-auto">
             <Card>
