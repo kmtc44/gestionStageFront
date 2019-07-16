@@ -35,7 +35,12 @@ td {
     text-align: center;
     background: rgba(0, 0, 0, 0.01);
     border-radius: 4px;
-    margin-bottom: 20px;
     padding: 30px 50px;
-    margin: 20px 0;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.project-center {
+    margin-left: 5%;
+    margin-right: 5%;
 }

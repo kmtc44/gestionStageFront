@@ -11,8 +11,6 @@ function Convention(props) {
   const [convention, setConvention] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const conventionId = props.match.params.convId;
-
   useEffect(() => {
     const fetchEnterprise = async () => {
       setLoading(true);
@@ -22,7 +20,7 @@ function Convention(props) {
         Authorization: `Token ${user.token}`
       };
       const res = await axios(
-        `${baseSite}/internship/convention/${conventionId}`
+        `${baseSite}/internship/convention/${props.match.params.convId}`
       );
 
       setConvention(res.data);

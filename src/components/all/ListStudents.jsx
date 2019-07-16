@@ -50,11 +50,11 @@ function StudentTable(props) {
   ) : (
     <div className="card">
       <div className="header text-center">
-        <h4>Listes des eleves </h4>
-        <p className="category">
+        <h3>Listes des eleves </h3>
+        <h4 className="category">
           {" "}
           les eleves de la {props.location.pathname.substring(20, 24)}{" "}
-        </p>
+        </h4>
         <br />
       </div>
       <div className="content table-responsive table-full-width">

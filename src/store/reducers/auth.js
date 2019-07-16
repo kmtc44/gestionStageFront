@@ -8,7 +8,9 @@ const initialState = {
     error: null,
     username: null,
     status: null,
-    loading: false
+    loading: false,
+    statusId: undefined,
+    enterpriseId: undefined
 }
 
 const authStart = (state, action) => {
@@ -23,6 +25,8 @@ const authSuccess = (state, action) => {
         token: action.user.token,
         status: action.user.status,
         username: action.user.username,
+        statusId: action.user.statusId,
+        enterpriseId: action.user.enterpriseId,
         error: null,
         loading: false
     })

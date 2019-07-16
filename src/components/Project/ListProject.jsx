@@ -10,7 +10,7 @@ function ListProject(props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchStudent = async () => {
+    const fetchProjects = async () => {
       setLoading(true);
       const user = JSON.parse(localStorage.getItem("user"));
       axios.defaults.headers = {
@@ -22,12 +22,12 @@ function ListProject(props) {
       setLoading(false);
     };
 
-    fetchStudent();
+    fetchProjects();
   }, []);
   return loading ? (
     <Spin className="center container " />
   ) : (
-    <div className="content mt-5 ml-4 p-5 center">
+    <div className="content mt-3 ml-4 p-5 center">
       <Row>
         {projects.map(project => {
           return (

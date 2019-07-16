@@ -3,6 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Form, Input, Select, Button } from "antd";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { connect } from "react-redux";
 import NotificationAlert from "react-notification-alert";
 
 const { Option } = Select;
@@ -33,11 +34,17 @@ class RegistrationForm extends React.Component {
     axios
       .get(`${baseSite}/students`)
       .then(res => {
-        this.setState({ students: res.data });
+        this.setState({
+          students: res.data.filter(student => student.enterprise)
+        });
         this.setState({ loading: false });
         console.log(this.state.students);
       })
       .catch(err => console.log(err));
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log("le nouveau props ", newProps);
   }
 
   notify(place, message, type) {
@@ -72,8 +79,8 @@ class RegistrationForm extends React.Component {
             description: values.description,
             students: values.students,
             aim: values.aim,
-            framer: "1",
-            enterprise: "1"
+            framer: this.props.statusId,
+            enterprise: this.props.enterpriseId
           })
           .then(res => {
             console.log(res);
@@ -94,35 +101,6 @@ class RegistrationForm extends React.Component {
   handleConfirmBlur = e => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
-  };
-
-  handleWebsiteChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = [".com", ".org", ".net", ".sn"].map(
-        domain => `${value}${domain}`
-      );
-    }
-    this.setState({ autoCompleteResult });
   };
 
   render() {
@@ -222,10 +200,13 @@ class RegistrationForm extends React.Component {
                         placeholder="Selectionner les etudiants"
                       >
                         {this.state.students.map(student => {
-                          return (
+                          return student.enterprise.id ===
+                            this.props.enterpriseId ? (
                             <Option value={student.id}>
                               {student.first_name} {student.last_name}
                             </Option>
+                          ) : (
+                            ""
                           );
                         })}
                       </Select>
@@ -251,4 +232,11 @@ const WrappedRegistrationForm = Form.create({ name: "register" })(
   RegistrationForm
 );
 
-export default WrappedRegistrationForm;
+const mapStateToProps = state => {
+  return {
+    statusId: state.statusId,
+    enterpriseId: state.enterpriseId
+  };
+};
+
+export default connect(mapStateToProps)(WrappedRegistrationForm);

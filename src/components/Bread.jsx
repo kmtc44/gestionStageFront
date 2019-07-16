@@ -2,13 +2,13 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { withRouter, Link } from "react-router-dom";
 
-var hist = new Set();
+// var hist = new Set();
 const Bread = props => {
-  function getLastValue(set) {
-    let value;
-    for (value of set);
-    return value;
-  }
+  // function getLastValue(set) {
+  //   let value;
+  //   for (value of set);
+  //   return value;
+  // }
 
   // console.log(" this bread props ", props);
   // console.log("the history :", props.history);
