@@ -70,7 +70,6 @@ function EnterpriseTable(props) {
     };
 
     fetchEnterprise();
-    console.log(chooseType(props.location.pathname));
   }, [props.location.pathname]);
 
   return loading ? (

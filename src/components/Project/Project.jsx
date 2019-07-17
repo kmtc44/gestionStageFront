@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Spin } from "antd";
-import { Card, CardTitle, CardText, Row, Col } from "reactstrap";
+import {
+  Card,
+  Button,
+  CardTitle,
+  CardText,
+  Row,
+  Col,
+  UncontrolledTooltip,
+  CardFooter,
+  CardHeader,
+  CardBody,
+  CustomInput,
+  Table
+} from "reactstrap";
 
 const baseSite = "http://localhost:8000";
 function Project(props) {
   const [project, setProject] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const onChecked = e => {
+    console.log(e.target.value);
+  };
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -94,6 +111,101 @@ function Project(props) {
         </Col>
         ;
       </Row>
+      <hr />
+
+      <Col className="mx-auto" xs={12} md={9}>
+        <Card className="card-tasks">
+          <CardHeader>
+            <h5 className="card-category">{project.name}</h5>
+            <CardTitle tag="h4">Les taches de ce projet</CardTitle>
+          </CardHeader>
+          <CardBody>
+            <div className="table-full-width table-responsive">
+              <Table>
+                <tbody>
+                  {project.tasks.map(task => {
+                    return (
+                      <tr>
+                        <td>
+                          <CustomInput
+                            type="radio"
+                            name="radioTask"
+                            label="To Do"
+                            id={`RadioTodo${task.id}`}
+                          />
+                          <CustomInput
+                            type="radio"
+                            name="radioTask"
+                            label="Doing"
+                            id={`RadioDoing${task.id}`}
+                          />
+                          <CustomInput
+                            type="radio"
+                            name="radioTask"
+                            label="Done"
+                            onChange={onChecked}
+                            id={`RadioDone${task.id}`}
+                          />
+                          <CustomInput
+                            type="radio"
+                            name=""
+                            label="Reviewing"
+                            disabled
+                          />
+                          <CustomInput
+                            type="radio"
+                            name=""
+                            label="Finish"
+                            disabled
+                          />
+                        </td>
+                        <td className="text-left">{task.title}</td>
+                        <td className="td-actions text-right">
+                          <Button
+                            className="btn-round btn-icon btn-icon-mini btn-neutral"
+                            color="info"
+                            id="tooltip731609871"
+                            type="button"
+                          >
+                            <i className="now-ui-icons ui-2_settings-90" />
+                          </Button>
+                          <UncontrolledTooltip
+                            delay={0}
+                            target="tooltip731609871"
+                          >
+                            Edit Task
+                          </UncontrolledTooltip>
+                          <Button
+                            className="btn-round btn-icon btn-icon-mini btn-neutral"
+                            color="danger"
+                            id="tooltip923217206"
+                            type="button"
+                          >
+                            <i className="now-ui-icons ui-1_simple-remove" />
+                          </Button>
+                          <UncontrolledTooltip
+                            delay={0}
+                            target="tooltip923217206"
+                          >
+                            Remove
+                          </UncontrolledTooltip>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          </CardBody>
+          <CardFooter>
+            <hr />
+            <div className="stats">
+              <i className="now-ui-icons loader_refresh spin" /> Updated 3
+              minutes ago
+            </div>
+          </CardFooter>
+        </Card>
+      </Col>
     </div>
   );
 }
