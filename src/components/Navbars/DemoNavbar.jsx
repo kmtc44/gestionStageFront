@@ -188,13 +188,7 @@ class Header extends React.Component {
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-<<<<<<< HEAD
-                  <DropdownItem tag="a" onClick={this.props.logout}>
-                    Logout
-                  </DropdownItem>
-                  <DropdownItem tag="a">Another Action</DropdownItem>
-                  <DropdownItem tag="a">Something else here</DropdownItem>
-=======
+
                   <DropdownItem>
                     {" "}
                     <Link style={{ color: "black" }} to="/dashboard/profile">
@@ -209,7 +203,7 @@ class Header extends React.Component {
                   >
                     Logout
                   </DropdownItem>
->>>>>>> coming
+
                 </DropdownMenu>
               </Dropdown>
             </Nav>
@@ -228,11 +222,8 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-<<<<<<< HEAD
-export default connect(null,mapDispatchToProps)(Header);
-=======
+
 export default connect(
   null,
   mapDispatchToProps
 )(Header);
->>>>>>> coming
