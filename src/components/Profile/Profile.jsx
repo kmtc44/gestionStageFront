@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 // reactstrap components
 
+import student2 from "../../assets/img/student2.png";
+
 import {
   Button,
   Card,
@@ -16,11 +18,9 @@ import {
   ListGroup,
   ListGroupItem
 } from "reactstrap";
-import { Spin } from "antd";
+import { Spin,  Icon } from "antd";
 // core components
-
-import UpdateProfileForm from './UpdateProfile';
-// import PanelHeader from "../PanelHeader/PanelHeader.jsx";
+import ModalElement from './ModalElement';
 
 
 class User extends React.Component { 
@@ -47,6 +47,7 @@ class User extends React.Component {
       })
   }
 
+
   render() {
     return (
     
@@ -56,39 +57,42 @@ class User extends React.Component {
         <div className="container">
           <Row>
           <Col md={12}>
-          <img className="avatar center" style={{ borderRadius: '50%', marginLeft: '25%' }} src={require("../../assets/img/student2.png")} />
+          {this.state.student.student.image ? ( <img className="avatar center" style={{ borderRadius: '20%', marginLeft: '25%',height:'400px', width: '400px' }} src={this.state.student.student.image} />):
+          ( <img className="avatar center" style={{ borderRadius: '20%',height:'400px', marginLeft: '25%', width: '400px' }} src={student2} />)}
+         
           </Col>
             <Col md={12}>
               <Card>
                 <CardHeader>
-                <Button className='btn btn-info btn-block' id="toggler" style={{ marginBottom: '1rem' }}>
-                           Edit Profile
-                          </Button>
-                  
+                  <Row>
+                     <Col md="12">
+                        <ModalElement requestType="Put" pk={this.state.student.student.id}/>
+                     </Col>
+                    </Row>
                 </CardHeader>
 
                 <CardBody>
                    <ListGroup className="list-group-flush" style={{ position: 'center' }}>
                     <Row>
                       <Col className="px-1" md="6">
-                          <ListGroupItem ><h6><u>Utilisateur:</u></h6> {this.state.student.student.user.username}</ListGroupItem>
+                          <ListGroupItem ><p><u> <strong>Utilisateur :</strong></u>&nbsp; &nbsp;{this.state.student.student.user.username}</p> </ListGroupItem>
                       </Col>
                       <Col className="pl-1" md="6">
-                          <ListGroupItem ><h6><u>Prénom: </u></h6>{this.state.student.student.first_name}</ListGroupItem>
+                          <ListGroupItem ><u><strong>Prénom :</strong></u>&nbsp;  &nbsp; {this.state.student.student.first_name}</ListGroupItem>
                       </Col>
                     </Row>
                     <Row>
                       <Col className="pr-1 " md="6">
-                        <ListGroupItem ><h6><u>Nom: </u></h6> {this.state.student.student.last_name}</ListGroupItem>
+                        <ListGroupItem ><u><strong>Nom :</strong></u>&nbsp; &nbsp; {this.state.student.student.last_name}</ListGroupItem>
                       </Col>
                       <Col className="pl-1" md="6">
-                        <ListGroupItem ><h6><u>email: </u></h6> {this.state.student.student.user.email}</ListGroupItem>
+                        <ListGroupItem ><u><strong>email :</strong></u>&nbsp; &nbsp; {this.state.student.student.user.email}</ListGroupItem>
                       </Col>
                     </Row>
 
                     <Row>
                       <Col md="12">
-                        <ListGroupItem ><h6><u>Téléphone: </u></h6> {this.state.student.student.phone}</ListGroupItem>
+                        <ListGroupItem ><u><strong>Téléphone :</strong></u>&nbsp; &nbsp; {this.state.student.student.phone}</ListGroupItem>
                       </Col>
                     </Row>
                     <Row>
@@ -100,22 +104,39 @@ class User extends React.Component {
                           <UncontrolledCollapse toggler="#toggler">
                           <Card>
                             <CardBody>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt magni, voluptas debitis
-                              similique porro a molestias consequuntur earum odio officiis natus, amet hic, iste sed
-                              dignissimos esse fuga! Minus, alias.
+                              <ListGroup className="list-group-flush" style={{ position: 'center' }}>
+                                <Row>
+
+                                    <Col className="px-1" md="6">
+                                        <ListGroupItem ><strong>Genre:</strong> {this.state.student.student.gender}</ListGroupItem>
+                                    </Col>
+
+                                    <Col className="px-1" md="6">
+                                        <ListGroupItem ><strong>Etat civil:</strong> {this.state.student.student.socialStatus}</ListGroupItem>
+                                    </Col>
+
+                                    <Col className="px-1" md="6">
+                                        <ListGroupItem ><strong>Adresse:</strong> {this.state.student.student.address}</ListGroupItem>
+                                    </Col>
+
+                                    <Col className="px-1" md="6">
+                                        <ListGroupItem style={{ marginLeft: '0.5%' }}><strong>A reçu les formations suivantes:</strong> <ul> {this.state.student.student.skills.map(skill =>
+                                          {return (
+                                            <li key={skill.id} style={{ display: "inline"}}> {skill.name} &nbsp; &nbsp;</li>)})} </ul> </ListGroupItem>
+                                    </Col>
+          
+                                    
+                                  </Row>
+                              </ListGroup>
                             </CardBody>
                           </Card>
                         </UncontrolledCollapse>
                       </div>
                       </Col>
                     </Row>
+
                    </ListGroup>
                 </CardBody>
-                <Row>
-                     <Col md="12">
-                     <UpdateProfileForm requestType="put" userID={this.state.student.student.id} />
-                     </Col>
-                </Row>
               </Card>
             </Col>
           </Row>
