@@ -54,24 +54,32 @@ export const authLogin = (username, password, status) => {
       })
       .then(res => {
         let status_user = null
+        let status_id = null
+        let enterpriseId = null
+
         if (res.data.user.teacher !== null) {
           status_user = res.data.user.teacher.status
+          status_id = res.data.user.teacher.id
+
         } else if (res.data.user.framer !== null) {
           status_user = res.data.user.framer.status
+          status_id = res.data.user.framer.id
+          enterpriseId = res.data.user.framer.enterprise
+
         } else if (res.data.user.student !== null) {
           status_user = res.data.user.student.status
+          status_id = res.data.user.student.id
         }
-        console.log("going: ", status)
-        console.log("Comming: ", status_user)
         if (status !== status_user) {
-          console.log("Pas normale");
-          dispatch(authFail("Vous n'avez pas les droits acces"))
+          dispatch(authFail("Vous n'avez pas les droits acces dans cette espace"))
         } else {
           const user = {
             username: res.data.user.username,
             token: res.data.token,
             expirationDate: new Date(new Date().getTime() + 3600 * 1000),
-            status: status_user
+            status: status_user,
+            statusId: status_id,
+            enterpriseId
           }
           localStorage.setItem("user", JSON.stringify(user));
           dispatch(authSuccess(user));
@@ -80,12 +88,12 @@ export const authLogin = (username, password, status) => {
       })
       .catch(err => {
         console.log("il ya erreur")
-        dispatch(authFail("username or paaword not valide"));
+        dispatch(authFail("Le nom utilisateur ou mot de passe pas valide"));
       });
   };
 };
 
-export const authRegisterStudent = (username, email, password, status, firstname, lastname, phone, department, classe, promotion) => {
+export const authRegisterStudent = (username, email, password, status, firstname, lastname, phone, department, classe, promotion, birthday) => {
   return dispatch => {
     dispatch(authStart());
     axios
@@ -99,22 +107,23 @@ export const authRegisterStudent = (username, email, password, status, firstname
         phone: phone,
         department: department,
         classe: classe,
-        promotion: promotion
+        promotion: promotion,
+        birthday
       })
       .then(res => {
-
         const user = {
           username: res.data.user.username,
           token: res.data.token,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
-          status
+          status,
+          statusId: res.data.user.student.id
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        dispatch(authFail("username or paaword not valide"));
+        dispatch(authFail("Nom utilisateur ou email deja pris"));
       });
   };
 };
@@ -138,18 +147,19 @@ export const authRegisterAdministration = (username, email, password, status, fi
           username: res.data.user.username,
           token: res.data.token,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
-          status
+          status,
+          statusId: res.data.user.teacher.id
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        dispatch(authFail(err));
+        dispatch(authFail("Nom utilisateur ou email deja pris"));
       });
   };
 };
-export const authRegisterEnterprise = (username, email, password, status, firstname, lastname, phone) => {
+export const authRegisterEnterprise = (username, email, password, status, firstname, lastname, phone, enterprise) => {
   return dispatch => {
     dispatch(authStart());
     axios
@@ -160,21 +170,24 @@ export const authRegisterEnterprise = (username, email, password, status, firstn
         status,
         firstname,
         lastname,
-        phone
+        phone,
+        enterprise
       })
       .then(res => {
         const user = {
           username: res.data.user.username,
           token: res.data.token,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
-          status
+          status,
+          statusId: res.data.user.framer.id,
+          enterpriseId: res.data.user.framer.enterprise
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        dispatch(authFail(err));
+        dispatch(authFail("Nom utilisateur ou email deja pris"));
       });
   };
 };

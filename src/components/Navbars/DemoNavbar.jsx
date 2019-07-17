@@ -21,7 +21,10 @@ import {
 import routes from "../../routes.js";
 import * as action from "../../store/actions/auth";
 import { connect } from "react-redux";
-import "./navba.css";
+// <<<<<<< HEAD
+// import "./navba.css";
+// =======
+// >>>>>>> coming
 
 class Header extends React.Component {
   state = {
@@ -165,33 +168,50 @@ class Header extends React.Component {
                   </p>
                 </Link>
               </NavItem>
+              <NavItem>
+                <Link to="#pablo" className="nav-link">
+                  <i className="now-ui-icons ui-1_bell-53" />
+                  <p>
+                    <span className="d-lg-none d-md-block">Account</span>
+                  </p>
+                </Link>
+              </NavItem>
               <Dropdown
                 nav
                 isOpen={this.state.dropdownOpen}
                 toggle={e => this.dropdownToggle(e)}
               >
                 <DropdownToggle caret nav>
-                  <i className="now-ui-icons location_world" />
+                  <i className="now-ui-icons users_single-02" />
                   <p>
                     <span className="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
+<<<<<<< HEAD
                   <DropdownItem tag="a" onClick={this.props.logout}>
                     Logout
                   </DropdownItem>
                   <DropdownItem tag="a">Another Action</DropdownItem>
                   <DropdownItem tag="a">Something else here</DropdownItem>
+=======
+                  <DropdownItem>
+                    {" "}
+                    <Link style={{ color: "black" }} to="/dashboard/profile">
+                      {" "}
+                      Profile{" "}
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem
+                    style={{ color: "black" }}
+                    tag="a"
+                    onClick={this.props.logout}
+                  >
+                    Logout
+                  </DropdownItem>
+>>>>>>> coming
                 </DropdownMenu>
               </Dropdown>
-              <NavItem>
-                <Link to="#pablo" className="nav-link">
-                  <i className="now-ui-icons users_single-02" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Account</span>
-                  </p>
-                </Link>
-              </NavItem>
             </Nav>
           </Collapse>
         </Container>
@@ -208,4 +228,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+<<<<<<< HEAD
 export default connect(null,mapDispatchToProps)(Header);
+=======
+export default connect(
+  null,
+  mapDispatchToProps
+)(Header);
+>>>>>>> coming

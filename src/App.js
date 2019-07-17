@@ -6,6 +6,12 @@ import PrivateRoute from "./components/PrivateRoute";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import * as action from "./store/actions/auth";
 import { connect } from "react-redux";
+import { LocaleProvider } from "antd";
+import fr_FR from "antd/lib/locale-provider/fr_FR";
+import moment from "moment";
+import "moment/locale/fr";
+
+moment.locale("fr");
 
 class App extends Component {
   componentDidMount() {
@@ -14,18 +20,20 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <Switch>
-          <PrivateRoute path="/dashboard" component={Layout} />
-          )} />
-          <Route
-            path="/"
-            render={isAuthenticated => (
-              <Home {...isAuthenticated} {...this.props} />
-            )}
-          />
-        </Switch>
-      </BrowserRouter>
+      <LocaleProvider locale={fr_FR}>
+        <BrowserRouter>
+          <Switch>
+            <PrivateRoute path="/dashboard" component={Layout} />
+            )} />
+            <Route
+              path="/"
+              render={isAuthenticated => (
+                <Home {...isAuthenticated} {...this.props} />
+              )}
+            />
+          </Switch>
+        </BrowserRouter>
+      </LocaleProvider>
     );
   }
 }

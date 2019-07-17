@@ -1,14 +1,14 @@
 import * as actionType from '../actions/actionsType'
-import {
-    updateObject
-} from '../utility'
+import { updateObject } from '../utility'
 
 const initialState = {
     token: null,
     error: null,
     username: null,
     status: null,
-    loading: false
+    loading: false,
+    statusId: undefined,
+    enterpriseId: undefined
 }
 
 const authStart = (state, action) => {
@@ -23,6 +23,8 @@ const authSuccess = (state, action) => {
         token: action.user.token,
         status: action.user.status,
         username: action.user.username,
+        statusId: action.user.statusId,
+        enterpriseId: action.user.enterpriseId,
         error: null,
         loading: false
     })
