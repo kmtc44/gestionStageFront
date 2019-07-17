@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Spin } from "antd";
+import { Spin, Modal } from "antd";
 import { Link } from "react-router-dom";
 import "../../assets/css/login.css";
 import AddStudents from "./AddStudents";
@@ -19,6 +19,63 @@ import {
 } from "reactstrap";
 
 const baseSite = "http://localhost:8000";
+
+const { confirm } = Modal;
+
+function showConfirmDelete(e) {
+  const info = e.target.value.split(",");
+  const id_enterprise = info[0];
+  const id_student = info[1];
+  const name = info[2] + " " + info[3];
+
+  confirm({
+    title: "Voulez vous vraiment enlever cet eleve de cette entreprise ?",
+    content: `nom : ${name}`,
+    onOk() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      axios.defaults.headers = {
+        "Content-Type": "Application/json",
+        Authorization: `Token ${user.token}`
+      };
+      axios
+        .put(`${baseSite}/internship/enterprise/${id_enterprise}/`, {
+          student: id_student
+        })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => console.log(err));
+    },
+    onCancel() {}
+  });
+}
+function showConfirmAdd(e) {
+  const info = e.target.value.split(",");
+  const id_enterprise = info[0];
+  const name = info[1];
+
+  confirm({
+    title:
+      "Voulez vous vraiment ajoter cette entreprise a la liste des partenaires ?",
+    content: `nom de l'entreprise: ${name}`,
+    onOk() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      axios.defaults.headers = {
+        "Content-Type": "Application/json",
+        Authorization: `Token ${user.token}`
+      };
+      axios
+        .put(`${baseSite}/internship/enterprise/${id_enterprise}/`, {
+          is_partner: true
+        })
+        .then(res => {
+          console.log(res.data);
+        })
+        .catch(err => console.log(err));
+    },
+    onCancel() {}
+  });
+}
 
 function Enterprise(props) {
   const [enterprise, setEnterprise] = useState({});
@@ -41,13 +98,11 @@ function Enterprise(props) {
       );
 
       setEnterprise(res.data);
-      console.log(res.data);
       setLoading(false);
     };
     fetchEnterprise();
   }, [props.location.pathname]);
 
-  console.log(enterprise);
   return loading ? (
     <Spin className="center container-fluid " />
   ) : (
@@ -80,10 +135,9 @@ function Enterprise(props) {
                 l'EPT
               </h4>
             </div>
-            <p className="description text-center">
-              L'entreprise {enterprise.name} <br />
-              evolue dans le domaine <br />
-              de {enterprise.field}"
+            <p className="text-center">
+              L'entreprise {enterprise.name}
+              evolue dans le domaine de {enterprise.field}"
             </p>
             <div className="container">
               <p>
@@ -124,7 +178,7 @@ function Enterprise(props) {
             <CardGroup className="mx-auto">
               {enterprise.students.map(student => {
                 return (
-                  <Col md="3" sm="9">
+                  <Col md="4" lg="3" sm="9" xs="9">
                     <Card key={student.id}>
                       {student.image ? (
                         <CardImg
@@ -142,15 +196,26 @@ function Enterprise(props) {
                         />
                       )}
                       <CardBody>
-                        <CardTitle>
+                        <CardTitle style={{ fontSize: "18px" }}>
                           {student.first_name} {student.last_name}
                         </CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
+                        <CardSubtitle>
+                          Departement : {student.department.name}
+                        </CardSubtitle>
                         <CardText>
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
+                          <p> Numero : {student.phone}</p>
+                          <p> email : {student.user.email}</p>
                         </CardText>
-                        <Button className="btn btn-danger">
+                        <Button
+                          value={[
+                            enterprise.id,
+                            student.id,
+                            student.first_name,
+                            student.last_name
+                          ]}
+                          className="btn btn-danger"
+                          onClick={showConfirmDelete}
+                        >
                           Enlever de cette entreprise
                         </Button>
                       </CardBody>
@@ -200,7 +265,16 @@ function Enterprise(props) {
           )}
         </div>
       ) : (
-        ""
+        <div className="container text-center">
+          <Button
+            value={[enterprise.id, enterprise.name]}
+            className="btn btn-primary"
+            onClick={showConfirmAdd}
+          >
+            {" "}
+            Ajouter comme partenaire{" "}
+          </Button>
+        </div>
       )}
     </div>
   );
