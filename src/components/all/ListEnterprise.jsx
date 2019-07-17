@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment";
 import axios from "axios";
 import { Spin } from "antd";
 import {
@@ -15,16 +14,7 @@ import {
 import "../../assets/css/login.css";
 
 const baseSite = "http://localhost:8000";
-const thead = [
-  "Logo",
-  "Nom",
-  "Domaine",
-  "Email",
-  "Telephone",
-  "Site Web",
-  "Nombre d'etudiants",
-  "Nom du directeur"
-];
+let thead = [];
 function EnterpriseTable(props) {
   const [enterprises, setEnterprise] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -36,8 +26,26 @@ function EnterpriseTable(props) {
     const p = path.substring(22);
     switch (p) {
       case "partner":
+        thead = [
+          "Logo",
+          "Nom",
+          "Domaine",
+          "Email",
+          "Telephone",
+          "Nombre d'etudiants",
+          "Nom du directeur"
+        ];
         return "partner";
       case "potential":
+        thead = [
+          "Logo",
+          "Nom",
+          "Domaine",
+          "Email",
+          "Telephone",
+          "Site Web",
+          "Nom du directeur"
+        ];
         return "potential";
       default:
         return "partner";
@@ -72,7 +80,7 @@ function EnterpriseTable(props) {
       <Col xs={12}>
         <Card>
           <CardHeader>
-            <CardTitle tag="h4" className="text-center">
+            <CardTitle tag="h3" className="text-center">
               Liste des Entreprises {props.location.pathname.substring(22)}{" "}
             </CardTitle>
           </CardHeader>
@@ -88,29 +96,39 @@ function EnterpriseTable(props) {
                 </tr>
               </thead>
               <tbody>
-                {enterprises.map((enterprise, key) => {
+                {enterprises.map(enterprise => {
                   return (
                     <tr
                       key={enterprise.id}
                       onClick={() => {
-                        console.log("clikecedeed");
                         goto(`/dashboard/enterprise/detail/${enterprise.id}`);
                       }}
                     >
-                      <td className="img-students">
+                      <td>
                         {" "}
-                        <img
-                          className="img-student"
-                          alt="..."
-                          src={enterprise.logo}
-                        />
+                        {enterprise.logo ? (
+                          <img
+                            className="img-student"
+                            alt="..."
+                            src={enterprise.logo}
+                          />
+                        ) : (
+                          <img
+                            className="img-student"
+                            alt="..."
+                            src={require("../../assets/img/enterprise.png")}
+                          />
+                        )}
                       </td>
                       <td>{enterprise.name} </td>
                       <td>{enterprise.field}</td>
                       <td>{enterprise.email}</td>
                       <td>{enterprise.phone}</td>
-                      <td>{enterprise.website}</td>
-                      <td>{enterprise.students.length}</td>
+                      {enterprise.is_partner ? (
+                        <td>{enterprise.students.length}</td>
+                      ) : (
+                        ""
+                      )}
                       <td>{enterprise.leader_name}</td>
                     </tr>
                   );

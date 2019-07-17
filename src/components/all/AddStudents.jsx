@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Modal, Form, Select, Spin } from "antd";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import "../../assets/css/login.css";
 
@@ -21,12 +22,12 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
           onOk={onCreate}
         >
           <Form layout="vertical">
-            <Form.Item label="Select[multiple]">
+            <Form.Item label="Selectionner etudiants">
               {getFieldDecorator("students", {
                 rules: [
                   {
                     required: true,
-                    message: "Please select your favourite colors!",
+                    message: "Ajouter des etudiants !",
                     type: "array"
                   }
                 ]
@@ -35,7 +36,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                   mode="multiple"
                   placeholder="Selectionner les etudiants"
                 >
-                  {this.props.students.map((student, index) => {
+                  {this.props.students.map(student => {
                     return (
                       <Option value={student.id}>
                         {student.first_name} {student.last_name}
@@ -105,6 +106,10 @@ class CollectionsPage extends React.Component {
         .then(res => {
           console.log(res);
           form.resetFields();
+          this.props.history.push(`/dashboard/enterprise/detail/`);
+          this.props.history.push(
+            `/dashboard/enterprise/detail/${this.props.enterpriseId}`
+          );
           this.setState({ visible: false });
         });
     });
@@ -135,4 +140,4 @@ class CollectionsPage extends React.Component {
   }
 }
 
-export default CollectionsPage;
+export default withRouter(CollectionsPage);

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Spin } from "antd";
+import { Link } from "react-router-dom";
 import "../../assets/css/login.css";
 import AddStudents from "./AddStudents";
+
 import {
   Button,
   Card,
@@ -39,6 +41,7 @@ function Enterprise(props) {
       );
 
       setEnterprise(res.data);
+      console.log(res.data);
       setLoading(false);
     };
     fetchEnterprise();
@@ -49,7 +52,6 @@ function Enterprise(props) {
     <Spin className="center container-fluid " />
   ) : (
     <div>
-      {" "}
       <Col className="mx-auto" lg="9" md="9">
         <Card className="card-user">
           <div className="image">
@@ -64,7 +66,7 @@ function Enterprise(props) {
           </div>
           <CardBody>
             <div className="author">
-              <a href="#pablo" onClick={e => e.preventDefault()}>
+              <a href="#ok" onClick={e => e.preventDefault()}>
                 <img
                   alt="..."
                   className="avatar border-gray"
@@ -110,7 +112,7 @@ function Enterprise(props) {
         </Card>
       </Col>
       {enterprise.is_partner ? (
-        <div className="container">
+        <div className="container ">
           <h3 className="text-center">
             {" "}
             {enterprise.students[0]
@@ -120,10 +122,10 @@ function Enterprise(props) {
 
           <Row>
             <CardGroup className="mx-auto">
-              {enterprise.students.map((student, index) => {
+              {enterprise.students.map(student => {
                 return (
                   <Col md="3" sm="9">
-                    <Card key={index}>
+                    <Card key={student.id}>
                       {student.image ? (
                         <CardImg
                           className="img-student-enterprise"
@@ -160,6 +162,42 @@ function Enterprise(props) {
           </Row>
 
           <AddStudents enterpriseId={enterprise.id} />
+          <hr />
+          {enterprise.projects.length ? (
+            <div className="container mt-5 ml-4 p-5 center">
+              <h2>Liste des projects </h2>
+              <Row>
+                {enterprise.projects.map(project => {
+                  return (
+                    <Col key={project.id} sm="6" lg="3" md="4" xs="12">
+                      <Card body>
+                        <CardTitle
+                          style={{
+                            fontSize: 18,
+                            fontWeight: "bold",
+                            height: 50
+                          }}
+                        >
+                          {project.name}
+                        </CardTitle>
+                        <CardText>
+                          {project.description.substring(0, 50)}...
+                        </CardText>
+                        <Link to={`/dashboard/project/detail/${project.id}`}>
+                          <Button>
+                            Voir plus{" "}
+                            <i className={"now-ui-icons ui-1_simple-add"} />
+                          </Button>
+                        </Link>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       ) : (
         ""

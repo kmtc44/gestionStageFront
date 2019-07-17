@@ -12,6 +12,13 @@ import Enterprise from "../all/Enterprise";
 import FormEnterprise from "../all/FormEnterprise";
 import FormConvention from "../Convention/FormConvention";
 import ListConventions from "../Convention/ListConvention";
+import Convention from "../Convention/Convention";
+import FormTask from "../Task/FormTask";
+import AllTaks from "../Task/AllTask";
+import Profile from "../Profile/Profile";
+import FormProject from "../Project/FormProject";
+import ListProject from "../Project/ListProject";
+import Project from "../Project/Project";
 
 import Bread from "../Bread";
 
@@ -28,6 +35,14 @@ class Layout extends Component {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(this.mainPanel.current);
       document.body.classList.toggle("perfect-scrollbar-on");
+    }
+
+    if (this.props.status === "student") {
+      this.setState({ backgroundColor: "blue" });
+    } else if (this.props.status === "teacher") {
+      this.setState({ backgroundColor: "orange" });
+    } else if (this.props.status === "framer") {
+      this.setState({ backgroundColor: "green" });
     }
   }
   componentWillUnmount() {
@@ -49,7 +64,7 @@ class Layout extends Component {
     if (newProps.status === "student") {
       this.setState({ backgroundColor: "blue" });
     } else if (newProps.status === "teacher") {
-      this.setState({ backgroundColor: "red" });
+      this.setState({ backgroundColor: "orange" });
     } else if (newProps.status === "framer") {
       this.setState({ backgroundColor: "green" });
     }
@@ -70,14 +85,40 @@ class Layout extends Component {
           <Switch>
             <Route
               exact
-              path="/dashboard/enterprise/detail/:id"
+              path="/dashboard/enterprise/detail/:enterpriseId"
               component={Enterprise}
+            />
+            <Route
+              exact
+              path="/dashboard/project/detail/:projectId"
+              component={Project}
+            />
+            <Route
+              exact
+              path="/dashboard/student/detail/:studentId"
+              component={Profile}
+            />
+            <Route
+              exact
+              path="/dashboard/convention/detail/:convId"
+              component={Convention}
             />
             <Route
               exact
               path="/dashboard/enterprise/new"
               component={FormEnterprise}
             />
+            <Route
+              exact
+              path="/dashboard/project/new"
+              component={FormProject}
+            />
+            <Route
+              exact
+              path="/dashboard/project/all"
+              component={ListProject}
+            />
+            <Route exact path="/dashboard/task/new" component={FormTask} />
             <Route
               exact
               path="/dashboard/conventions/new"
@@ -89,6 +130,7 @@ class Layout extends Component {
               path="/dashboard/conventions/all"
               component={ListConventions}
             />
+            <Route path="/dashboard/task/all" component={AllTaks} />
             {routes.map((prop, key) => {
               return (
                 <Route

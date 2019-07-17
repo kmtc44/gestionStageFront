@@ -12,7 +12,7 @@ var dashRoutes = [
   {
     path: "/profile",
     name: "Profile",
-    icon: "design_app",
+    icon: "users_single-02",
     component: User,
     layout: "/dashboard"
   },

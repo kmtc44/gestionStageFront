@@ -164,33 +164,42 @@ class Header extends React.Component {
                   </p>
                 </Link>
               </NavItem>
+              <NavItem>
+                <Link to="#pablo" className="nav-link">
+                  <i className="now-ui-icons ui-1_bell-53" />
+                  <p>
+                    <span className="d-lg-none d-md-block">Account</span>
+                  </p>
+                </Link>
+              </NavItem>
               <Dropdown
                 nav
                 isOpen={this.state.dropdownOpen}
                 toggle={e => this.dropdownToggle(e)}
               >
                 <DropdownToggle caret nav>
-                  <i className="now-ui-icons location_world" />
+                  <i className="now-ui-icons users_single-02" />
                   <p>
                     <span className="d-lg-none d-md-block">Some Actions</span>
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem tag="a" onClick={this.props.logout}>
+                  <DropdownItem>
+                    {" "}
+                    <Link style={{ color: "black" }} to="/dashboard/profile">
+                      {" "}
+                      Profile{" "}
+                    </Link>
+                  </DropdownItem>
+                  <DropdownItem
+                    style={{ color: "black" }}
+                    tag="a"
+                    onClick={this.props.logout}
+                  >
                     Logout
                   </DropdownItem>
-                  <DropdownItem tag="a">Another Action</DropdownItem>
-                  <DropdownItem tag="a">Something else here</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <NavItem>
-                <Link to="#pablo" className="nav-link">
-                  <i className="now-ui-icons users_single-02" />
-                  <p>
-                    <span className="d-lg-none d-md-block">Account</span>
-                  </p>
-                </Link>
-              </NavItem>
             </Nav>
           </Collapse>
         </Container>

@@ -14,13 +14,28 @@ class Footer extends React.Component {
           <nav>
             <ul>
               <li>
-                <a href="https://www.creative-tim.com?ref=nudr-footer" target="_blank">Creative Tim</a>
+                <a
+                  href="https://www.creative-tim.com?ref=nudr-footer"
+                  target="_blank"
+                >
+                  Ecole Polytechnique de Thies
+                </a>
               </li>
               <li>
-                <a href="https://presentation.creative-tim.com?ref=nudr-footer" target="_blank">About Us</a>
+                <a
+                  href="https://presentation.creative-tim.com?ref=nudr-footer"
+                  target="_blank"
+                >
+                  Kaire Wade
+                </a>
               </li>
               <li>
-                <a href="https://blog.creative-tim.com?ref=nudr-footer" target="_blank">Blog</a>
+                <a
+                  href="https://blog.creative-tim.com?ref=nudr-footer"
+                  target="_blank"
+                >
+                  Blog
+                </a>
               </li>
             </ul>
           </nav>

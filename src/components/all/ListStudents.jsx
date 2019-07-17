@@ -9,6 +9,10 @@ function StudentTable(props) {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const goto = url => {
+    props.history.push(url);
+  };
+
   const chooseRoom = path => {
     const p = path.substring(20, 24);
     switch (p) {
@@ -46,16 +50,16 @@ function StudentTable(props) {
   ) : (
     <div className="card">
       <div className="header text-center">
-        <h4>Listes des eleves </h4>
-        <p className="category">
+        <h3>Listes des eleves </h3>
+        <h4 className="category">
           {" "}
           les eleves de la {props.location.pathname.substring(20, 24)}{" "}
-        </p>
+        </h4>
         <br />
       </div>
       <div className="content table-responsive table-full-width">
-        <table className="table table-bigboy">
-          <thead>
+        <table className="table table-bigboy table-hover">
+          <thead className="text-primary">
             <tr>
               <th className="text-center">Image </th>
               <th>Prenom</th>
@@ -68,15 +72,30 @@ function StudentTable(props) {
           </thead>
           <tbody>
             {students.map(student => (
-              <tr>
-                <td className="img-students">
-                  <div className="img-container">
-                    <img
-                      src={student.image}
-                      alt={student.name}
-                      className="img-thumbnail img-student"
-                    />
-                  </div>
+              <tr
+                key={student.id}
+                onClick={() => {
+                  goto(`/dashboard/student/detail/${student.id}`);
+                }}
+              >
+                <td>
+                  {student.image ? (
+                    <div className="img-container">
+                      <img
+                        src={student.image}
+                        alt={student.name}
+                        className="img-thumbnail img-student"
+                      />
+                    </div>
+                  ) : (
+                    <div className="img-container">
+                      <img
+                        src={require("../../assets/img/student.png")}
+                        alt={student.name}
+                        className="img-thumbnail img-student"
+                      />
+                    </div>
+                  )}
                 </td>
                 <td className="td-student">{student.first_name}</td>
                 <td className="td-student">{student.last_name}</td>

@@ -1,19 +1,40 @@
 import React from "react";
-import { Breadcrumb, Icon } from "antd";
+import { Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { withRouter, Link } from "react-router-dom";
 
+// var hist = new Set();
 const Bread = props => {
+  // function getLastValue(set) {
+  //   let value;
+  //   for (value of set);
+  //   return value;
+  // }
+
+  // console.log(" this bread props ", props);
+  // console.log("the history :", props.history);
+  // console.log("the location", props.location);
+  // hist.add(props.location.pathname);
+  // console.log("the hist ", getLastValue(hist));
+
   return (
-    <Breadcrumb>
-      <Breadcrumb.Item href="">
-        <Icon type="home" />
-      </Breadcrumb.Item>
-      <Breadcrumb.Item href="">
-        <Icon type="user" />
-        <span>Application List</span>
-      </Breadcrumb.Item>
-      <Breadcrumb.Item>Application</Breadcrumb.Item>
-    </Breadcrumb>
+    <div>
+      <Breadcrumb tag="nav" listTag="div">
+        <BreadcrumbItem>
+          <Link to="/dashboard"> Home </Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem>
+          {" "}
+          <Link to> Library </Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem tag="a" href="#">
+          Data
+        </BreadcrumbItem>
+        <BreadcrumbItem active tag="span">
+          Bootstrap
+        </BreadcrumbItem>
+      </Breadcrumb>
+    </div>
   );
 };
 
-export default Bread;
+export default withRouter(Bread);
