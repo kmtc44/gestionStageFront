@@ -3,11 +3,17 @@ import moment from "moment";
 import axios from "axios";
 import { Spin } from "antd";
 import "../../assets/css/login.css";
+import Paginations from "../paginations";
 
 const baseSite = "http://localhost:8000";
 function StudentTable(props) {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [studentPerPage] = useState(4);
+ 
+  
+  
 
   const goto = url => {
     props.history.push(url);
@@ -45,6 +51,18 @@ function StudentTable(props) {
     fetchStudent();
   }, [props.location.pathname]);
 
+
+//Guetting the current students
+
+  const indexOfLastStudent = currentPage * studentPerPage;
+  const indexOfFirstStudent = indexOfLastStudent - studentPerPage;
+  const currentStudents = students.slice(indexOfFirstStudent , indexOfLastStudent);
+
+
+//Changing page with paginate method
+const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
   return loading ? (
     <Spin className="center container " />
   ) : (
@@ -71,7 +89,7 @@ function StudentTable(props) {
             </tr>
           </thead>
           <tbody>
-            {students.map(student => (
+            {currentStudents.map(student => (
               <tr
                 key={student.id}
                 onClick={() => {
@@ -114,6 +132,9 @@ function StudentTable(props) {
           </tbody>
         </table>
       </div>
+      <Paginations itemPerPage={studentPerPage} 
+          totalItems={students.length}
+          paginate={paginate} />
     </div>
   );
 }

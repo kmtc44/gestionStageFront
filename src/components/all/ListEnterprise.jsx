@@ -10,14 +10,17 @@ import {
   Row,
   Col
 } from "reactstrap";
-
 import "../../assets/css/login.css";
+import Paginations from "../paginations";
+
 
 const baseSite = "http://localhost:8000";
 let thead = [];
 function EnterpriseTable(props) {
   const [enterprises, setEnterprise] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [entreprisePerPage] = useState(3);
 
   const goto = url => {
     props.history.push(url);
@@ -72,6 +75,18 @@ function EnterpriseTable(props) {
     fetchEnterprise();
   }, [props.location.pathname]);
 
+  //Guetting the current entreprise
+
+  const indexOfLastEntreprise = currentPage * entreprisePerPage;
+  const indexOfFirstEntreprise = indexOfLastEntreprise - entreprisePerPage;
+  const currentEntreprises = enterprises.slice(indexOfFirstEntreprise , indexOfLastEntreprise);
+
+
+//Changing page with paginate method
+const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
+
   return loading ? (
     <Spin className="center container" />
   ) : (
@@ -95,7 +110,7 @@ function EnterpriseTable(props) {
                 </tr>
               </thead>
               <tbody>
-                {enterprises.map(enterprise => {
+                {currentEntreprises.map(enterprise => {
                   return (
                     <tr
                       key={enterprise.id}
@@ -136,9 +151,13 @@ function EnterpriseTable(props) {
             </Table>
           </CardBody>
         </Card>
+        <Paginations itemPerPage={entreprisePerPage} 
+          totalItems={enterprises.length} 
+          paginate={paginate} />
       </Col>
     </Row>
-  );
+        
+  ); 
 }
 
 export default EnterpriseTable;

@@ -46,7 +46,7 @@ class Footer extends React.Component {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Invision
+              Kaire Wade
             </a>
             . Coded by{" "}
             <a
@@ -54,7 +54,7 @@ class Footer extends React.Component {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Creative Tim
+              Kaire Wade
             </a>
             .
           </div>

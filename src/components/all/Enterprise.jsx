@@ -276,8 +276,27 @@ function Enterprise(props) {
               </Button>
             </div>
           )}
+<<<<<<< HEAD
+        </div>
+      ) : (
+        <div className="container text-center">
+          <Button
+            value={[enterprise.id, enterprise.name]}
+            className="btn btn-primary"
+            onClick={showConfirmAdd}
+          >
+            {" "}
+            Ajouter comme partenaire{" "}
+          </Button>
+        </div>
+      )}
+    </div>
+    
+  );
+=======
       </div>
     );
+>>>>>>> 11c27f779d0f5818b5a175500f8447fdc676b2d6
 }
 
 export default Enterprise;
