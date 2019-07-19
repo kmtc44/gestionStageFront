@@ -14,7 +14,7 @@ import FormConvention from "../Convention/FormConvention";
 import ListConventions from "../Convention/ListConvention";
 import Convention from "../Convention/Convention";
 import FormTask from "../Task/FormTask";
-import AllTaks from "../Task/AllTask";
+import AllTask from "../Task/AllTask";
 import Profile from "../Profile/Profile";
 import FormProject from "../Project/FormProject";
 import ListProject from "../Project/ListProject";
@@ -149,7 +149,7 @@ class Layout extends Component {
 
             <Route path="/dashboard/students/" component={ListStudents} />
 
-            <Route path="/dashboard/task/all" component={AllTaks} />
+            <Route path="/dashboard/task/all" component={AllTask} />
             {routes.map((prop, key) => {
               return (
                 <Route
