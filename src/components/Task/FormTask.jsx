@@ -36,9 +36,11 @@ class RegistrationForm extends React.Component {
     axios
       .get(`${baseSite}/project`)
       .then(res => {
+        console.log(res.data);
+        console.log(this.props.statusId);
         this.setState({
           projects: res.data.filter(
-            project => project.framer === this.props.statusId
+            project => project.framer.id === this.props.statusId
           )
         });
         axios
@@ -51,12 +53,14 @@ class RegistrationForm extends React.Component {
                   student => student.enterprise.id === this.props.enterpriseId
                 )
             });
-
             this.setState({ loading: false });
           })
           .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
+  }
+  componentWillReceiveProps(newProps) {
+
   }
 
   notify(place, message, type) {
@@ -87,11 +91,10 @@ class RegistrationForm extends React.Component {
 
         axios
           .post(`${baseSite}/task/`, {
-            name: values.title,
+            title: values.title,
             description: values.description,
             students: values.students,
             framer: this.props.statusId,
-            enterprise: this.props.enterpriseId,
             project: values.project
           })
           .then(res => {
@@ -150,98 +153,98 @@ class RegistrationForm extends React.Component {
         {this.state.loading ? (
           ""
         ) : (
-          <Row>
-            <Col md="9" className="mx-auto">
-              <Card>
-                <CardHeader className="text-center">
-                  <h5>Ajouter une nouvelle tache </h5>
-                </CardHeader>
-                <CardBody>
-                  <Form
-                    className="mr-10 p-5 text-left"
-                    {...formItemLayout}
-                    onSubmit={this.handleSubmit}
-                  >
-                    <Form.Item label={<span>Title de la tache</span>}>
-                      {getFieldDecorator("title", {
-                        rules: [
-                          {
-                            required: true,
-                            message:
-                              "S'il vous plaît entrer le titre de la tache !",
-                            whitespace: true
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
+            <Row>
+              <Col md="9" className="mx-auto">
+                <Card>
+                  <CardHeader className="text-center">
+                    <h5>Ajouter une nouvelle tache </h5>
+                  </CardHeader>
+                  <CardBody>
+                    <Form
+                      className="mr-10 p-5 text-left"
+                      {...formItemLayout}
+                      onSubmit={this.handleSubmit}
+                    >
+                      <Form.Item label={<span>Title de la tache</span>}>
+                        {getFieldDecorator("title", {
+                          rules: [
+                            {
+                              required: true,
+                              message:
+                                "S'il vous plaît entrer le titre de la tache !",
+                              whitespace: true
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
 
-                    <Form.Item label={<span>Description de la tache</span>}>
-                      {getFieldDecorator("description", {
-                        rules: [
-                          {
-                            required: true,
-                            message:
-                              "S'il vous plaît entrer la desctiption de la tache !",
-                            whitespace: true
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
+                      <Form.Item label={<span>Description de la tache</span>}>
+                        {getFieldDecorator("description", {
+                          rules: [
+                            {
+                              required: true,
+                              message:
+                                "S'il vous plaît entrer la desctiption de la tache !",
+                              whitespace: true
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
 
-                    <Form.Item label="Selectionner le projet">
-                      {getFieldDecorator("project", {
-                        rules: [
-                          {
-                            required: false
-                          }
-                        ]
-                      })(
-                        <Select placeholder="Selectionner le projet">
-                          {this.state.projects.map(project => {
-                            return (
-                              <Option value={project.id}>{project.name}</Option>
-                            );
-                          })}
-                        </Select>
-                      )}
-                    </Form.Item>
+                      <Form.Item label="Selectionner le projet">
+                        {getFieldDecorator("project", {
+                          rules: [
+                            {
+                              required: false
+                            }
+                          ]
+                        })(
+                          <Select placeholder="Selectionner le projet">
+                            {this.state.projects.map(project => {
+                              return (
+                                <Option value={project.id}>{project.name}</Option>
+                              );
+                            })}
+                          </Select>
+                        )}
+                      </Form.Item>
 
-                    <Form.Item label="Selectionner etudiants">
-                      {getFieldDecorator("students", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "Ajouter des etudiants !",
-                            type: "array"
-                          }
-                        ]
-                      })(
-                        <Select
-                          mode="multiple"
-                          placeholder="Selectionner les etudiants"
-                        >
-                          {this.state.students.map(student => {
-                            return (
-                              <Option value={student.id}>
-                                {student.first_name} {student.last_name}
-                              </Option>
-                            );
-                          })}
-                        </Select>
-                      )}
-                    </Form.Item>
+                      <Form.Item label="Selectionner etudiants">
+                        {getFieldDecorator("students", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "Ajouter des etudiants !",
+                              type: "array"
+                            }
+                          ]
+                        })(
+                          <Select
+                            mode="multiple"
+                            placeholder="Selectionner les etudiants"
+                          >
+                            {this.state.students.map(student => {
+                              return (
+                                <Option value={student.id}>
+                                  {student.first_name} {student.last_name}
+                                </Option>
+                              );
+                            })}
+                          </Select>
+                        )}
+                      </Form.Item>
 
-                    <Form.Item {...tailFormItemLayout}>
-                      <Button type="primary" htmlType="submit">
-                        Creer
+                      <Form.Item {...tailFormItemLayout}>
+                        <Button type="primary" htmlType="submit">
+                          Creer
                       </Button>
-                    </Form.Item>
-                  </Form>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        )}
+                      </Form.Item>
+                    </Form>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          )}
       </div>
     );
   }
