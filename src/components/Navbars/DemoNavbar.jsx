@@ -21,6 +21,10 @@ import {
 import routes from "../../routes.js";
 import * as action from "../../store/actions/auth";
 import { connect } from "react-redux";
+// <<<<<<< HEAD
+// import "./navba.css";
+// =======
+// >>>>>>> coming
 
 class Header extends React.Component {
   state = {
@@ -184,6 +188,7 @@ class Header extends React.Component {
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
+
                   <DropdownItem>
                     {" "}
                     <Link style={{ color: "black" }} to="/dashboard/profile">
@@ -198,6 +203,7 @@ class Header extends React.Component {
                   >
                     Logout
                   </DropdownItem>
+
                 </DropdownMenu>
               </Dropdown>
             </Nav>
@@ -215,6 +221,7 @@ const mapDispatchToProps = dispatch => {
     }
   };
 };
+
 
 export default connect(
   null,
