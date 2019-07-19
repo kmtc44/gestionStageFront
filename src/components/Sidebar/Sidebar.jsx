@@ -4,6 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { Nav, Collapse } from "reactstrap";
 import { Button } from "antd";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -64,10 +65,155 @@ class Sidebar extends React.Component {
           <Nav>
             <div className="nav">
               <li>
+                {
+                  this.props.status === 'teacher' ? (
+                    <>
+                      <li
+                        className={
+                          this.activeRoute("/dashboard/enterprise") ||
+                            this.state.conventionMenuOpen
+                            ? "active-pro"
+                            : null
+                        }
+                      >
+                        <a
+                          onClick={() =>
+                            this.setState({
+                              enterpriseMenuOpen: !this.state.enterpriseMenuOpen
+                            })
+                          }
+                          data-toggle="collapse"
+                        >
+                          <i className={"now-ui-icons business_globe"} />
+                          <p>
+                            Entreprise
+                        <b className="caret" />
+                          </p>
+                        </a>
+                        <Collapse isOpen={this.state.enterpriseMenuOpen}>
+                          <div>
+                            <ul className="nav pl-3">
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/enterprise/new")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/enterprise/new"
+                                >
+                                  <i className={"now-ui-icons ui-1_simple-add"} />
+                                  Ajouter
+                            </NavLink>
+                              </li>
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/enterprise/partner")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/enterprise/partner"
+                                >
+                                  <i
+                                    className={"now-ui-icons design_bullet-list-67"}
+                                  />
+                                  Liste des partenaires
+                            </NavLink>
+                              </li>
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/enterprise/potential")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/enterprise/potential"
+                                >
+                                  <i
+                                    className={"now-ui-icons design_bullet-list-67"}
+                                  />
+                                  Liste des potentielles
+                            </NavLink>
+                              </li>
+                            </ul>
+                          </div>
+                        </Collapse>
+                      </li>
+                      <li
+                        className={
+                          this.activeRoute("/convention") ||
+                            this.state.conventionMenuOpen
+                            ? "active-pro"
+                            : null
+                        }
+                      >
+                        <a
+                          onClick={() =>
+                            this.setState({
+                              conventionMenuOpen: !this.state.conventionMenuOpen
+                            })
+                          }
+                          data-toggle="collapse"
+                        >
+                          <i className="now-ui-icons design_app" />
+                          <p>
+                            Convention
+                      <b className="caret" />
+                          </p>
+                        </a>
+                        <Collapse isOpen={this.state.conventionMenuOpen}>
+                          <div className="nav pl-3">
+                            <li
+                              className={
+                                this.activeRoute("/conventions/new") ? "active" : null
+                              }
+                            >
+                              <NavLink
+                                className="nav-link"
+                                activeClassName="active"
+                                to="/dashboard/conventions/new"
+                              >
+                                <i className={"now-ui-icons ui-1_simple-add"} />
+                                Creer une nouvelle convention
+                        </NavLink>
+                            </li>
+                            <li
+                              className={
+                                this.activeRoute("/conventions/all")
+                                  ? "active "
+                                  : null
+                              }
+                            >
+                              <NavLink
+                                className="nav-link"
+                                activeClassName="active"
+                                to="/dashboard/conventions/all"
+                              >
+                                <i className={"now-ui-icons design_bullet-list-67"} />
+                                Liste de conventions
+                        </NavLink>
+                            </li>
+                          </div>
+                        </Collapse>
+                      </li>
+
+                    </>
+                  ) : ("")
+                }
                 <li
                   className={
                     this.activeRoute("/students") ||
-                    this.state.conventionMenuOpen
+                      this.state.conventionMenuOpen
                       ? "active-pro"
                       : null
                   }
@@ -142,145 +288,6 @@ class Sidebar extends React.Component {
                   </Collapse>
                 </li>
 
-                <li
-                  className={
-                    this.activeRoute("/dashboard/enterprise") ||
-                    this.state.conventionMenuOpen
-                      ? "active-pro"
-                      : null
-                  }
-                >
-                  <a
-                    onClick={() =>
-                      this.setState({
-                        enterpriseMenuOpen: !this.state.enterpriseMenuOpen
-                      })
-                    }
-                    data-toggle="collapse"
-                  >
-                    <i className={"now-ui-icons business_globe"} />
-                    <p>
-                      Entreprise
-                      <b className="caret" />
-                    </p>
-                  </a>
-                  <Collapse isOpen={this.state.enterpriseMenuOpen}>
-                    <div>
-                      <ul className="nav pl-3">
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/enterprise/new")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/enterprise/new"
-                          >
-                            <i className={"now-ui-icons ui-1_simple-add"} />
-                            Ajouter
-                          </NavLink>
-                        </li>
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/enterprise/partner")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/enterprise/partner"
-                          >
-                            <i
-                              className={"now-ui-icons design_bullet-list-67"}
-                            />
-                            Liste des partenaires
-                          </NavLink>
-                        </li>
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/enterprise/potential")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/enterprise/potential"
-                          >
-                            <i
-                              className={"now-ui-icons design_bullet-list-67"}
-                            />
-                            Liste des potentielles
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                  </Collapse>
-                </li>
-
-                <li
-                  className={
-                    this.activeRoute("/convention") ||
-                    this.state.conventionMenuOpen
-                      ? "active-pro"
-                      : null
-                  }
-                >
-                  <a
-                    onClick={() =>
-                      this.setState({
-                        conventionMenuOpen: !this.state.conventionMenuOpen
-                      })
-                    }
-                    data-toggle="collapse"
-                  >
-                    <i className="now-ui-icons design_app" />
-                    <p>
-                      Convention
-                      <b className="caret" />
-                    </p>
-                  </a>
-                  <Collapse isOpen={this.state.conventionMenuOpen}>
-                    <div className="nav pl-3">
-                      <li
-                        className={
-                          this.activeRoute("/conventions/new") ? "active" : null
-                        }
-                      >
-                        <NavLink
-                          className="nav-link"
-                          activeClassName="active"
-                          to="/dashboard/conventions/new"
-                        >
-                          <i className={"now-ui-icons ui-1_simple-add"} />
-                          Creer une nouvelle convention
-                        </NavLink>
-                      </li>
-                      <li
-                        className={
-                          this.activeRoute("/conventions/all")
-                            ? "active "
-                            : null
-                        }
-                      >
-                        <NavLink
-                          className="nav-link"
-                          activeClassName="active"
-                          to="/dashboard/conventions/all"
-                        >
-                          <i className={"now-ui-icons design_bullet-list-67"} />
-                          Liste de conventions
-                        </NavLink>
-                      </li>
-                    </div>
-                  </Collapse>
-                </li>
 
                 <li
                   className={
@@ -442,4 +449,9 @@ Sidebar.propTypes = {
   routes: PropTypes.array
 };
 
-export default Sidebar;
+const mapStateToProps = state => {
+  return {
+    status: state.status
+  }
+}
+export default connect(mapStateToProps)(Sidebar);

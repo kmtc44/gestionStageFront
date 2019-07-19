@@ -4,20 +4,15 @@ import axios from "axios";
 import { withRouter } from 'react-router-dom'
 
 import { Spin } from "antd";
-import {
-  ListGroup,
-  ListGroupItem
-} from "reactstrap";
 
-import UpdateProfile from './UpdateProfile';
+
 
 class ModalSkills extends React.Component {
   state = {
-    loading: false,
+    loading: true,
     visible: false,
     student: {},
     studentId: null,
-    load: true
   };
 
   componentDidMount() {
@@ -25,20 +20,18 @@ class ModalSkills extends React.Component {
     const user = JSON.parse(localStorage.getItem("user"))
     axios.defaults.headers = {
       "Content-Type": "application/json",
-      Authorization:  `Token ${user.token}`
+      Authorization: `Token ${user.token}`
     }
     axios.get(`http://127.0.0.1:8000/auth/user`)
       .then(res => {
         this.setState({
           student: res.data,
-          studentId : res.data.student.id,
+          studentId: res.data.student.id,
           idDelete: {}
         });
-
-        this.setState({load : false})
+        this.setState({ loading: false })
       })
   }
-
 
   showModal = () => {
     this.setState({
@@ -58,88 +51,88 @@ class ModalSkills extends React.Component {
   };
 
   handleFormSubmit = (e) => {
-
-    axios.post(`http://127.0.0.1:8000/skills/`, {name: e.target.elements.skills.value })
-      .then(res => { 
+    e.preventDefault();
+    axios.post(`http://127.0.0.1:8000/skills/`, { name: e.target.elements.skills.value })
+      .then(res => {
         console.log(res)
         axios.put(`http://127.0.0.1:8000/students/${this.state.studentId}/`, {
-           skills: [res.data.id] })
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+          skills: [res.data.id]
+        })
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
       })
       .catch(error => console.log(error));
-
     console.log(e.target.elements.skills.value)
   }
 
-handleDelete = (e) => {
-  // e.preventDefault();
-  const idSkill = e.target.value 
-  console.log(e.target.value)
-  axios.put(`http://127.0.0.1:8000/students/${this.state.studentId}/`, {
-    skill : idSkill
-  })
-  .then(res => {
-    console.log(res)
-    this.setState({visible:false}) 
-    this.props.history.push('/dashboard/')
-    this.props.history.push('/dashboard/profile')
-  })
-  .catch(err => console.log(err)) 
-}
+  handleDelete = (e) => {
+    e.preventDefault();
+    const idSkill = e.target.value
+    console.log(e.target.value)
+    axios.put(`http://127.0.0.1:8000/students/${this.state.studentId}/`, {
+      skill: idSkill
+    })
+      .then(res => {
+        console.log(res)
+        this.setState({ visible: false })
+        this.props.history.push('/dashboard/')
+        this.props.history.push('/dashboard/profile')
+      })
+      .catch(err => console.log(err))
+  }
 
 
   render() {
     const { visible, loading } = this.state;
     return (
-     <div>
-          {
-            this.state.load === false ? (
-        
-            <div>
-              <Button type="primary" onClick={this.showModal}>
-                Gérer les skills
+      <div>
+        {
+          loading ? (
+            <Spin className="center container" />
+          ) : (
+              <div>
+                <Button type="primary" onClick={this.showModal}>
+                  Gérer les skills
               </Button>
-              <Modal
-                visible={visible}
-                title="Modifier le profil/Skills"
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-                footer={[
-                  <Button key="back" onClick={this.handleCancel}>
-                    Annuler
-                  </Button>,
-                ]}
-              >
+                <Modal
+                  visible={visible}
+                  title="Modifier le profil/Skills"
+                  onOk={this.handleOk}
+                  onCancel={this.handleCancel}
+                  footer={[
+                    <Button key="back" onClick={this.handleCancel}>
+                      Annuler
+                </Button>,
+                  ]}
+                >
+                  <Form onSubmit={(e) => this.handleFormSubmit(e)}>
+                    <Form.Item label="Nom du Skill">
+                      <Input name="skills" />
+                    </Form.Item>
 
-              
-                <Form onSubmit={(e) => this.handleFormSubmit(e) }>
-                  <Form.Item label="Nom du Skill">
-                    <Input  name="skills" />
-                  </Form.Item>
-                  
-                  <Form.Item>
-                    <Button type="primary" htmlType='onSubmit'>Ajouter</Button>
-                  </Form.Item>
-                </Form>
-              
-              <strong>Compétences:</strong>
-              <p> {this.state.student.student.skills.map(skill => {
+                    <Form.Item>
+                      <Button type="primary" htmlType='onSubmit'>Ajouter</Button>
+                    </Form.Item>
+                  </Form>
 
-                return (
-                        <p>{skill.name} 
-                          <Button type="danger" value={skill.id} onClick={this.handleDelete} style={{ marginLeft: '5%' }} htmlType="onSubmit">
+                  <strong>Compétences:</strong>
+                  <div> {this.state.student.student.skills.map(skill => {
+                    return (
+                      <p>{skill.name}
+                        <Button type="danger" value={skill.id} onClick={this.handleDelete} style={{ marginLeft: '5%' }} htmlType="onSubmit">
                           Retirer
-                          </Button>
-                        </p> 
-                    )})} </p>
-              </Modal>
-            </div>
-          
-          ) : <Spin className="center container" /> } 
-    </div>
+                        </Button>
+                      </p>
+                    )
+                  })}
+                  </div>
+                </Modal>
+              </div>
+            )
+        }
+      </div>
     );
-    }
+  }
 }
 
 export default withRouter(ModalSkills);

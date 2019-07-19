@@ -168,7 +168,7 @@ class Header extends React.Component {
                 <Link to="#pablo" className="nav-link">
                   <i className="now-ui-icons ui-1_bell-53" />
                   <p>
-                    <span className="d-lg-none d-md-block">Account</span>
+                    <span className="d-lg-none d-md-block">Notification</span>
                   </p>
                 </Link>
               </NavItem>
@@ -180,7 +180,7 @@ class Header extends React.Component {
                 <DropdownToggle caret nav>
                   <i className="now-ui-icons users_single-02" />
                   <p>
-                    <span className="d-lg-none d-md-block">Some Actions</span>
+                    <span className="d-lg-none d-md-block">Compte </span>
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>

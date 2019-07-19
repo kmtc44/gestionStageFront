@@ -82,15 +82,57 @@ class Layout extends Component {
           <PanelHeader size="sm" />
           <Bread />
           <DemoNavbar {...this.props} />
+
+          {
+            this.props.status === 'teacher' ? (
+              <Switch>
+                <Route
+                  exact
+                  path="/dashboard/enterprise/detail/:enterpriseId"
+                  component={Enterprise}
+                />
+                <Route
+                  exact
+                  path="/dashboard/enterprise/new"
+                  component={FormEnterprise}
+                />
+                <Route path="/dashboard/enterprise/" component={ListEnterprises} />
+                <Route
+                  exact
+                  path="/dashboard/convention/detail/:convId"
+                  component={Convention}
+                />
+                <Route
+                  exact
+                  path="/dashboard/conventions/new"
+                  component={FormConvention}
+                />
+                <Route
+                  path="/dashboard/conventions/all"
+                  component={ListConventions}
+                />
+              </Switch>
+            ) : (
+                ''
+              )
+          }
+          {
+            this.props.status === 'framer' ? (
+              <Switch>
+                <Route
+                  exact
+                  path="/dashboard/project/new"
+                  component={FormProject}
+                />
+                <Route exact path="/dashboard/task/new" component={FormTask} />
+              </Switch>
+            ) : ('')
+          }
           <Switch>
             <Route
               exact
-              path="/dashboard/enterprise/detail/:enterpriseId"
-              component={Enterprise}
-            />
-            <Route
-              exact
               path="/dashboard/project/detail/:projectId"
+
               component={Project}
             />
             <Route
@@ -98,38 +140,15 @@ class Layout extends Component {
               path="/dashboard/student/detail/:studentId"
               component={Profile}
             />
-            <Route
-              exact
-              path="/dashboard/convention/detail/:convId"
-              component={Convention}
-            />
-            <Route
-              exact
-              path="/dashboard/enterprise/new"
-              component={FormEnterprise}
-            />
-            <Route
-              exact
-              path="/dashboard/project/new"
-              component={FormProject}
-            />
+
             <Route
               exact
               path="/dashboard/project/all"
               component={ListProject}
             />
-            <Route exact path="/dashboard/task/new" component={FormTask} />
-            <Route
-              exact
-              path="/dashboard/conventions/new"
-              component={FormConvention}
-            />
+
             <Route path="/dashboard/students/" component={ListStudents} />
-            <Route path="/dashboard/enterprise/" component={ListEnterprises} />
-            <Route
-              path="/dashboard/conventions/all"
-              component={ListConventions}
-            />
+
             <Route path="/dashboard/task/all" component={AllTaks} />
             {routes.map((prop, key) => {
               return (
@@ -151,7 +170,8 @@ class Layout extends Component {
 const mapStateToProps = state => {
   return {
     status: state.status,
-    token: state.token
+    token: state.token,
+
   };
 };
 export default connect(mapStateToProps)(Layout);

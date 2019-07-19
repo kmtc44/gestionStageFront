@@ -38,14 +38,10 @@ class RegistrationForm extends React.Component {
           students: res.data.filter(student => student.enterprise)
         });
         this.setState({ loading: false });
-        console.log(this.state.students);
       })
       .catch(err => console.log(err));
   }
 
-  componentWillReceiveProps(newProps) {
-    console.log("le nouveau props ", newProps);
-  }
 
   notify(place, message, type) {
     var options = {};

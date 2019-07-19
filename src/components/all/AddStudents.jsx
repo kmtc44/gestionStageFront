@@ -3,6 +3,7 @@ import { Button, Modal, Form, Select, Spin } from "antd";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import "../../assets/css/login.css";
+import PropTypes from "prop-types";
 
 const { Option } = Select;
 const baseSite = "http://localhost:8000";
@@ -140,4 +141,7 @@ class CollectionsPage extends React.Component {
   }
 }
 
+CollectionsPage.propTypes = {
+  enterpriseId: PropTypes.number
+};
 export default withRouter(CollectionsPage);
