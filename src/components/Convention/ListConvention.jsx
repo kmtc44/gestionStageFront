@@ -41,7 +41,7 @@ function ListConvention(props) {
     <Spin className="center container" />
   ) : (
     <div className="container">
-      <CardGroup className="mx-auto">
+      <CardGroup className="mx-auto cardHolder">
         {conventions.map((convention, index) => {
           return (
             <Col md="4" lg="3" sm="4">

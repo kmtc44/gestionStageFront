@@ -44,3 +44,68 @@ td {
     margin-left: 5%;
     margin-right: 5%;
 }
+
+.img-profile {
+    width: 50%;
+    height: 50%;
+    border-radius: 20%;
+    margin: auto
+}
+
+.cardHolder {
+    display: flex;
+    flex-flow: row wrap;
+    width: 90%;
+    margin-bottom: 5px;
+}
+
+.cardHolder .card {
+    position: relative;
+    width: 240px;
+    height: 380px;
+    text-align: center;
+    box-shadow: 10px 10px 60px lightgray;
+    transition: .2s;
+}
+
+.cardHolder .card:hover {
+    cursor: pointer;
+    transition: .2s;
+    transform: scale(1.03);
+    box-shadow: 30px 30px 100px lightgray;
+}
+
+.cardHolder .card img {
+    width: 100%;
+    height: 200px;
+    /* margin-bottom: 10%; */
+}
+
+.cardProHolder {
+    display: flex;
+    flex-flow: row wrap;
+    width: 90%;
+    margin-bottom: 5px;
+}
+
+.cardProHolder .card {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    box-shadow: 10px 10px 60px lightgray;
+    transition: .2s;
+}
+
+.cardProHolder .card:hover {
+    cursor: pointer;
+    transition: .2s;
+    transform: scale(1.03);
+    box-shadow: 30px 30px 100px lightgray;
+}
+
+.cardProHolder .card img {
+    width: 100%;
+    height: 200px;
+    /* margin-bottom: 10%; */
+}

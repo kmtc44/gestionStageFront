@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Spin } from "antd";
 import { Link } from "react-router-dom";
-import { Card, Button, CardTitle, CardText, Row, Col } from "reactstrap";
+import { Card, CardTitle, CardText, Row, Col } from "reactstrap";
 
 const baseSite = "http://localhost:8000";
 function ListProject(props) {
@@ -27,34 +27,33 @@ function ListProject(props) {
   return loading ? (
     <Spin className="center container " />
   ) : (
-    <div className="content mt-3 ml-4 p-5 center">
-      <Row>
-        {projects.map(project => {
-          return (
-            <Col key={project.id} sm="6" lg="3" md="4" xs="12">
-              <Card body>
-                <CardTitle
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    height: 50
-                  }}
-                >
-                  {project.name}
-                </CardTitle>
-                <CardText>{project.description.substring(0, 50)}...</CardText>
+      <div className="content mt-3 ml-4 p-5 center">
+        <Row className="cardProHolder">
+          {projects.map(project => {
+            return (
+              <Col key={project.id} sm="6" lg="3" md="4" xs="12">
                 <Link to={`/dashboard/project/detail/${project.id}`}>
-                  <Button>
-                    Voir plus <i className={"now-ui-icons ui-1_simple-add"} />
-                  </Button>
+                  <Card body style={{ color: 'black' }}>
+                    <CardTitle
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        height: 80,
+                      }}
+                    >
+                      {project.name}
+                    </CardTitle>
+                    <CardText>
+                      {project.description.substring(0, 50)}...
+                  </CardText>
+                  </Card>
                 </Link>
-              </Card>
-            </Col>
-          );
-        })}
-      </Row>
-    </div>
-  );
+              </Col>
+            );
+          })}
+        </Row>
+      </div>
+    );
 }
 
 export default ListProject;

@@ -4,6 +4,7 @@ import {
   Select,
   Button,
 } from 'antd';
+
 import axios from "axios";
 import React from "react";
 import { Spin } from "antd";
@@ -13,66 +14,51 @@ import ModalSkills from './ModalSkills';
 const { Option } = Select;
 
 class RegistrationForm extends React.Component {
-  
+
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
-    student: {},
-    loading: true,
-    studentId : null
   };
-
-  componentDidMount() {
-
-    const user = JSON.parse(localStorage.getItem("user"))
-    axios.defaults.headers = {
-      "Content-Type": "application/json",
-      Authorization:  `Token ${user.token}`
-    }
-    axios.get(`http://127.0.0.1:8000/auth/user`)
-      .then(res => {
-        this.setState({
-          student: res.data,
-          studentId : res.data.student.id
-        });
-        this.setState({loading : false})
-      })
-  }
-
-
-normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-
 
   AddImage = (e) => {
-    this.setState({image:e.target.files[0]})
+    this.setState({ image: e.target.files[0] })
   }
 
-  
-   handleFormSubmit = (e) => {
-   // e.preventDefault();
+  handleFormSubmit = (e) => {
+    e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
-        const fStudent = new FormData() 
-        fStudent.append("first_name", values.firstname)
-        fStudent.append("last_name", values.lastname)
-        fStudent.append("phone", values.phone)
-        fStudent.append("address", values.address)
-        fStudent.append("gender", values.gender)
-        fStudent.append("socialStatus", values.socialStatus) 
-        
-        fStudent.append("image", this.state.image)
-        axios.put(`http://127.0.0.1:8000/students/${this.state.studentId}/`, fStudent)
-          .then(res => console.log('Reussiii',res))
-          .catch(error => console.log('ERREURRRR',error));
+      const fData = new FormData()
+      fData.append("first_name", values.firstname)
+      fData.append("last_name", values.lastname)
+      fData.append("phone", values.phone)
+      fData.append("image", this.state.image)
+      switch (this.props.userData.status) {
+        case 'student':
+          fData.append("address", values.address)
+          fData.append("gender", values.gender)
+          fData.append("socialStatus", values.socialStatus)
+          axios.put(`http://127.0.0.1:8000/students/${this.props.userData.id}/`, fData)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+          break;
+
+        case 'framer':
+          axios.put(`http://127.0.0.1:8000/framers/${this.props.userData.id}/`, fData)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+          break;
+        case 'teacher':
+          axios.put(`http://127.0.0.1:8000/teachers/${this.props.userData.id}/`, fData)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+          break;
+
+        default:
+          console.log('not normale')
+      }
     });
   };
 
@@ -88,7 +74,7 @@ normFile = (e) => {
         xs: { span: 12 },
         sm: { span: 12 },
       },
-    }; 
+    };
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -102,98 +88,101 @@ normFile = (e) => {
       },
     };
     const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '',
+      initialValue: '+221',
     })(
       <Select style={{ width: 70 }}>
         <Option value="+221">+221</Option>
       </Select>,
     );
+    return (
+      <div>
+        {
+          this.state.loading ? (
+            <Spin className="center container" />
+          ) : (
+              <Form {...formItemLayout} onSubmit={this.handleFormSubmit} >
+
+                <Form.Item label="Prénom">
+                  {getFieldDecorator("firstname", {
+                    initialValue: this.props.userData.first_name,
+                    rules: [{ required: true, message: 'Please input your firstname!', whitespace: true }],
+                  })(<Input />)}
+                </Form.Item>
+
+                <Form.Item label="Nom">
+                  {getFieldDecorator("lastname", {
+                    initialValue: this.props.userData.last_name,
+                    rules: [{ required: true, message: 'Please input your lastname!', whitespace: true }],
+                  })(<Input />)}
+                </Form.Item>
+
+                <Form.Item label="Phone Number">
+                  {getFieldDecorator('phone', {
+                    initialValue: this.props.userData.phone,
+                    rules: [{ required: true, message: 'Please input your phone number!' }],
+                  })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
+                </Form.Item>
+                {
+                  this.props.userData.status === 'student' ? (
+                    <>
+                      <Form.Item label="Adresse">
+                        {getFieldDecorator("address", {
+                          initialValue: this.props.userData.address,
+                          rules: [{ required: true, message: 'Please input your address!', whitespace: true }],
+                        })(<Input />)}
+                      </Form.Item>
+
+                      <Form.Item
+                        label="Genre">
+                        {getFieldDecorator("gender", {
+                          initialValue: this.props.userData.gender,
+                          rules: [{ required: true, message: 'Please input your gender!', whitespace: true }],
+                        })(<Select
+                          name="gender"
+                          style={{ width: '50%' }}>
+                          <Option value="Masculin">Masculin</Option>
+                          <Option value="Féminin">Féminin</Option>
+                        </Select>)}
+                      </Form.Item>
+
+                      <Form.Item
+                        label={<span>Etat civil:</span>}>
+                        {getFieldDecorator("socialStatus", {
+                          initialValue: this.props.userData.socialStatus,
+                          rules: [{ required: true, message: 'Please input your social status!', whitespace: true }],
+                        })(<Select
+                          name="socialStatus"
+                          style={{ width: '80%' }}>
+                          <Option value="Célibataire sans enfant">Célibataire sans enfant</Option>
+                          <Option value="Célibataire avec enfant">Célibataire avec enfant</Option>
+                          <Option value="Marié(e) sans enfant">Marié(e) sans enfant</Option>
+                          <Option value="Marié(e) avec enfant">Marié(e) avec enfant</Option>
+                        </Select>)}
+                      </Form.Item>
+                    </>
+                  ) : ("")
+                }
 
 
-    return (     
- <div>
-       {
-      this.state.loading === false ? (
+                <Form.Item label="Image de profil">
+                  <input type="file" onChange={e => this.AddImage(e)} />
+                </Form.Item>
 
-      <Form {...formItemLayout } onSubmit={this.handleFormSubmit} >
+                {
+                  this.props.userData.status === 'student' ? (
+                    <Form.Item {...tailFormItemLayout}>
+                      <ModalSkills></ModalSkills>
+                    </Form.Item>) : ("")
+                }
 
-        <Form.Item label={<span>Prénom:</span>}>
-          {getFieldDecorator("firstname", {
-            initialValue:this.state.student.student.first_name,
-            rules: [{ required: true, message: 'Please input your firstname!', whitespace: true }],
-          })(<Input  name="firstname" />)}
-        </Form.Item>
-
-        <Form.Item label={<span>Nom:</span>}>
-          {getFieldDecorator("lastname", {
-            initialValue:this.state.student.student.last_name,
-            rules: [{ required: true, message: 'Please input your lastname!', whitespace: true }],
-          })(<Input name="lastname" />)}
-        </Form.Item>
-
-        <Form.Item label="Phone Number">
-          {getFieldDecorator('phone', {
-            initialValue:this.state.student.student.phone,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
-          })(<Input name="phone" addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-        </Form.Item>
-
-        <Form.Item
-          label={
-            <span>
-              Adresse:
-            </span>
-          }>
-          {getFieldDecorator("address", {
-            initialValue:this.state.student.student.address,
-            rules: [{ required: true, message: 'Please input your address!', whitespace: true }],
-          })(<Input  name="address" />)}
-        </Form.Item>
-
-        <Form.Item
-          label={<span>Genre:</span>}>
-          {getFieldDecorator("gender", {
-            initialValue:this.state.student.student.gender,
-            rules: [{ required: true, message: 'Please input your gender!', whitespace: true }],
-          })( <Select
-            name="gender"
-            style={{ width: '50%' }}>
-            <Option value="Masculin">Masculin</Option>
-            <Option value="Féminin">Féminin</Option>
-        </Select>)}
-        </Form.Item>
-
-        <Form.Item
-          label={<span>Etat civil:</span>}>
-          {getFieldDecorator("socialStatus", {
-            initialValue:this.state.student.student.socialStatus,
-            rules: [{ required: true, message: 'Please input your social status!', whitespace: true }],
-          })(<Select 
-          name="socialStatus"         
-          style={{ width: '80%' }}>
-          <Option value="Célibataire sans enfant">Célibataire sans enfant</Option>
-          <Option value="Célibataire avec enfant">Célibataire avec enfant</Option>
-          <Option value="Marié(e) sans enfant">Marié(e) sans enfant</Option>
-          <Option value="Marié(e) avec enfant">Marié(e) avec enfant</Option>
-        </Select>)}
-        </Form.Item>
-
-        <Form.Item label="Image de profil">
-           <input type="file" onChange={e =>this.AddImage(e)}/>
-        </Form.Item>
-
-        <Form.Item {...tailFormItemLayout}>
-          <ModalSkills></ModalSkills>
-        </Form.Item>
-
-        <Form.Item {...tailFormItemLayout}>
-          <Button style={{marginTop: "10%"}}  type="primary" htmlType="submit">
-            Aplliquer les modifications
-          </Button>
-        </Form.Item>
-
-      </Form>
-      ) : <Spin className="center container" /> } 
+                <Form.Item {...tailFormItemLayout}>
+                  <Button style={{ marginTop: "10%" }} type="primary" htmlType="submit">
+                    Aplliquer les modifications
+                  </Button>
+                </Form.Item>
+              </Form>
+            )
+        }
       </div>
     );
   }

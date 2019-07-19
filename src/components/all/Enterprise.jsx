@@ -12,7 +12,6 @@ import {
   CardBody,
   CardImg,
   CardTitle,
-  CardSubtitle,
   CardText,
   Row,
   Col
@@ -46,7 +45,7 @@ function showConfirmDelete(e) {
         })
         .catch(err => console.log(err));
     },
-    onCancel() {}
+    onCancel() { }
   });
 }
 function showConfirmAdd(e) {
@@ -73,7 +72,7 @@ function showConfirmAdd(e) {
         })
         .catch(err => console.log(err));
     },
-    onCancel() {}
+    onCancel() { }
   });
 }
 
@@ -106,163 +105,178 @@ function Enterprise(props) {
   return loading ? (
     <Spin className="center container-fluid " />
   ) : (
-    <div>
-      <Col className="mx-auto" lg="9" md="9">
-        <Card className="card-user">
-          <div className="image">
-            {enterprise.logo ? (
-              <img alt="..." src={enterprise.logo} />
-            ) : (
-              <img
-                alt="..."
-                src={require("../../assets/img/enterprise1.png")}
-              />
-            )}
-          </div>
-          <CardBody>
-            <div className="author">
-              <a href="#ok" onClick={e => e.preventDefault()}>
-                <img
-                  alt="..."
-                  className="avatar border-gray"
-                  src={require("../../assets/img/enterprise.png")}
-                />
-                <h3>{enterprise.name}</h3>
-              </a>
-              <h4>
-                L'entreprise {enterprise.name}{" "}
-                {enterprise.is_partner ? "est" : "n'est pas"} un partenaire de
-                l'EPT
-              </h4>
+      <div>
+        <Col className="mx-auto" lg="9" md="9">
+          <Card className="card-user">
+            <div className="image">
+              {enterprise.logo ? (
+                <img alt="..." src={enterprise.logo} />
+              ) : (
+                  <img
+                    alt="..."
+                    src={require("../../assets/img/enterprise1.png")}
+                  />
+                )}
             </div>
-            <p className="text-center">
-              L'entreprise {enterprise.name}
-              evolue dans le domaine de {enterprise.field}"
-            </p>
-            <div className="container">
-              <p>
-                <i className="now-ui-icons ui-1_email-85" /> :{" "}
-                {enterprise.email}
-              </p>
-              <p>
-                <i className="now-ui-icons tech_mobile" /> : {enterprise.phone}
-              </p>
-              <p>
-                <i className="now-ui-icons location_pin" /> :{" "}
-                {enterprise.address}
-              </p>
-              <p>
-                <i className="now-ui-icons business_globe" /> :{" "}
-                <a
-                  href={enterprise.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {enterprise.website}
+            <CardBody>
+              <div className="author">
+                <a href="#ok" onClick={e => e.preventDefault()}>
+                  <img
+                    alt="..."
+                    className="avatar border-gray"
+                    src={require("../../assets/img/enterprise.png")}
+                  />
+                  <h3>{enterprise.name}</h3>
                 </a>
-              </p>
-            </div>
-          </CardBody>
-        </Card>
-      </Col>
-      {enterprise.is_partner ? (
-        <div className="container ">
-          <h3 className="text-center">
-            {" "}
-            {enterprise.students[0]
-              ? " Listes des eleves dans cette entreprise "
-              : ""}
-          </h3>
+                <h4>
+                  L'entreprise {enterprise.name}{" "}
+                  {enterprise.is_partner ? "est" : "n'est pas"} un partenaire de
+                  l'EPT
+              </h4>
+              </div>
+              <p className="text-center">
+                L'entreprise {enterprise.name}
+                evolue dans le domaine de {enterprise.field}"
+            </p>
+              <div className="container">
+                <p>
+                  <i className="now-ui-icons ui-1_email-85" /> :{" "}
+                  {enterprise.email}
+                </p>
+                <p>
+                  <i className="now-ui-icons tech_mobile" /> : {enterprise.phone}
+                </p>
+                <p>
+                  <i className="now-ui-icons location_pin" /> :{" "}
+                  {enterprise.address}
+                </p>
+                <p>
+                  <i className="now-ui-icons business_globe" /> :{" "}
+                  <a
+                    href={enterprise.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {enterprise.website}
+                  </a>
+                </p>
+              </div>
+            </CardBody>
+          </Card>
+        </Col>
+        {enterprise.is_partner ? (
+          <div className="container ">
+            <h3 className="text-center">
+              {" "}
+              {enterprise.students[0]
+                ? " Listes des eleves dans cette entreprise "
+                : ""}
+            </h3>
 
-          <Row>
-            <CardGroup className="mx-auto">
-              {enterprise.students.map(student => {
-                return (
-                  <Col md="4" lg="3" sm="9" xs="9">
-                    <Card key={student.id}>
-                      {student.image ? (
-                        <CardImg
-                          className="img-student-enterprise"
-                          top
-                          src={student.image}
-                          alt="Card image cap"
-                        />
-                      ) : (
-                        <CardImg
-                          className="img-student-enterprise"
-                          top
-                          src={require("../../assets/img/student.png")}
-                          alt="Card image cap"
-                        />
-                      )}
-                      <CardBody>
-                        <CardTitle style={{ fontSize: "18px" }}>
-                          {student.first_name} {student.last_name}
-                        </CardTitle>
-                        <CardSubtitle>
-                          Departement : {student.department.name}
-                        </CardSubtitle>
-                        <CardText>
-                          <p> Numero : {student.phone}</p>
-                          <p> email : {student.user.email}</p>
-                        </CardText>
-                        <Button
-                          value={[
-                            enterprise.id,
-                            student.id,
-                            student.first_name,
-                            student.last_name
-                          ]}
-                          className="btn btn-danger"
-                          onClick={showConfirmDelete}
-                        >
-                          Enlever de cette entreprise
-                        </Button>
-                      </CardBody>
-                    </Card>
-                  </Col>
-                );
-              })}
-            </CardGroup>
-          </Row>
-
-          <AddStudents enterpriseId={enterprise.id} />
-          <hr />
-          {enterprise.projects.length ? (
-            <div className="container mt-5 ml-4 p-5 center">
-              <h2>Liste des projects </h2>
-              <Row>
-                {enterprise.projects.map(project => {
+            <Row>
+              <CardGroup className="mx-auto cardHolder" >
+                {enterprise.students.map(student => {
                   return (
-                    <Col key={project.id} sm="6" lg="3" md="4" xs="12">
-                      <Card body>
-                        <CardTitle
-                          style={{
-                            fontSize: 18,
-                            fontWeight: "bold",
-                            height: 50
-                          }}
-                        >
-                          {project.name}
-                        </CardTitle>
-                        <CardText>
-                          {project.description.substring(0, 50)}...
-                        </CardText>
-                        <Link to={`/dashboard/project/detail/${project.id}`}>
-                          <Button>
-                            Voir plus{" "}
-                            <i className={"now-ui-icons ui-1_simple-add"} />
-                          </Button>
-                        </Link>
-                      </Card>
+                    <Col md="4" lg="3" sm="9" xs="9">
+                      <Link to={`/dashboard/student/detail/${student.id}`}>
+                        <Card style={{ color: 'black' }} key={student.id}>
+                          {student.image ? (
+                            <CardImg
+                              className="img-student-enterprise"
+                              top
+                              src={student.image}
+                              alt="Card image cap"
+                            />
+                          ) : (
+                              <CardImg
+                                className="img-student-enterprise"
+                                top
+                                src={require("../../assets/img/student.png")}
+                                alt="Card image cap"
+                              />
+                            )}
+                          <CardBody>
+                            <CardTitle style={{ fontSize: "18px" }}>
+                              {student.first_name} {student.last_name}
+                            </CardTitle>
+
+                            <CardText>
+                              <div className="text-left">
+                                <p>Departement : {student.department.name} </p>
+                                <p>Classe : {student.classroom.name} </p>
+                                <p> <i className="now-ui-icons tech_mobile" /> : {student.phone}</p>
+                                <p>  <i className="now-ui-icons ui-1_email-85" /> : {student.user.email}</p>
+                              </div>
+                            </CardText>
+                          </CardBody>
+                        </Card>
+                      </Link>
+                      <Button
+                        value={[
+                          enterprise.id,
+                          student.id,
+                          student.first_name,
+                          student.last_name
+                        ]}
+                        className="btn btn-danger"
+                        onClick={showConfirmDelete}
+                      >
+                        Retirer
+                        </Button>
                     </Col>
                   );
                 })}
-              </Row>
+              </CardGroup>
+            </Row>
+
+            <AddStudents enterpriseId={enterprise.id} />
+            <hr />
+            {enterprise.projects.length ? (
+              <div className="container mt-5 ml-4 p-5 center">
+                <h2>Liste des projects </h2>
+                <Row className="cardProHolder">
+                  {enterprise.projects.map(project => {
+                    return (
+                      <Col key={project.id} sm="6" lg="3" md="4" xs="12">
+                        <Link to={`/dashboard/project/detail/${project.id}`}>
+                          <Card body style={{ color: 'black' }}>
+                            <CardTitle
+                              style={{
+                                fontSize: 18,
+                                fontWeight: "bold",
+                                height: 70,
+
+                              }}
+                            >
+                              {project.name}
+                            </CardTitle>
+                            <CardText>
+                              {project.description.substring(0, 50)}...
+                            </CardText>
+                          </Card>
+                        </Link>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </div>
+            ) : (
+                ""
+              )}
+          </div>
+        ) : (
+            <div className="container text-center">
+              <Button
+                value={[enterprise.id, enterprise.name]}
+                className="btn btn-primary"
+                onClick={showConfirmAdd}
+              >
+                {" "}
+                Ajouter comme partenaire{" "}
+              </Button>
             </div>
-          ) : (
-            ""
           )}
+<<<<<<< HEAD
         </div>
       ) : (
         <div className="container text-center">
@@ -279,6 +293,10 @@ function Enterprise(props) {
     </div>
     
   );
+=======
+      </div>
+    );
+>>>>>>> 11c27f779d0f5818b5a175500f8447fdc676b2d6
 }
 
 export default Enterprise;

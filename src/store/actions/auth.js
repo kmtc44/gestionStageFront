@@ -64,7 +64,7 @@ export const authLogin = (username, password, status) => {
         } else if (res.data.user.framer !== null) {
           status_user = res.data.user.framer.status
           status_id = res.data.user.framer.id
-          enterpriseId = res.data.user.framer.enterprise
+          enterpriseId = res.data.user.framer.enterprise.id
 
         } else if (res.data.user.student !== null) {
           status_user = res.data.user.student.status
@@ -180,7 +180,7 @@ export const authRegisterEnterprise = (username, email, password, status, firstn
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
           status,
           statusId: res.data.user.framer.id,
-          enterpriseId: res.data.user.framer.enterprise
+          enterpriseId: res.data.user.framer.enterprise.id
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));

@@ -24,7 +24,7 @@ const Bread = props => {
         </BreadcrumbItem>
         <BreadcrumbItem>
           {" "}
-          <Link to> Library </Link>
+          <Link to="/dashboard"> Library </Link>
         </BreadcrumbItem>
         <BreadcrumbItem tag="a" href="#">
           Data
