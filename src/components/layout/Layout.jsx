@@ -3,11 +3,12 @@ import Sidebar from "../Sidebar/Sidebar";
 import DemoNavbar from "../Navbars/DemoNavbar";
 import PanelHeader from "../PanelHeader/PanelHeader";
 import Footer from "../Footer/Footer";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import routes from "../../routes";
 import { connect } from "react-redux";
 import ListStudents from "../all/ListStudents";
 import ListEnterprises from "../all/ListEnterprise";
+import SearchEnterprises from "../all/SearchEnterprise";
 import Enterprise from "../all/Enterprise";
 import FormEnterprise from "../all/FormEnterprise";
 import FormConvention from "../Convention/FormConvention";
@@ -19,10 +20,11 @@ import Profile from "../Profile/Profile";
 import FormProject from "../Project/FormProject";
 import ListProject from "../Project/ListProject";
 import Project from "../Project/Project";
-
+import StudentEnterprise from "../all/StudentEnterprise"
 import Bread from "../Bread";
 
 import PerfectScrollbar from "perfect-scrollbar";
+import NotificationAlert from "react-notification-alert";
 
 var ps;
 
@@ -79,6 +81,7 @@ class Layout extends Component {
           backgroundColor={this.state.backgroundColor}
         />
         <div className="main-panel" ref={this.mainPanel}>
+          <NotificationAlert ref="notificationAlert" />
           <PanelHeader size="sm" />
           <Bread />
           <DemoNavbar {...this.props} />
@@ -96,6 +99,7 @@ class Layout extends Component {
                   path="/dashboard/enterprise/new"
                   component={FormEnterprise}
                 />
+                <Route exact path="/dashboard/enterprise/search/" component={SearchEnterprises} />
                 <Route path="/dashboard/enterprise/" component={ListEnterprises} />
                 <Route
                   exact
@@ -107,10 +111,12 @@ class Layout extends Component {
                   path="/dashboard/conventions/new"
                   component={FormConvention}
                 />
+
                 <Route
                   path="/dashboard/conventions/all"
                   component={ListConventions}
                 />
+                <Redirect from="/dashboard" to="/dashboard/conventions/all" />
               </Switch>
             ) : (
                 ''
@@ -124,7 +130,17 @@ class Layout extends Component {
                   path="/dashboard/project/new"
                   component={FormProject}
                 />
+                <Route
+                  exact
+                  path="/dashboard/enterprise/convention/"
+                  component={Convention}
+                />
                 <Route exact path="/dashboard/task/new" component={FormTask} />
+                <Route
+                  exact
+                  path="/dashboard/enterprise/student"
+                  component={StudentEnterprise}
+                />
               </Switch>
             ) : ('')
           }
@@ -135,6 +151,7 @@ class Layout extends Component {
 
               component={Project}
             />
+
             <Route
               exact
               path="/dashboard/student/detail/:studentId"
@@ -159,6 +176,7 @@ class Layout extends Component {
                 />
               );
             })}
+
           </Switch>
           <Footer fluid />
         </div>

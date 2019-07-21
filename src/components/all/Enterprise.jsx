@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import "../../assets/css/login.css";
 import AddStudents from "./AddStudents";
 
+
 import {
   Button,
   Card,
@@ -80,6 +81,7 @@ function Enterprise(props) {
   const [enterprise, setEnterprise] = useState({});
   const [loading, setLoading] = useState(false);
 
+
   const enterpriseId = path => path.substring(29);
 
   useEffect(() => {
@@ -102,11 +104,14 @@ function Enterprise(props) {
     fetchEnterprise();
   }, [props.location.pathname]);
 
+
+
   return loading ? (
     <Spin className="center container-fluid " />
   ) : (
       <div>
         <Col className="mx-auto" lg="9" md="9">
+
           <Card className="card-user">
             <div className="image">
               {enterprise.logo ? (
@@ -141,7 +146,7 @@ function Enterprise(props) {
               <div className="container">
                 <p>
                   <i className="now-ui-icons ui-1_email-85" /> :{" "}
-                  {enterprise.email}
+                  <a href={`mailto:${enterprise.email}`}>{enterprise.email}</a>
                 </p>
                 <p>
                   <i className="now-ui-icons tech_mobile" /> : {enterprise.phone}

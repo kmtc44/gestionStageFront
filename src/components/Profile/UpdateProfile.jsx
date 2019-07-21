@@ -8,6 +8,8 @@ import {
 import axios from "axios";
 import React from "react";
 import { Spin } from "antd";
+import { withRouter } from 'react-router-dom';
+import NotificationAlert from "react-notification-alert";
 
 import ModalSkills from './ModalSkills';
 
@@ -19,6 +21,22 @@ class RegistrationForm extends React.Component {
     confirmDirty: false,
     autoCompleteResult: [],
   };
+
+  notify(place, message, type) {
+    var options = {};
+    options = {
+      place: place,
+      message: (
+        <div>
+          <div>{message}</div>
+        </div>
+      ),
+      type: type,
+      icon: "now-ui-icons ui-1_bell-53",
+      autoDismiss: 7
+    };
+    this.refs.notificationAlert.notificationAlert(options);
+  }
 
   AddImage = (e) => {
     this.setState({ image: e.target.files[0] })
@@ -41,18 +59,51 @@ class RegistrationForm extends React.Component {
           fData.append("gender", values.gender)
           fData.append("socialStatus", values.socialStatus)
           axios.put(`http://127.0.0.1:8000/students/${this.props.userData.id}/`, fData)
-            .then(res => console.log(res))
+            .then(res => {
+              console.log(res)
+              this.notify(
+                "tc",
+                `Votre profile a ete modifier avec success`,
+                "success"
+              );
+              setTimeout(() => {
+                this.props.history.push('dashboard')
+                this.props.history.push('/dashboard/profile')
+              }, 1500)
+            })
             .catch(err => console.log(err));
           break;
 
         case 'framer':
           axios.put(`http://127.0.0.1:8000/framers/${this.props.userData.id}/`, fData)
-            .then(res => console.log(res))
+            .then(res => {
+              console.log(res)
+              this.notify(
+                "tc",
+                `Votre profile a ete modifier avec success`,
+                "success"
+              );
+              setTimeout(() => {
+                this.props.history.push('dashboard')
+                this.props.history.push('/dashboard/profile')
+              }, 1500)
+            })
             .catch(err => console.log(err));
           break;
         case 'teacher':
           axios.put(`http://127.0.0.1:8000/teachers/${this.props.userData.id}/`, fData)
-            .then(res => console.log(res))
+            .then(res => {
+              console.log(res)
+              this.notify(
+                "tc",
+                `Votre profile a ete modifier avec success`,
+                "success"
+              );
+              setTimeout(() => {
+                this.props.history.push('dashboard')
+                this.props.history.push('/dashboard/profile')
+              }, 1500)
+            })
             .catch(err => console.log(err));
           break;
 
@@ -101,7 +152,7 @@ class RegistrationForm extends React.Component {
             <Spin className="center container" />
           ) : (
               <Form {...formItemLayout} onSubmit={this.handleFormSubmit} >
-
+                <NotificationAlert ref="notificationAlert" />
                 <Form.Item label="Prénom">
                   {getFieldDecorator("firstname", {
                     initialValue: this.props.userData.first_name,
@@ -190,4 +241,4 @@ class RegistrationForm extends React.Component {
 
 const UpdateProfileForm = Form.create({ name: 'register' })(RegistrationForm);
 
-export default UpdateProfileForm;
+export default withRouter(UpdateProfileForm);
