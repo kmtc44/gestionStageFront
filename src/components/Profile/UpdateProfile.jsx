@@ -124,7 +124,7 @@ class RegistrationForm extends React.Component {
                 </Form.Item>
                 {
                   this.props.userData.status === 'student' ? (
-                    <>
+                    <div>
                       <Form.Item label="Adresse">
                         {getFieldDecorator("address", {
                           initialValue: this.props.userData.address,
@@ -159,7 +159,7 @@ class RegistrationForm extends React.Component {
                           <Option value="Marié(e) avec enfant">Marié(e) avec enfant</Option>
                         </Select>)}
                       </Form.Item>
-                    </>
+                    </div>
                   ) : ("")
                 }
 

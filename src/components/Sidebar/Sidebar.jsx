@@ -67,7 +67,7 @@ class Sidebar extends React.Component {
               <li>
                 {
                   this.props.status === 'teacher' ? (
-                    <>
+                    <div>
                       <li
                         className={
                           this.activeRoute("/dashboard/enterprise") ||
@@ -207,7 +207,7 @@ class Sidebar extends React.Component {
                         </Collapse>
                       </li>
 
-                    </>
+                    </div>
                   ) : ("")
                 }
                 <li
@@ -245,8 +245,7 @@ class Sidebar extends React.Component {
                           <NavLink
                             className="nav-link"
                             activeClassName="active"
-                            to="/dashboard/students/dic1"
-                          >
+                            to="/dashboard/students/dic1">
                             <i className={"now-ui-icons users_circle-08"} />
                             DIC1
                           </NavLink>
@@ -414,6 +413,17 @@ class Sidebar extends React.Component {
                     </div>
                   </Collapse>
                 </li>
+
+
+
+              
+
+
+
+
+
+
+
 
                 {this.props.routes.map((prop, key) => {
                   if (prop.redirect) return null;

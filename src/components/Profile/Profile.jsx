@@ -102,25 +102,25 @@ class User extends React.Component {
                         </Row>
                       </CardHeader>
                       <CardBody>
-                        <ListGroup className="list-group-flush" style={{ position: 'center' }}>
+                        <ListGroup className="list-group-flush" style={{ position: 'center'}}>
                           <Row>
 
-                            <Col md="6">
-                              <ListGroupItem ><u><strong>Prénom :</strong></u>&nbsp;  &nbsp; {this.state.userData.first_name}</ListGroupItem>
+                            <Col md="12">
+                              <ListGroupItem style={{ marginLeft: '35%' }} ><u><strong>Prénom :</strong></u>&nbsp;  &nbsp; {this.state.userData.first_name}</ListGroupItem>
                             </Col>
                           </Row>
                           <Row>
-                            <Col md="6">
-                              <ListGroupItem ><u><strong>Nom :</strong></u>&nbsp; &nbsp; {this.state.userData.last_name}</ListGroupItem>
+                            <Col md="12">
+                              <ListGroupItem style={{ marginLeft: '35%' }}><u><strong>Nom :</strong></u>&nbsp; &nbsp; {this.state.userData.last_name}</ListGroupItem>
                             </Col>
-                            <Col md="6">
-                              <ListGroupItem ><u><strong>email :</strong></u>&nbsp; &nbsp; {this.state.userData.user.email}</ListGroupItem>
+                            <Col md="12">
+                              <ListGroupItem style={{ marginLeft: '35%' }}style={{ marginLeft: '35%' }}><u><strong>email :</strong></u>&nbsp; &nbsp; {this.state.userData.user.email}</ListGroupItem>
                             </Col>
                           </Row>
 
                           <Row>
                             <Col md="12">
-                              <ListGroupItem ><u><strong>Téléphone :</strong></u>&nbsp; &nbsp; {this.state.userData.phone}</ListGroupItem>
+                              <ListGroupItem style={{ marginLeft: '35%' }}><u><strong>Téléphone :</strong></u>&nbsp; &nbsp; {this.state.userData.phone}</ListGroupItem>
                             </Col>
                           </Row>
                           {this.props.status === 'student' ? (<Row>
