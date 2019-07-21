@@ -39,7 +39,7 @@ const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
                 >
                   {this.props.students.map(student => {
                     return (
-                      <Option value={student.id}>
+                      <Option key={student.id} value={student.id}>
                         {student.first_name} {student.last_name}
                       </Option>
                     );

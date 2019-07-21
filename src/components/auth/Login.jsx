@@ -72,7 +72,7 @@ class Login extends Component {
       );
     }
     return (
-      <div classNameName="container">
+      <div >
         <Row>
           <Col md="9" lg="6" className="mx-auto p-5 m-2">
             <Card>
@@ -88,66 +88,66 @@ class Login extends Component {
                 {this.props.loading ? (
                   <Spin className="center container " />
                 ) : (
-                  <Form
-                    onSubmit={this.handleSubmit}
-                    className="login-form container col-md-9 p-5"
-                  >
-                    <Form.Item>
-                      {getFieldDecorator("username", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "Entrer un username valide SVP!"
-                          }
-                        ]
-                      })(
-                        <Input
-                          prefix={
-                            <Icon
-                              type="user"
-                              style={{ color: "rgba(0,0,0,.25)" }}
-                            />
-                          }
-                          placeholder="Username"
-                          className="form-inline"
-                        />
-                      )}
-                    </Form.Item>
-                    <Form.Item>
-                      {getFieldDecorator("password", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "Entrez vun mot de passe valide SVP!"
-                          }
-                        ]
-                      })(
-                        <Input
-                          prefix={
-                            <Icon
-                              type="lock"
-                              style={{ color: "rgba(0,0,0,.25)" }}
-                            />
-                          }
-                          type="password"
-                          placeholder="Password"
-                        />
-                      )}
-                    </Form.Item>
-                    <Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        className="login-form-button"
-                      >
-                        Connecter
+                    <Form
+                      onSubmit={this.handleSubmit}
+                      className="login-form container col-md-9 p-5"
+                    >
+                      <Form.Item>
+                        {getFieldDecorator("username", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "Entrer un username valide SVP!"
+                            }
+                          ]
+                        })(
+                          <Input
+                            prefix={
+                              <Icon
+                                type="user"
+                                style={{ color: "rgba(0,0,0,.25)" }}
+                              />
+                            }
+                            placeholder="Username"
+                            className="form-inline"
+                          />
+                        )}
+                      </Form.Item>
+                      <Form.Item>
+                        {getFieldDecorator("password", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "Entrez vun mot de passe valide SVP!"
+                            }
+                          ]
+                        })(
+                          <Input
+                            prefix={
+                              <Icon
+                                type="lock"
+                                style={{ color: "rgba(0,0,0,.25)" }}
+                              />
+                            }
+                            type="password"
+                            placeholder="Password"
+                          />
+                        )}
+                      </Form.Item>
+                      <Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          className="login-form-button"
+                        >
+                          Connecter
                       </Button>{" "}
-                      <br />
-                      Vous n'avez pas de compte ?{" "}
-                      {this.returnRegister(this.props.location.pathname)}
-                    </Form.Item>
-                  </Form>
-                )}
+                        <br />
+                        Vous n'avez pas de compte ?{" "}
+                        {this.returnRegister(this.props.location.pathname)}
+                      </Form.Item>
+                    </Form>
+                  )}
               </CardBody>
             </Card>
           </Col>

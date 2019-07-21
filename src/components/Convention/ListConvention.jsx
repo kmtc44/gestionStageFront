@@ -40,54 +40,54 @@ function ListConvention(props) {
   return loading ? (
     <Spin className="center container" />
   ) : (
-    <div className="container">
-      <CardGroup className="mx-auto cardHolder">
-        {conventions.map((convention, index) => {
-          return (
-            <Col md="4" lg="3" sm="4">
-              <Card className="m-1" key={index}>
-                {convention.enterprise.logo ? (
-                  <Link to={`/dashboard/convention/detail/${convention.id}`}>
-                    <CardImg
-                      className="img-student-enterprise"
-                      top
-                      src={convention.enterprise.logo}
-                      alt="Card image cap"
-                    />
-                  </Link>
-                ) : (
-                  <Link to={`/dashboard/convention/detail/${convention.id}`}>
-                    <CardImg
-                      className="img-student-enterprise"
-                      top
-                      src={require("../../assets/img/convention.jpg")}
-                      alt="Card image cap"
-                    />
-                  </Link>
-                )}
-                <CardBody>
-                  <Link to={`/dashboard/convention/detail/${convention.id}`}>
-                    <CardTitle style={{ fontSize: 17, fontWeight: "bold" }}>
-                      {convention.title}
-                    </CardTitle>
-                  </Link>
-                  <CardSubtitle style={{ fontSize: 15 }}>
-                    Cooperation avec {convention.enterprise.name}
-                  </CardSubtitle>
-                  <CardText>
-                    Le partenariat avec {convention.enterprise.name} a commence
+      <div className="container">
+        <CardGroup className="mx-auto cardHolder">
+          {conventions.map((convention, index) => {
+            return (
+              <Col md="4" lg="3" sm="4">
+                <Card className="m-1" key={index}>
+                  {convention.enterprise.logo ? (
+                    <Link to={`/dashboard/convention/detail/${convention.id}`}>
+                      <CardImg
+                        className="img-student-enterprise"
+                        top
+                        src={convention.enterprise.logo}
+                        alt="Card image cap"
+                      />
+                    </Link>
+                  ) : (
+                      <Link to={`/dashboard/convention/detail/${convention.id}`}>
+                        <CardImg
+                          className="img-student-enterprise"
+                          top
+                          src={require("../../assets/img/convention.jpg")}
+                          alt="Card image cap"
+                        />
+                      </Link>
+                    )}
+                  <CardBody>
+                    <Link to={`/dashboard/convention/detail/${convention.id}`}>
+                      <CardTitle style={{ fontSize: 17, fontWeight: "bold" }}>
+                        {convention.title}
+                      </CardTitle>
+                    </Link>
+                    <CardSubtitle style={{ fontSize: 15 }}>
+                      Cooperation avec {convention.enterprise.name}
+                    </CardSubtitle>
+                    <CardText>
+                      Le partenariat avec {convention.enterprise.name} a commence
                     le {moment.locale(convention.starting_date)}
-                  </CardText>
-                  <Button className="btn btn-danger">
-                    Enlever de cette entreprise
+                    </CardText>
+                    <Button className="btn btn-danger">
+                      Supprimer
                   </Button>
-                </CardBody>
-              </Card>
-            </Col>
-          );
-        })}
-      </CardGroup>
-    </div>
-  );
+                  </CardBody>
+                </Card>
+              </Col>
+            );
+          })}
+        </CardGroup>
+      </div>
+    );
 }
 export default ListConvention;

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -17,20 +17,19 @@ import {
   InputGroupAddon,
   Input
 } from "reactstrap";
+import { Badge } from 'antd';
 
 import routes from "../../routes.js";
 import * as action from "../../store/actions/auth";
 import { connect } from "react-redux";
-// <<<<<<< HEAD
-// import "./navba.css";
-// =======
-// >>>>>>> coming
 
-class Header extends React.Component {
+
+class Header extends Component {
   state = {
     isOpen: false,
     dropdownOpen: false,
-    color: "transparent"
+    color: "transparent",
+    searchValue: ''
   };
   sidebarToggle = React.createRef();
   toggle = () => {
@@ -106,6 +105,14 @@ class Header extends React.Component {
       this.sidebarToggle.current.classList.toggle("toggled");
     }
   }
+  onSearch = e => {
+    this.setState({ searchValue: e.target.value })
+  }
+  handleSearch = e => {
+    e.preventDefault()
+    this.props.history.push(`/dashboard/enterprise/search/?search=${this.state.searchValue}`)
+
+  }
   render() {
     return (
       // add or remove classes depending if we are on full-screen-maps page or not
@@ -120,7 +127,7 @@ class Header extends React.Component {
           this.props.location.pathname.indexOf("full-screen-maps") !== -1
             ? "navbar-absolute fixed-top"
             : "navbar-absolute fixed-top " +
-              (this.state.color === "transparent" ? "navbar-transparent " : "")
+            (this.state.color === "transparent" ? "navbar-transparent " : "")
         }
       >
         <Container fluid>
@@ -149,9 +156,9 @@ class Header extends React.Component {
             navbar
             className="justify-content-end"
           >
-            <form>
+            <form onSubmit={this.handleSearch}>
               <InputGroup className="no-border">
-                <Input placeholder="Search..." />
+                <Input placeholder="Search..." onChange={this.onSearch} />
                 <InputGroupAddon addonType="append">
                   <InputGroupText>
                     <i className="now-ui-icons ui-1_zoom-bold" />
@@ -160,6 +167,7 @@ class Header extends React.Component {
               </InputGroup>
             </form>
             <Nav navbar>
+
               <NavItem>
                 <Link to="#pablo" className="nav-link">
                   <i className="now-ui-icons media-2_sound-wave" />
@@ -172,7 +180,9 @@ class Header extends React.Component {
                 <Link to="#pablo" className="nav-link">
                   <i className="now-ui-icons ui-1_bell-53" />
                   <p>
-                    <span className="d-lg-none d-md-block">Notification</span>
+                    <Badge count={1} style={{ width: "1px", height: "10px", marginBottom: "2px" }} >
+                      <span className="d-lg-none d-md-block">Notification</span>
+                    </Badge>
                   </p>
                 </Link>
               </NavItem>
@@ -188,7 +198,6 @@ class Header extends React.Component {
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-
                   <DropdownItem>
                     {" "}
                     <Link style={{ color: "black" }} to="/dashboard/profile">
@@ -226,4 +235,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   null,
   mapDispatchToProps
-)(Header);
+)(withRouter(Header));

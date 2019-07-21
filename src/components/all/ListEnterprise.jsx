@@ -11,7 +11,7 @@ import {
   Col
 } from "reactstrap";
 import "../../assets/css/login.css";
-import Paginations from "../paginations";
+import Pagination from "../Pagination"
 
 
 const baseSite = "http://localhost:8000";
@@ -20,7 +20,8 @@ function EnterpriseTable(props) {
   const [enterprises, setEnterprise] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [entreprisePerPage] = useState(3);
+  const [enterprisePerPage] = useState(3);
+  const [enterpriseType, setEnterpriseType] = useState('Partenaire')
 
   const goto = url => {
     props.history.push(url);
@@ -38,6 +39,7 @@ function EnterpriseTable(props) {
           "Nombre d'etudiants",
           "Nom du directeur"
         ];
+        setEnterpriseType('Partenaires')
         return "partner";
       case "potential":
         thead = [
@@ -46,9 +48,9 @@ function EnterpriseTable(props) {
           "Domaine",
           "Email",
           "Telephone",
-          "Site Web",
           "Nom du directeur"
         ];
+        setEnterpriseType('Potentielles')
         return "potential";
       default:
         return "partner";
@@ -69,95 +71,103 @@ function EnterpriseTable(props) {
         )}`
       );
       setEnterprise(res.data);
+      console.log(props.location.search)
+
+      const params = new URLSearchParams(props.location.search);
+      console.log(params.get('search'))
       setLoading(false);
     };
 
     fetchEnterprise();
-  }, [props.location.pathname]);
+  }, [props.location.pathname, props.location.search]);
 
   //Guetting the current entreprise
 
-  const indexOfLastEntreprise = currentPage * entreprisePerPage;
-  const indexOfFirstEntreprise = indexOfLastEntreprise - entreprisePerPage;
-  const currentEntreprises = enterprises.slice(indexOfFirstEntreprise , indexOfLastEntreprise);
+  const indexOfLastEnterprise = currentPage * enterprisePerPage;
+  const indexOfFirstEnterprise = indexOfLastEnterprise - enterprisePerPage;
+  const currentEnterprises = enterprises.slice(indexOfFirstEnterprise, indexOfLastEnterprise);
 
 
-//Changing page with paginate method
-const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  //Changing page with paginate method
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
 
   return loading ? (
     <Spin className="center container" />
   ) : (
-    <Row>
-      <Col xs={12}>
-        <Card>
-          <CardHeader>
-            <CardTitle tag="h3" className="text-center">
-              Liste des Entreprises {props.location.pathname.substring(22)}{" "}
-            </CardTitle>
-          </CardHeader>
-          <CardBody>
-            <Table hover responsive>
-              <thead className="text-primary">
-                <tr>
-                  {thead.map((prop, key) => {
-                    if (key === thead.length - 1)
+      <Row>
+        <Col xs={12}>
+          <Card>
+            <CardHeader>
+              <CardTitle tag="h3" className="text-center">
+                Liste des Entreprises {enterpriseType}{" "}
+              </CardTitle>
+            </CardHeader>
+            <CardBody>
+              <Table hover responsive>
+                <thead className="text-primary">
+                  <tr>
+                    {thead.map((prop, key) => {
+                      if (key === thead.length - 1)
+                        return <th key={key}>{prop}</th>;
                       return <th key={key}>{prop}</th>;
-                    return <th key={key}>{prop}</th>;
-                  })}
-                </tr>
-              </thead>
-              <tbody>
-                {currentEntreprises.map(enterprise => {
-                  return (
-                    <tr
-                      key={enterprise.id}
-                      onClick={() => {
-                        goto(`/dashboard/enterprise/detail/${enterprise.id}`);
-                      }}
-                    >
-                      <td>
-                        {" "}
-                        {enterprise.logo ? (
-                          <img
-                            className="img-student"
-                            alt="..."
-                            src={enterprise.logo}
-                          />
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentEnterprises.map(enterprise => {
+                    return (
+                      <tr
+                        key={enterprise.id}
+                        onClick={() => {
+                          goto(`/ dashboard / enterprise / detail / ${enterprise.id} `);
+                        }}
+                      >
+                        <td>
+                          {" "}
+                          {enterprise.logo ? (
+                            <img
+                              className="img-student"
+                              alt="..."
+                              src={enterprise.logo}
+                            />
+                          ) : (
+                              <img
+                                className="img-student"
+                                alt="..."
+                                src={require("../../assets/img/enterprise.png")}
+                              />
+                            )}
+                        </td>
+                        <td>{enterprise.name} </td>
+                        <td>{enterprise.field}</td>
+                        <td>{enterprise.email}</td>
+                        <td>{enterprise.phone}</td>
+                        {enterprise.is_partner ? (
+                          <td>{enterprise.students.length}</td>
                         ) : (
-                          <img
-                            className="img-student"
-                            alt="..."
-                            src={require("../../assets/img/enterprise.png")}
-                          />
-                        )}
-                      </td>
-                      <td>{enterprise.name} </td>
-                      <td>{enterprise.field}</td>
-                      <td>{enterprise.email}</td>
-                      <td>{enterprise.phone}</td>
-                      {enterprise.is_partner ? (
-                        <td>{enterprise.students.length}</td>
-                      ) : (
-                        ""
-                      )}
-                      <td>{enterprise.leader_name}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
-          </CardBody>
-        </Card>
-        <Paginations itemPerPage={entreprisePerPage} 
-          totalItems={enterprises.length} 
-          paginate={paginate} />
-      </Col>
-    </Row>
-        
-  ); 
+                            ""
+                          )
+                        }
+                        <td>{enterprise.leader_name}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </CardBody>
+          </Card>
+
+          <Pagination currentPage={currentPage} itemPerPage={enterprisePerPage}
+            totalItems={enterprises.length}
+            paginate={paginate} />
+
+
+        </Col>
+      </Row>
+
+    );
 }
 
 export default EnterpriseTable;
