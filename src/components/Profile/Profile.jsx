@@ -143,7 +143,7 @@ class User extends React.Component {
                         {
                           this.state.userData.image
                             ? (
-                              <img style={{ width: "250px", height:"250px" }} className="avatar border-gray" src={this.state.userData.image} alt={""} />
+                              <img style={{ width: "250px", height: "250px" }} className="avatar border-gray" src={this.state.userData.image} alt={""} />
                             )
                             : (
                               <img className="avatar border-gray" src={student2} alt={""} />
@@ -153,7 +153,7 @@ class User extends React.Component {
                       </div>
                     </CardHeader>
                     <CardBody>
-                       <Col md="10" className="mx-auto">
+                      <Col md="10" className="mx-auto">
                         <Card>
                           <CardHeader>
                             <Row>
