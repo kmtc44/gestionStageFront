@@ -65,6 +65,7 @@ class Sidebar extends React.Component {
           <Nav>
             <div className="nav">
               <li>
+                {/* Teacher showing starting */}
                 {
                   this.props.status === 'teacher' ? (
                     <div>
@@ -201,7 +202,7 @@ class Sidebar extends React.Component {
                               >
                                 <i className={"now-ui-icons design_bullet-list-67"} />
                                 Liste de conventions
-                        </NavLink>
+                              </NavLink>
                             </li>
                           </div>
                         </Collapse>
@@ -210,83 +211,129 @@ class Sidebar extends React.Component {
                     </div>
                   ) : ("")
                 }
-                <li
-                  className={
-                    this.activeRoute("/students") ||
-                      this.state.conventionMenuOpen
-                      ? "active-pro"
-                      : null
-                  }
-                >
-                  <a
-                    onClick={() =>
-                      this.setState({
-                        studentMenuOpen: !this.state.studentMenuOpen
-                      })
-                    }
-                    data-toggle="collapse"
-                  >
-                    <i className={"now-ui-icons education_hat"} />
-                    <p>
-                      Eleves
-                      <b className="caret" />
-                    </p>
-                  </a>
-                  <Collapse isOpen={this.state.studentMenuOpen}>
-                    <div>
-                      <ul className="nav pl-3">
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/students/dic1")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/students/dic1">
-                            <i className={"now-ui-icons users_circle-08"} />
-                            DIC1
-                          </NavLink>
-                        </li>
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/students/dic2")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/students/dic2"
-                          >
-                            <i className={"now-ui-icons users_circle-08"} />
-                            DIC2
-                          </NavLink>
-                        </li>
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/students/dic3")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/students/dic3"
-                          >
-                            <i className={"now-ui-icons users_circle-08"} />
-                            DIC 3
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </div>
-                  </Collapse>
-                </li>
+                {/* Teacher showing finish */}
 
+                {/* Framer showing */}
+                {
+                  this.props.status == 'framer' ? (
+                    <>
+                      <li
+                        className={
+                          this.activeRoute("/enterprise/convention/")
+                            ? "active "
+                            : null
+                        }
+                      >
+                        <NavLink
+                          className="nav-link"
+                          activeClassName="active"
+                          to="/dashboard/enterprise/convention/"
+                        >
+                          <i className="now-ui-icons design_app" />
+                          convention
+                    </NavLink>
+                      </li>
+                      <li
+                        className={
+                          this.activeRoute("/enterprise/student")
+                            ? "active"
+                            : null
+                        }
+                      >
+                        <NavLink
+                          className="nav-link"
+                          activeClassName="active"
+                          to="/dashboard/enterprise/student">
+                          <i className={"now-ui-icons education_hat"} />
+                          Eleves
+                          </NavLink>
+                      </li>
+                    </>
+                  ) : ("")
+                }
+                {/* Framer showing Finish */}
+
+                {/* Teacher and Student showing starting */}
+                {
+                  this.props.status !== 'framer' ? (
+                    <li
+                      className={
+                        this.activeRoute("/students") ||
+                          this.state.conventionMenuOpen
+                          ? "active-pro"
+                          : null
+                      }
+                    >
+                      <a
+                        onClick={() =>
+                          this.setState({
+                            studentMenuOpen: !this.state.studentMenuOpen
+                          })
+                        }
+                        data-toggle="collapse"
+                      >
+                        <i className={"now-ui-icons education_hat"} />
+                        <p>
+                          Eleves
+                      <b className="caret" />
+                        </p>
+                      </a>
+                      <Collapse isOpen={this.state.studentMenuOpen}>
+                        <div>
+                          <ul className="nav pl-3">
+                            <li
+                              className={
+                                this.activeRoute("/dashboard/students/dic1")
+                                  ? "active"
+                                  : null
+                              }
+                            >
+                              <NavLink
+                                className="nav-link"
+                                activeClassName="active"
+                                to="/dashboard/students/dic1">
+                                <i className={"now-ui-icons users_circle-08"} />
+                                DIC1
+                          </NavLink>
+                            </li>
+                            <li
+                              className={
+                                this.activeRoute("/dashboard/students/dic2")
+                                  ? "active"
+                                  : null
+                              }
+                            >
+                              <NavLink
+                                className="nav-link"
+                                activeClassName="active"
+                                to="/dashboard/students/dic2"
+                              >
+                                <i className={"now-ui-icons users_circle-08"} />
+                                DIC2
+                          </NavLink>
+                            </li>
+                            <li
+                              className={
+                                this.activeRoute("/dashboard/students/dic3")
+                                  ? "active"
+                                  : null
+                              }
+                            >
+                              <NavLink
+                                className="nav-link"
+                                activeClassName="active"
+                                to="/dashboard/students/dic3"
+                              >
+                                <i className={"now-ui-icons users_circle-08"} />
+                                DIC 3
+                          </NavLink>
+                            </li>
+                          </ul>
+                        </div>
+                      </Collapse>
+                    </li>
+                  ) : ("")
+                }
 
                 <li
                   className={
@@ -413,17 +460,6 @@ class Sidebar extends React.Component {
                     </div>
                   </Collapse>
                 </li>
-
-
-
-              
-
-
-
-
-
-
-
 
                 {this.props.routes.map((prop, key) => {
                   if (prop.redirect) return null;

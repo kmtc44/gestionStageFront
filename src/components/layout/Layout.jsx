@@ -122,6 +122,30 @@ class Layout extends Component {
                 ''
               )
           }
+
+          <Switch>
+            <Route
+              exact
+              path="/dashboard/project/detail/:projectId"
+              component={Project}
+            />
+
+            <Route
+              exact
+              path="/dashboard/student/detail/:studentId"
+              component={Profile}
+            />
+
+            <Route
+              exact
+              path="/dashboard/project/all"
+              component={ListProject}
+            />
+
+            <Route path="/dashboard/students/" component={ListStudents} />
+
+            <Route path="/dashboard/task/all" component={AllTask} />
+          </Switch>
           {
             this.props.status === 'framer' ? (
               <Switch>
@@ -141,32 +165,11 @@ class Layout extends Component {
                   path="/dashboard/enterprise/student"
                   component={StudentEnterprise}
                 />
+                <Redirect from="/dashboard" to="/dashboard/enterprise/convention/" />
               </Switch>
             ) : ('')
           }
           <Switch>
-            <Route
-              exact
-              path="/dashboard/project/detail/:projectId"
-
-              component={Project}
-            />
-
-            <Route
-              exact
-              path="/dashboard/student/detail/:studentId"
-              component={Profile}
-            />
-
-            <Route
-              exact
-              path="/dashboard/project/all"
-              component={ListProject}
-            />
-
-            <Route path="/dashboard/students/" component={ListStudents} />
-
-            <Route path="/dashboard/task/all" component={AllTask} />
             {routes.map((prop, key) => {
               return (
                 <Route
