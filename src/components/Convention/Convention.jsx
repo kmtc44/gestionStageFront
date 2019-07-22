@@ -27,49 +27,51 @@ function Convention(props) {
         );
         setConvention(res.data);
         setLoading(false);
-      } else {
+      } else if (props.enterpriseId) {
         res = await axios(
           `${baseSite}/internship/convention`
         );
-        const conv = res.data.filter(convention => convention.enterprise.id === props.studentId)[0]
-        setConvention(conv);
-        console.log(conv);
+        setConvention(res.data.filter(convention => convention.enterprise.id === props.enterpriseId)[0])
         setLoading(false);
       }
     };
     fetchEnterprise();
-  }, [props.match.params.convId, props.studentId]);
+  }, [props.match.params.convId, props.enterpriseId]);
   console.log(convention);
 
   return loading ? (
     <Spin className="center container-fluid " />
-  ) : (""
-      // <div>
-      //   <Col className="mx-auto" lg="9" md="9">
-      //     <Card className="card-user">
-      //       <div className="image">
-      //         <img alt="..." src={require("../../assets/img/convention.png")} />
-      //       </div>
-      //       <CardBody>
-      //         <div className="author">
-      //           <img
-      //             alt="..."
-      //             className="avatar border-gray"
-      //             src={require("../../assets/img/enterprise.png")}
-      //           />
-      //           <h3>{convention.title}</h3>
-      //           <h3>{convention.state}</h3>
-      //           <h4>{convention.title} </h4>
-      //         </div>
-      //         <p className="description text-center">
-      //           L'entreprise {convention.enterprise.name} <br />
-      //           evolue dans le domaine <br />
-      //           de {convention.enterprise.field}
-      //         </p>
-      //       </CardBody>
-      //     </Card>
-      //   </Col>
-      // </div>
+  ) : (
+      <div>
+        {
+          convention ? (
+            <Col className="mx-auto" lg="9" md="9">
+              <Card className="card-user">
+                <div className="image">
+                  <img alt="..." src={require("../../assets/img/convention.png")} />
+                </div>
+                <CardBody>
+                  <div className="author">
+                    <img
+                      alt="..."
+                      className="avatar border-gray"
+                      src={require("../../assets/img/enterprise.png")}
+                    />
+                    <h3>{convention.title}</h3>
+                    <h3>{convention.state}</h3>
+                    <h4>{convention.title} </h4>
+                  </div>
+                  <p className="description text-center">
+                    L'entreprise {convention.enterprise.name} <br />
+                    evolue dans le domaine <br />
+                    de {convention.enterprise.field}
+                  </p>
+                </CardBody>
+              </Card>
+            </Col>
+          ) : ('')
+        }
+      </div>
     );
 }
 
