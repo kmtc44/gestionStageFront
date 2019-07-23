@@ -39,7 +39,6 @@ function Task(props) {
 		})
 			.then(res => {
 				setCommentValue('')
-
 				setComment(
 					[
 						...comments,
@@ -86,18 +85,22 @@ function Task(props) {
 				setTask(res.data);
 				setComment(res.data.comments.map(comment => {
 					let author = ''
+					let avatar = ''
 					if (comment.author.student) {
 						author = comment.author.student.first_name + " " + comment.author.student.last_name
+						avatar = comment.author.student.image
 					} else if (comment.author.framer) {
 						author = comment.author.framer.first_name + " " + comment.author.framer.last_name
+						avatar = comment.author.framer.image
 					} else if (comment.author.teacher) {
 						author = comment.author.teacher.first_name + " " + comment.author.teacher.last_name
+						avatar = comment.author.teacher.image
 					}
 
 					return {
 						// actions: [<span>Reply to</span>],
 						author: author,
-						avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+						avatar: avatar || 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
 						content: (
 							<p>
 								{comment.comment}
@@ -190,7 +193,7 @@ function Task(props) {
 						<Comment
 							avatar={
 								<Avatar
-									src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+									src={author.image || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"}
 									alt="Han Solo"
 								/>
 							}
@@ -212,6 +215,7 @@ function Task(props) {
 const mapStateToProps = state => {
 	return {
 		status: state.status + 's',
+		userType: state.status,
 		statusId: state.statusId
 	}
 }

@@ -4,7 +4,7 @@ import { Spin, Modal } from "antd";
 import { Link } from "react-router-dom";
 import "../../assets/css/login.css";
 import AddStudents from "./AddStudents";
-
+import Maps from '../Maps/Maps'
 
 import {
   Button,
@@ -104,14 +104,11 @@ function Enterprise(props) {
     fetchEnterprise();
   }, [props.location.pathname]);
 
-
-
   return loading ? (
     <Spin className="center container-fluid " />
   ) : (
       <div>
         <Col className="mx-auto" lg="9" md="9">
-
           <Card className="card-user">
             <div className="image">
               {enterprise.logo ? (
@@ -177,7 +174,6 @@ function Enterprise(props) {
                 ? " Listes des eleves dans cette entreprise "
                 : ""}
             </h3>
-
             <Row>
               <CardGroup className="mx-auto cardHolder" >
                 {enterprise.students.map(student => {
@@ -264,10 +260,12 @@ function Enterprise(props) {
                     );
                   })}
                 </Row>
+
               </div>
             ) : (
                 ""
               )}
+            <Maps enterprise={enterprise} />
           </div>
         ) : (
             <div className="container text-center">

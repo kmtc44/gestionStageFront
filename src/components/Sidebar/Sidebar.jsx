@@ -482,6 +482,25 @@ class Sidebar extends React.Component {
                     </li>
                   );
                 })}
+
+                <li
+                  className={
+                    this.activeRoute("/maps/all")
+                      ? "active"
+                      : null
+                  }
+                >
+                  <NavLink
+                    className="nav-link"
+                    activeClassName="active"
+                    to="/dashboard/maps/all"
+                  >
+                    <i
+                      className={"now-ui-icons location_map-big"}
+                    />
+                    Maps
+                  </NavLink>
+                </li>
               </li>
             </div>
           </Nav>

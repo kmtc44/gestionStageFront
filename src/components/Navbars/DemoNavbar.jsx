@@ -180,9 +180,9 @@ class Header extends Component {
                 <Link to="#pablo" className="nav-link">
                   <i className="now-ui-icons ui-1_bell-53" />
                   <p>
-                    <Badge count={1} style={{ width: "1px", height: "10px", marginBottom: "2px" }} >
-                      <span className="d-lg-none d-md-block">Notification</span>
-                    </Badge>
+                    <span className="d-lg-none d-md-block">Notification</span>
+                    <Badge count={1} style={{ width: "1px", height: "15px", paddingBottom: "2px" }} />
+                    
                   </p>
                 </Link>
               </NavItem>

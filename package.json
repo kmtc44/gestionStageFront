@@ -18,7 +18,8 @@
     "react-scripts": "3.0.1",
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "react-google-maps": "^9.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,5 +44,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "optionalDependencies": {
+    "@types/googlemaps": "3.36.2",
+    "@types/markerclustererplus": "2.1.33",
+    "@types/react": "16.8.19",
+    "jquery": "3.4.1",
+    "typescript": "3.5.1"
   }
 }

@@ -14,11 +14,44 @@ class RegistrationForm extends React.Component {
     autoCompleteResult: [],
     logo: false,
     sended: false,
-    partner: false
+    partner: false,
+    address: '',
+    latitude: null,
+    longitude: null,
   };
   constructor(props) {
     super(props);
     this.notify = this.notify.bind(this);
+  }
+
+  onEnterprise = e => {
+    let location = e.target.value + " Senegal "
+    axios.get(
+      "https://maps.googleapis.com/maps/api/geocode/json", {
+        params: {
+          address: location,
+          key: 'AIzaSyCn1DG_iIuTXQ6yvR7PBrjKMHTU-crV0lA'
+        }
+      }
+    )
+      .then(res => {
+        console.log(res)
+        let address = res.data.results[0].formatted_address
+        let latitude = res.data.results[0].geometry.location.lat
+        let longitude = res.data.results[0].geometry.location.lng
+        console.log(address)
+        if (address) {
+          console.log(latitude, longitude)
+          this.setState({
+            address,
+            latitude,
+            longitude
+          })
+
+        }
+      })
+      .catch(err => console.log(err))
+
   }
 
   notify(place, message, type) {
@@ -59,6 +92,10 @@ class RegistrationForm extends React.Component {
         if (this.state.logo) {
           enterprise.append("logo", this.state.logo);
         }
+        if (this.state.latitude) {
+          enterprise.append("latitude", this.state.latitude)
+          enterprise.append("longitude", this.state.longitude)
+        }
         enterprise.append("name", values.name);
         enterprise.append("field", values.field);
         enterprise.append("email", values.email);
@@ -87,23 +124,6 @@ class RegistrationForm extends React.Component {
   handleConfirmBlur = e => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  };
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
-    } else {
-      callback();
-    }
-  };
-
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(["confirm"], { force: true });
-    }
-    callback();
   };
 
   handleWebsiteChange = value => {
@@ -163,7 +183,7 @@ class RegistrationForm extends React.Component {
     ));
 
     return (
-      <div classNameName="container">
+      <div >
         <NotificationAlert ref="notificationAlert" />
         <Row>
           <Col md="9" className="mx-auto">
@@ -187,9 +207,8 @@ class RegistrationForm extends React.Component {
                           whitespace: true
                         }
                       ]
-                    })(<Input />)}
+                    })(<Input onBlur={this.onEnterprise} />)}
                   </Form.Item>
-
                   <Form.Item label={<span>Domaine de l'entreprise</span>}>
                     {getFieldDecorator("field", {
                       rules: [
@@ -202,9 +221,10 @@ class RegistrationForm extends React.Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-
-                  <Form.Item label={<span>Addresse de l'entrprise</span>}>
+                  <Form.Item label={<span>Adresse de l'entreprise</span>}>
                     {getFieldDecorator("address", {
+                      initialValue: this.state.address,
+                      // setFieldsValue: this.state.address,
                       rules: [
                         {
                           required: true,
@@ -215,7 +235,6 @@ class RegistrationForm extends React.Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-
                   <Form.Item label={<span>Nom du Directeur </span>}>
                     {getFieldDecorator("leader_name", {
                       rules: [
@@ -228,7 +247,6 @@ class RegistrationForm extends React.Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-
                   <Form.Item label="E-mail">
                     {getFieldDecorator("email", {
                       rules: [
@@ -274,7 +292,6 @@ class RegistrationForm extends React.Component {
                       </AutoComplete>
                     )}
                   </Form.Item>
-
                   <Form.Item
                     label="Logo"
                     extra="mettre le logo de l'entreprise"
@@ -284,7 +301,6 @@ class RegistrationForm extends React.Component {
                       getValueFromEvent: this.normFile
                     })(<input type="file" onChange={e => this.onLogo(e)} />)}
                   </Form.Item>
-
                   <Form.Item {...tailFormItemLayout}>
                     {getFieldDecorator("is_partner", {
                       valuePropName: "checked"

@@ -87,11 +87,8 @@ function EnterpriseTable(props) {
   const indexOfFirstEnterprise = indexOfLastEnterprise - enterprisePerPage;
   const currentEnterprises = enterprises.slice(indexOfFirstEnterprise, indexOfLastEnterprise);
 
-
   //Changing page with paginate method
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-
 
   return loading ? (
     <Spin className="center container" />
@@ -121,7 +118,7 @@ function EnterpriseTable(props) {
                       <tr
                         key={enterprise.id}
                         onClick={() => {
-                          goto(`/ dashboard / enterprise / detail / ${enterprise.id} `);
+                          goto(`/dashboard/enterprise/detail/${enterprise.id}`);
                         }}
                       >
                         <td>
@@ -158,11 +155,13 @@ function EnterpriseTable(props) {
               </Table>
             </CardBody>
           </Card>
-
-          <Pagination currentPage={currentPage} itemPerPage={enterprisePerPage}
-            totalItems={enterprises.length}
-            paginate={paginate} />
-
+          {
+            enterprises.length > enterprisePerPage ? (
+              <Pagination currentPage={currentPage} itemPerPage={enterprisePerPage}
+                totalItems={enterprises.length}
+                paginate={paginate} />
+            ) : ("")
+          }
 
         </Col>
       </Row>

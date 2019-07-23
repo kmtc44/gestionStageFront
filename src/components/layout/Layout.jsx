@@ -21,6 +21,7 @@ import FormProject from "../Project/FormProject";
 import ListProject from "../Project/ListProject";
 import Project from "../Project/Project";
 import StudentEnterprise from "../all/StudentEnterprise"
+import Maps from '../Maps/Maps'
 import Bread from "../Bread";
 
 import PerfectScrollbar from "perfect-scrollbar";
@@ -85,44 +86,6 @@ class Layout extends Component {
           <PanelHeader size="sm" />
           <Bread />
           <DemoNavbar {...this.props} />
-
-          {
-            this.props.status === 'teacher' ? (
-              <Switch>
-                <Route
-                  exact
-                  path="/dashboard/enterprise/detail/:enterpriseId"
-                  component={Enterprise}
-                />
-                <Route
-                  exact
-                  path="/dashboard/enterprise/new"
-                  component={FormEnterprise}
-                />
-                <Route exact path="/dashboard/enterprise/search/" component={SearchEnterprises} />
-                <Route path="/dashboard/enterprise/" component={ListEnterprises} />
-                <Route
-                  exact
-                  path="/dashboard/convention/detail/:convId"
-                  component={Convention}
-                />
-                <Route
-                  exact
-                  path="/dashboard/conventions/new"
-                  component={FormConvention}
-                />
-
-                <Route
-                  path="/dashboard/conventions/all"
-                  component={ListConventions}
-                />
-                <Redirect from="/dashboard" to="/dashboard/conventions/all" />
-              </Switch>
-            ) : (
-                ''
-              )
-          }
-
           <Switch>
             <Route
               exact
@@ -145,31 +108,7 @@ class Layout extends Component {
             <Route path="/dashboard/students/" component={ListStudents} />
 
             <Route path="/dashboard/task/all" component={AllTask} />
-          </Switch>
-          {
-            this.props.status === 'framer' ? (
-              <Switch>
-                <Route
-                  exact
-                  path="/dashboard/project/new"
-                  component={FormProject}
-                />
-                <Route
-                  exact
-                  path="/dashboard/enterprise/convention/"
-                  component={Convention}
-                />
-                <Route exact path="/dashboard/task/new" component={FormTask} />
-                <Route
-                  exact
-                  path="/dashboard/enterprise/student"
-                  component={StudentEnterprise}
-                />
-                <Redirect from="/dashboard" to="/dashboard/enterprise/convention/" />
-              </Switch>
-            ) : ('')
-          }
-          <Switch>
+
             {routes.map((prop, key) => {
               return (
                 <Route
@@ -180,7 +119,79 @@ class Layout extends Component {
               );
             })}
 
+            {
+              this.props.status === 'framer' ? (
+                <Switch>
+                  <Route
+                    exact
+                    path="/dashboard/project/new"
+                    component={FormProject}
+                  />
+                  <Route
+                    exact
+                    path="/dashboard/enterprise/convention/"
+                    component={Convention}
+                  />
+                  <Route exact path="/dashboard/task/new" component={FormTask} />
+                  <Route
+                    exact
+                    path="/dashboard/enterprise/student"
+                    component={StudentEnterprise}
+                  />
+                  <Redirect from="/dashboard" to="/dashboard/enterprise/convention/" />
+                </Switch>
+              ) : ('')
+            }
+
+            {
+              this.props.status === 'teacher' ? (
+                <Switch>
+                  <Route
+                    exact
+                    path="/dashboard/enterprise/detail/:enterpriseId"
+                    component={Enterprise}
+                  />
+                  <Route
+                    exact
+                    path="/dashboard/enterprise/new"
+                    component={FormEnterprise}
+                  />
+                  <Route exact path="/dashboard/enterprise/search/" component={SearchEnterprises} />
+                  <Route path="/dashboard/enterprise/" component={ListEnterprises} />
+                  <Route
+                    exact
+                    path="/dashboard/convention/detail/:convId"
+                    component={Convention}
+                  />
+                  <Route
+                    exact
+                    path="/dashboard/conventions/new"
+                    component={FormConvention}
+                  />
+
+                  <Route
+                    path="/dashboard/conventions/all"
+                    component={ListConventions}
+                  />
+                  <Route
+                    path="/dashboard/maps/all"
+                    component={Maps}
+                  />
+                  <Redirect from="/dashboard" to="/dashboard/conventions/all" />
+                </Switch>
+              ) : (
+                  ''
+                )
+            }
+
+            {
+              this.props.status === 'student' ? (
+                <Redirect from="/dashboard" to="/dashboard/project/all" />
+              ) : ("")
+            }
+
           </Switch>
+
           <Footer fluid />
         </div>
       </div>

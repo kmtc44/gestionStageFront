@@ -131,9 +131,13 @@ function StudentTable(props) {
             </tbody>
           </table>
         </div>
-        <Pagination currentPage={currentPage} itemPerPage={studentPerPage}
-          totalItems={students.length}
-          paginate={paginate} />
+        {
+          students.length > studentPerPage ? (
+            <Pagination currentPage={currentPage} itemPerPage={studentPerPage}
+              totalItems={students.length}
+              paginate={paginate} />
+          ) : ("")
+        }
       </div>
     );
 }

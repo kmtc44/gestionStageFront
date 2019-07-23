@@ -42,47 +42,46 @@ function ListConvention(props) {
   ) : (
       <div className="container">
         <CardGroup className="mx-auto cardHolder">
-          {conventions.map((convention, index) => {
+          {conventions.map((convention) => {
             return (
-              <Col md="4" lg="3" sm="4">
-                <Card className="m-1" key={index}>
-                  {convention.enterprise.logo ? (
-                    <Link to={`/dashboard/convention/detail/${convention.id}`}>
+              <Col md="4" lg="3" sm="4" key={convention.id}>
+                <Link to={`/dashboard/convention/detail/${convention.id}`}>
+                  <Card className="m-1" >
+                    {convention.enterprise.logo ? (
                       <CardImg
                         className="img-student-enterprise"
                         top
                         src={convention.enterprise.logo}
                         alt="Card image cap"
                       />
-                    </Link>
-                  ) : (
-                      <Link to={`/dashboard/convention/detail/${convention.id}`}>
+
+                    ) : (
+
                         <CardImg
                           className="img-student-enterprise"
                           top
                           src={require("../../assets/img/convention.jpg")}
                           alt="Card image cap"
                         />
-                      </Link>
-                    )}
-                  <CardBody>
-                    <Link to={`/dashboard/convention/detail/${convention.id}`}>
+
+                      )}
+                    <CardBody>
                       <CardTitle style={{ fontSize: 17, fontWeight: "bold" }}>
                         {convention.title}
                       </CardTitle>
-                    </Link>
-                    <CardSubtitle style={{ fontSize: 15 }}>
-                      Cooperation avec {convention.enterprise.name}
-                    </CardSubtitle>
-                    <CardText>
-                      Le partenariat avec {convention.enterprise.name} a commence
+                      <CardSubtitle style={{ fontSize: 15 }}>
+                        Cooperation avec {convention.enterprise.name}
+                      </CardSubtitle>
+                      <CardText>
+                        Le partenariat avec {convention.enterprise.name} a commence
                     le {moment.locale(convention.starting_date)}
-                    </CardText>
-                    <Button className="btn btn-danger">
-                      Supprimer
-                  </Button>
-                  </CardBody>
-                </Card>
+                      </CardText>
+                    </CardBody>
+                  </Card>
+                </Link>
+                <Button className="btn btn-danger">
+                  Supprimer
+                    </Button>
               </Col>
             );
           })}

@@ -79,7 +79,8 @@ export const authLogin = (username, password, status) => {
             expirationDate: new Date(new Date().getTime() + 3600 * 1000),
             status: status_user,
             statusId: status_id,
-            enterpriseId
+            userId: res.data.user.id,
+            enterpriseId,
           }
           localStorage.setItem("user", JSON.stringify(user));
           dispatch(authSuccess(user));
@@ -116,7 +117,8 @@ export const authRegisterStudent = (username, email, password, status, firstname
           token: res.data.token,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
           status,
-          statusId: res.data.user.student.id
+          statusId: res.data.user.student.id,
+          userId: res.data.user.id
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));
@@ -148,7 +150,8 @@ export const authRegisterAdministration = (username, email, password, status, fi
           token: res.data.token,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
           status,
-          statusId: res.data.user.teacher.id
+          statusId: res.data.user.teacher.id,
+          userId: res.data.user.id
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));
@@ -180,7 +183,8 @@ export const authRegisterEnterprise = (username, email, password, status, firstn
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
           status,
           statusId: res.data.user.framer.id,
-          enterpriseId: res.data.user.framer.enterprise.id
+          enterpriseId: res.data.user.framer.enterprise.id,
+          userId: res.data.user.id
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));

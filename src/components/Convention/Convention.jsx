@@ -3,6 +3,8 @@ import axios from "axios";
 import { Spin } from "antd";
 import { connect } from "react-redux";
 import "../../assets/css/login.css";
+import Chat from './Chat'
+import "../../assets/css/chat.css"
 
 import { Card, CardBody, Col } from "reactstrap";
 
@@ -70,6 +72,14 @@ function Convention(props) {
               </Card>
             </Col>
           ) : ('')
+        }
+        {
+          props.match.params.convId ? (
+            <Chat convID={props.match.params.convId} />
+          ) : (
+
+              <Chat convID={convention.id} />
+            )
         }
       </div>
     );

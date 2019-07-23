@@ -3,6 +3,7 @@ import axios from "axios";
 import { Spin } from "antd";
 import { Link } from "react-router-dom";
 import { Card, CardTitle, CardText, Row, Col } from "reactstrap";
+import { connect } from 'react-redux';
 import Pagination from '../Pagination'
 
 const baseSite = "http://localhost:8000";
@@ -20,13 +21,19 @@ function ListProject(props) {
         "Content-Type": "Application/json",
         Authorization: `Token ${user.token}`
       };
-      const res = await axios(`${baseSite}/project/`);
-      setProject(res.data);
-      setLoading(false);
+      if (props.status === 'framer') {
+        const res = await axios(`${baseSite}/project/`);
+        setProject(res.data.filter(project => project.framer.id === props.statusId));
+        setLoading(false);
+      } else if (props.status === 'student') {
+        const res = await axios(`${baseSite}/students/${props.statusId}`);
+        setProject(res.data.projects);
+        setLoading(false);
+      }
     };
 
     fetchProjects();
-  }, []);
+  }, [props.status, props.statusId]);
   //Guetting the current projects
 
   const indexOfLastProject = currentPage * projectPerPage;
@@ -67,12 +74,25 @@ function ListProject(props) {
             );
           })}
         </Row>
-        <Pagination currentPage={currentPage} itemPerPage={projectPerPage}
-          totalItems={projects.length}
-          paginate={paginate} />
+        {
+          projects.length > projectPerPage ? (
+
+            <Pagination currentPage={currentPage} itemPerPage={projectPerPage}
+              totalItems={projects.length}
+              paginate={paginate} />
+          ) : ("")
+        }
       </div>
 
     );
 }
 
-export default ListProject;
+const mapStateToProps = state => {
+  return {
+    status: state.status,
+    statusId: state.statusId,
+    enterpriseId: state.enterpriseId
+  }
+}
+
+export default connect(mapStateToProps)(ListProject);
