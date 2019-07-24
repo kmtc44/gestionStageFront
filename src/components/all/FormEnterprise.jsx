@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import { Form, Input, Select, Checkbox, Button, AutoComplete } from "antd";
+import { Form, Input, Select, Checkbox, Button, AutoComplete, Upload, Icon } from "antd";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import NotificationAlert from "react-notification-alert";
 
@@ -47,11 +47,9 @@ class RegistrationForm extends React.Component {
             latitude,
             longitude
           })
-
         }
       })
       .catch(err => console.log(err))
-
   }
 
   notify(place, message, type) {
@@ -74,6 +72,7 @@ class RegistrationForm extends React.Component {
     console.log(e.target.files[0]);
     this.setState({ logo: e.target.files[0] });
   }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -90,7 +89,7 @@ class RegistrationForm extends React.Component {
           this.setState({ partner: true });
         }
         if (this.state.logo) {
-          enterprise.append("logo", this.state.logo);
+          enterprise.append("logo", this.state.logo[0]);
         }
         if (this.state.latitude) {
           enterprise.append("latitude", this.state.latitude)
@@ -144,8 +143,20 @@ class RegistrationForm extends React.Component {
     } else if (this.state.sended && !this.state.partner) {
       return <Redirect to="/dashboard/enterprise/potential" />;
     }
+
+
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
+    const { autoCompleteResult, logo } = this.state;
+
+    const props = {
+      beforeUpload: file => {
+        this.setState({
+          logo: [file]
+        });
+        return false;
+      },
+      logo,
+    }
 
     const formItemLayout = {
       labelCol: {
@@ -292,20 +303,21 @@ class RegistrationForm extends React.Component {
                       </AutoComplete>
                     )}
                   </Form.Item>
-                  <Form.Item
-                    label="Logo"
-                    extra="mettre le logo de l'entreprise"
-                  >
-                    {getFieldDecorator("logo", {
-                      valuePropName: "fileList",
-                      getValueFromEvent: this.normFile
-                    })(<input type="file" onChange={e => this.onLogo(e)} />)}
+
+                  <Form.Item className="uploadImg">
+                    <Upload beforeUpload={props.beforeUpload} fileList={props.logo}>
+                      <Button>
+                        <Icon type="upload" /> Ajouter Logo
+						        </Button>
+                    </Upload>
                   </Form.Item>
+
                   <Form.Item {...tailFormItemLayout}>
                     {getFieldDecorator("is_partner", {
                       valuePropName: "checked"
                     })(<Checkbox>Entreprise partenaire</Checkbox>)}
                   </Form.Item>
+
                   <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
                       Creer

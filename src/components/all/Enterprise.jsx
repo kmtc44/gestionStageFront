@@ -265,6 +265,7 @@ function Enterprise(props) {
             ) : (
                 ""
               )}
+            <h3 className="text-center" > Location de l'entreprise {enterprise.name}</h3>
             <Maps enterprise={enterprise} />
           </div>
         ) : (

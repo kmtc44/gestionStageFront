@@ -44,7 +44,6 @@ function StudentTable(props) {
       setStudents(res.data.students);
       setCurrentPage(1)
       setLoading(false);
-
     };
 
     fetchStudent();

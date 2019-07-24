@@ -70,7 +70,8 @@ function Project(props) {
     };
     setLoadingTask(true)
     axios.put(`${baseSite}/task/${taskId}/`, {
-      state
+      state,
+      user: props.userId
     })
       .then(res => {
         console.log(res.data)
@@ -120,7 +121,7 @@ function Project(props) {
                 style={{
                   fontSize: 20,
                   fontWeight: "bold",
-                  height: 50
+
                 }}
               >
                 {project.name}
@@ -128,11 +129,23 @@ function Project(props) {
               <CardBody>
                 <Row>
                   <Col lg="6" md="6">
-                    <h4 className="text-left"> Description </h4>{" "}
+                    <h4 style={{
+                      fontSize: 18,
+                      fontWeight: "bold",
+
+                    }} className="text-left"> Description </h4>{" "}
                     <span>{project.description} </span>
-                    <h4 className="text-left"> Objectif </h4>
+                    <h4 style={{
+                      fontSize: 18,
+                      fontWeight: "bold",
+
+                    }} className="text-left"> Objectif </h4>
                     <span>{project.aim} </span>
-                    <h4 className="text-left"> L'encadreur de ce projet</h4>{" "}
+                    <h4 style={{
+                      fontSize: 18,
+                      fontWeight: "bold",
+
+                    }} className="text-left"> L'encadreur de ce projet</h4>{" "}
 
                     <p style={{ fontSize: "18px" }}>
                       {" "}
@@ -142,7 +155,11 @@ function Project(props) {
 
                   </Col>
                   <Col lg="6" md="6">
-                    <h4>Liste des eleves dans ce projet</h4>
+                    <h4 style={{
+                      fontSize: 18,
+                      fontWeight: "bold",
+
+                    }}>Liste des eleves dans ce projet</h4>
 
 
                     {project.students.map(student => {
@@ -154,7 +171,11 @@ function Project(props) {
                       );
                     })}
 
-                    <h4 className="text-left">
+                    <h4 style={{
+                      fontSize: 18,
+                      fontWeight: "bold",
+
+                    }} className="text-left">
                       {" "}
                       L'entreprise de realisation du projet
                       </h4>{" "}
@@ -346,7 +367,8 @@ function Project(props) {
 
 const mapStateToProps = state => {
   return {
-    status: state.status
+    status: state.status,
+    userId: state.userId
   }
 }
 

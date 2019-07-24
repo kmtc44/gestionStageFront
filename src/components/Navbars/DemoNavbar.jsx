@@ -108,10 +108,14 @@ class Header extends Component {
   onSearch = e => {
     this.setState({ searchValue: e.target.value })
   }
-  handleSearch = e => {
+  handleSearchEnterprise = e => {
     e.preventDefault()
     this.props.history.push(`/dashboard/enterprise/search/?search=${this.state.searchValue}`)
+  }
 
+  handleSearchStudent = e => {
+    e.preventDefault()
+    this.props.history.push(`/dashboard/students/search/?search=${this.state.searchValue}`)
   }
   render() {
     return (
@@ -156,9 +160,19 @@ class Header extends Component {
             navbar
             className="justify-content-end"
           >
-            <form onSubmit={this.handleSearch}>
+            <form onSubmit={this.handleSearchEnterprise}>
               <InputGroup className="no-border">
-                <Input placeholder="Search..." onChange={this.onSearch} />
+                <Input placeholder="Entreprises..." onChange={this.onSearch} />
+                <InputGroupAddon addonType="append">
+                  <InputGroupText>
+                    <i className="now-ui-icons ui-1_zoom-bold" />
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+            </form>
+            <form onSubmit={this.handleSearchStudent}>
+              <InputGroup className="no-border">
+                <Input placeholder="Eleves..." onChange={this.onSearch} />
                 <InputGroupAddon addonType="append">
                   <InputGroupText>
                     <i className="now-ui-icons ui-1_zoom-bold" />
@@ -182,7 +196,7 @@ class Header extends Component {
                   <p>
                     <span className="d-lg-none d-md-block">Notification</span>
                     <Badge count={1} style={{ width: "1px", height: "15px", paddingBottom: "2px" }} />
-                    
+
                   </p>
                 </Link>
               </NavItem>

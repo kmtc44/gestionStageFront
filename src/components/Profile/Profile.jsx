@@ -82,49 +82,7 @@ class User extends React.Component {
       }
     }
   }
-  // componentWillReceiveProps(newProps) {
-  //   const { statusId, status, token } = newProps
-  //   console.log(status)
 
-  //   axios.defaults.headers = {
-  //     "Content-Type": "application/json",
-  //     Authorization: `Token ${token}`
-  //   }
-  //   switch (status) {
-  //     case 'student':
-  //       axios.get(`http://127.0.0.1:8000/students/${statusId}`)
-  //         .then(res => {
-  //           this.setState({
-  //             userData: res.data
-  //           });
-  //           this.setState({ loading: false })
-  //         })
-  //         .catch(err => console.log(err))
-  //       break;
-  //     case 'teacher':
-  //       axios.get(`http://127.0.0.1:8000/teachers/${statusId}`)
-  //         .then(res => {
-  //           this.setState({
-  //             userData: res.data
-  //           });
-  //           this.setState({ loading: false })
-  //         })
-  //         .catch(err => console.log(err))
-  //       break;
-  //     case 'framer':
-  //       axios.get(`http://127.0.0.1:8000/framers/${statusId}`)
-  //         .then(res => {
-  //           this.setState({
-  //             userData: res.data
-  //           });
-  //           this.setState({ loading: false })
-  //         })
-  //         .catch(err => console.log(err))
-  //       break;
-  //     default:
-  //       console.log('pas normale')
-  //   }
-  // }
   render() {
     return (
       <div>
@@ -212,7 +170,7 @@ class User extends React.Component {
                                 }
 
                               </Row>
-                              {this.props.status === 'student' ? (
+                              {this.props.status === 'student' || this.props.match.params.studentId ? (
                                 <Row>
                                   <Col md="12">
                                     <div>

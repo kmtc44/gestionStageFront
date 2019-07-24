@@ -20,7 +20,8 @@ class Sidebar extends React.Component {
     studentMenuOpen: false,
     enterpriseMenuOpen: false,
     taskMenuOpen: false,
-    projectMenuOpen: false
+    projectMenuOpen: false,
+    rapportMenuOpen: false,
   };
   constructor(props) {
     super(props);
@@ -207,7 +208,100 @@ class Sidebar extends React.Component {
                           </div>
                         </Collapse>
                       </li>
-
+                      <li
+                        className={
+                          this.activeRoute("/rapports") ||
+                            this.state.conventionMenuOpen
+                            ? "active-pro"
+                            : null
+                        }
+                      >
+                        <a
+                          onClick={() =>
+                            this.setState({
+                              rapportMenuOpen: !this.state.rapportMenuOpen
+                            })
+                          }
+                          data-toggle="collapse"
+                        >
+                          <i className={"now-ui-icons files_paper"} />
+                          <p>
+                            Rapport
+                      <b className="caret" />
+                          </p>
+                        </a>
+                        <Collapse isOpen={this.state.rapportMenuOpen}>
+                          <div>
+                            <ul className="nav pl-3">
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/rapports/dic1")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/rapports/dic1">
+                                  <i className={"now-ui-icons users_circle-08"} />
+                                  DIC1
+                          </NavLink>
+                              </li>
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/rapports/dic2")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/rapports/dic2"
+                                >
+                                  <i className={"now-ui-icons users_circle-08"} />
+                                  DIC2
+                          </NavLink>
+                              </li>
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/rapports/dic3")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/rapports/dic3"
+                                >
+                                  <i className={"now-ui-icons users_circle-08"} />
+                                  DIC 3
+                          </NavLink>
+                              </li>
+                            </ul>
+                          </div>
+                        </Collapse>
+                      </li>
+                      <li
+                        className={
+                          this.activeRoute("/maps/all")
+                            ? "active"
+                            : null
+                        }
+                      >
+                        <NavLink
+                          className="nav-link"
+                          activeClassName="active"
+                          to="/dashboard/maps/all"
+                        >
+                          <i
+                            className={"now-ui-icons location_map-big"}
+                          />
+                          Location Entreprise
+                        </NavLink>
+                      </li>
                     </div>
                   ) : ("")
                 }
@@ -246,6 +340,21 @@ class Sidebar extends React.Component {
                           to="/dashboard/enterprise/student">
                           <i className={"now-ui-icons education_hat"} />
                           Eleves
+                          </NavLink>
+                      </li>
+                      <li
+                        className={
+                          this.activeRoute("/enterprise/rapports/")
+                            ? "active"
+                            : null
+                        }
+                      >
+                        <NavLink
+                          className="nav-link"
+                          activeClassName="active"
+                          to="/dashboard/enterprise/rapports/">
+                          <i className={"now-ui-icons files_paper"} />
+                          Rapport stage
                           </NavLink>
                       </li>
                     </>
@@ -483,9 +592,14 @@ class Sidebar extends React.Component {
                   );
                 })}
 
+                {/* Student  Showing starting  */}
+
+                {
+                  this.props.status === 'student' ? (
+
                 <li
                   className={
-                    this.activeRoute("/maps/all")
+                    this.activeRoute("/student/rapport")
                       ? "active"
                       : null
                   }
@@ -493,14 +607,17 @@ class Sidebar extends React.Component {
                   <NavLink
                     className="nav-link"
                     activeClassName="active"
-                    to="/dashboard/maps/all"
+                    to="dashboard/student/rapport"
                   >
                     <i
-                      className={"now-ui-icons location_map-big"}
+                      className={"now-ui-icons files_paper"}
                     />
-                    Maps
+                    Mon rapport
                   </NavLink>
                 </li>
+                  ): ("")
+                }
+                {/* Student showing end  */}
               </li>
             </div>
           </Nav>

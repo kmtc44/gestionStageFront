@@ -32,7 +32,7 @@ function Task(props) {
 			"Content-Type": "Application/json",
 			Authorization: `Token ${user.token}`
 		};
-		axios.post(`${baseSite}/comments/`, {
+		axios.post(`${baseSite}/task-comments/`, {
 			comment: commentValue,
 			task: props.taskId,
 			author: author.user.id
@@ -44,7 +44,7 @@ function Task(props) {
 						...comments,
 						{
 							author: author.first_name + author.last_name,
-							avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+							avatar: author.image ||'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
 							content: <p>{commentValue}</p>,
 							datetime: moment().fromNow(),
 						}
@@ -54,7 +54,6 @@ function Task(props) {
 				setSubmitting(false)
 			})
 			.catch(err => console.log(err))
-
 	};
 
 	const handleChange = e => {

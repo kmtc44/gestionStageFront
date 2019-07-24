@@ -3,6 +3,8 @@ import {
   Input,
   Select,
   Button,
+  Upload,
+  Icon
 } from 'antd';
 
 import axios from "axios";
@@ -38,10 +40,6 @@ class RegistrationForm extends React.Component {
     this.refs.notificationAlert.notificationAlert(options);
   }
 
-  AddImage = (e) => {
-    this.setState({ image: e.target.files[0] })
-  }
-
   handleFormSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -52,7 +50,9 @@ class RegistrationForm extends React.Component {
       fData.append("first_name", values.firstname)
       fData.append("last_name", values.lastname)
       fData.append("phone", values.phone)
-      fData.append("image", this.state.image)
+      if (this.state.image) {
+        fData.append("image", this.state.image[0])
+      }
       switch (this.props.userData.status) {
         case 'student':
           fData.append("address", values.address)
@@ -138,6 +138,19 @@ class RegistrationForm extends React.Component {
         },
       },
     };
+
+    const { image } = this.state;
+
+    const props = {
+      beforeUpload: file => {
+        this.setState({
+          image: [file]
+        });
+        return false;
+      },
+      image,
+    }
+
     const prefixSelector = getFieldDecorator('prefix', {
       initialValue: '+221',
     })(
@@ -215,8 +228,14 @@ class RegistrationForm extends React.Component {
                 }
 
 
-                <Form.Item label="Image de profil">
-                  <input type="file" onChange={e => this.AddImage(e)} />
+                <Form.Item label="Photo de profile ">
+
+                  <Upload beforeUpload={props.beforeUpload} fileList={props.image}>
+                    <Button>
+                      <Icon type="upload" /> Image de profil
+						        </Button>
+                  </Upload>
+
                 </Form.Item>
 
                 {

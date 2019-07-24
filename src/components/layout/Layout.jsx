@@ -7,6 +7,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import routes from "../../routes";
 import { connect } from "react-redux";
 import ListStudents from "../all/ListStudents";
+import SearchStudent from "../all/SearchStudent"
 import ListEnterprises from "../all/ListEnterprise";
 import SearchEnterprises from "../all/SearchEnterprise";
 import Enterprise from "../all/Enterprise";
@@ -21,6 +22,8 @@ import FormProject from "../Project/FormProject";
 import ListProject from "../Project/ListProject";
 import Project from "../Project/Project";
 import StudentEnterprise from "../all/StudentEnterprise"
+import ListRapports from "../Rapport/ListRapports"
+import Rapport from "../Rapport/Rapport"
 import Maps from '../Maps/Maps'
 import Bread from "../Bread";
 
@@ -95,6 +98,12 @@ class Layout extends Component {
 
             <Route
               exact
+              path="/dashboard/students/search/"
+              component={SearchStudent}
+            />
+
+            <Route
+              exact
               path="/dashboard/student/detail/:studentId"
               component={Profile}
             />
@@ -132,6 +141,17 @@ class Layout extends Component {
                     path="/dashboard/enterprise/convention/"
                     component={Convention}
                   />
+
+                  <Route
+                    exact
+                    path="/dashboard/rapport/detail/:rapportId"
+                    component={Rapport}
+                  />
+                  <Route
+                    path="/dashboard/enterprise/rapports/"
+                    component={ListRapports}
+                  />
+
                   <Route exact path="/dashboard/task/new" component={FormTask} />
                   <Route
                     exact
@@ -156,6 +176,7 @@ class Layout extends Component {
                     path="/dashboard/enterprise/new"
                     component={FormEnterprise}
                   />
+
                   <Route exact path="/dashboard/enterprise/search/" component={SearchEnterprises} />
                   <Route path="/dashboard/enterprise/" component={ListEnterprises} />
                   <Route
@@ -168,6 +189,15 @@ class Layout extends Component {
                     path="/dashboard/conventions/new"
                     component={FormConvention}
                   />
+                  <Route
+                    exact
+                    path="/dashboard/rapport/detail/:rapportId"
+                    component={Rapport}
+                  />
+                  <Route
+                    path="/dashboard/rapports/"
+                    component={ListRapports}
+                  />
 
                   <Route
                     path="/dashboard/conventions/all"
@@ -177,6 +207,7 @@ class Layout extends Component {
                     path="/dashboard/maps/all"
                     component={Maps}
                   />
+
                   <Redirect from="/dashboard" to="/dashboard/conventions/all" />
                 </Switch>
               ) : (
@@ -186,7 +217,19 @@ class Layout extends Component {
 
             {
               this.props.status === 'student' ? (
-                <Redirect from="/dashboard" to="/dashboard/project/all" />
+                <Switch>
+                  <Route
+                    exact
+                    path="/dashboard/student/rapport/"
+                    component={Rapport}
+                  />
+                  <Route
+                    exact
+                    path="/dashboard/students/search/"
+                    component={SearchStudent}
+                  />
+                  <Redirect from="/dashboard" to="/dashboard/project/all" />
+                </Switch>
               ) : ("")
             }
 

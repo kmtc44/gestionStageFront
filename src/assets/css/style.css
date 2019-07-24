@@ -17,8 +17,9 @@
         border-radius: 20%;
         width: 75px;
         height: 75px;
-
     }
+
+    .uploadImg {}
 }
 
 
@@ -108,4 +109,41 @@ td {
     width: 100%;
     height: 200px;
     /* margin-bottom: 10%; */
+}
+
+.cardRapHolder {
+    display: flex;
+    flex-flow: row wrap;
+    width: 90%;
+    margin-bottom: 5px;
+}
+
+.cardRapHolder .card {
+    position: relative;
+    width: 200px;
+    height: 170px;
+    text-align: center;
+    box-shadow: 10px 10px 60px lightgray;
+    transition: .2s;
+}
+
+.cardRapHolder .card:hover {
+    cursor: pointer;
+    transition: .2s;
+    transform: scale(1.03);
+    box-shadow: 30px 30px 100px lightgray;
+}
+
+.cardRapHolder .card img {
+    width: 100%;
+    height: 200px;
+    /* margin-bottom: 10%; */
+}
+
+@media only screen and (min-width: 1200px) {
+
+    .uploadImg {
+        margin-left: 325px
+    }
+
 }

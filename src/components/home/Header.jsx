@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="head container">
+    <div className="head1 container">
       <Row>
         <Col span={9}>
           {" "}

@@ -134,7 +134,7 @@ class RegistrationForm extends React.Component {
                           }
                         ]
                       })(
-                        <Select placeholder="Please select a country">
+                        <Select placeholder="Choisir l'entreprise">
                           {this.state.enterprises.map((enterprise, index) => {
                             return (
                               <Option key={index} value={enterprise.id}>
