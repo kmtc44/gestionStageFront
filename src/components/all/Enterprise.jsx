@@ -18,8 +18,9 @@ import {
   Col
 } from "reactstrap";
 import { connect } from 'react-redux'
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
+
 
 const { confirm } = Modal;
 
@@ -104,6 +105,7 @@ function Enterprise(props) {
                 setEnterprise(re.data);
                 console.log(re.data);
                 setLoading(false);
+                localStorage.setItem(re.data.id, 'vue')
               })
               .catch(err => console.log(err))
           })
@@ -116,6 +118,7 @@ function Enterprise(props) {
           )}`)
         setEnterprise(res.data);
         setLoading(false);
+        localStorage.setItem(res.data.id, 'vue')
       }
 
     };

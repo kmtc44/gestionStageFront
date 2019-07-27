@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { Form, Input, Select, Checkbox, Button, AutoComplete, Upload, Icon } from "antd";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import NotificationAlert from "react-notification-alert";
+import { baseSite } from '../../config'
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -103,7 +104,7 @@ class RegistrationForm extends React.Component {
         enterprise.append("phone", values.phone);
         enterprise.append("leader_name", values.leader_name);
         axios
-          .post("http://localhost:8000/internship/enterprise/", enterprise)
+          .post(`${baseSite}/internship/enterprise/`, enterprise)
           .then(res => {
             console.log(res);
             this.notify(

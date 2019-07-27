@@ -12,8 +12,8 @@ import {
 	Col
 } from "reactstrap";
 import { Spin } from "antd";
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
 
 function StudentEnterprise(props) {
 	const [enterprise, setEnterprise] = useState({})

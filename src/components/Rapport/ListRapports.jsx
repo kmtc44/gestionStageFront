@@ -5,8 +5,9 @@ import { Spin } from "antd";
 import { Card, CardTitle, CardText, Row, Col } from "reactstrap";
 import { connect } from "react-redux"
 import Pagination from "../Pagination";
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
+
 function ListRapports(props) {
 	const [students, setStudents] = useState([]);
 	const [loading, setLoading] = useState(true);

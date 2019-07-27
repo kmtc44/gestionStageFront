@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 import { Card, CardTitle, CardText, Row, Col } from "reactstrap";
 import { connect } from 'react-redux';
 import Pagination from '../Pagination'
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
+
 function ListProject(props) {
   const [projects, setProject] = useState([]);
   const [loading, setLoading] = useState(false);

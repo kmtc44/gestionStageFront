@@ -4,9 +4,10 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import "../../assets/css/login.css";
 import PropTypes from "prop-types";
+import { baseSite } from '../../config'
 
 const { Option } = Select;
-const baseSite = "http://localhost:8000";
+
 
 const CollectionCreateForm = Form.create({ name: "form_in_modal" })(
   // eslint-disable-next-line

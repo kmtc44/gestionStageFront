@@ -9,11 +9,12 @@ import {
 import axios from 'axios';
 import { connect } from 'react-redux'
 import PropTypes from "prop-types";
+import { baseSite } from '../../config'
 
 // reactstrap components
 import { Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
-const baseSite = "http://localhost:8000";
+
 const MapWrapper = withScriptjs(
   withGoogleMap(props => (
     <GoogleMap

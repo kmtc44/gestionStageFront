@@ -3,8 +3,9 @@ import moment from "moment";
 import axios from "axios";
 import { Spin } from "antd";
 import Pagination from "../Pagination";
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
+
 function StudentTable(props) {
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(false);

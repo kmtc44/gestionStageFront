@@ -6,10 +6,10 @@ import "../../assets/css/login.css";
 import Chat from './Chat'
 import "../../assets/css/chat.css"
 import SetDuration from './SetDelay'
+import {baseSite} from '../../config'
 
 import { Card, CardBody, Col, Button } from "reactstrap";
 
-const baseSite = "http://localhost:8000";
 
 function Convention(props) {
   const [convention, setConvention] = useState();

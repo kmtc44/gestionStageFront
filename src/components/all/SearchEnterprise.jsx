@@ -12,9 +12,9 @@ import {
 } from "reactstrap";
 import "../../assets/css/login.css";
 import Pagination from "../Pagination"
+import { baseSite } from '../../config'
 
 
-const baseSite = "http://localhost:8000";
 let thead = [
     "Logo",
     "Nom",
@@ -116,10 +116,10 @@ function EnterpriseTable(props) {
                                                 {enterprise.is_partner ? (
                                                     <td>Oui</td>
                                                 ) : (
-																									<td>Non</td>
+                                                        <td>Non</td>
                                                     )
                                                 }
-              
+
                                             </tr>
                                         );
                                     })}

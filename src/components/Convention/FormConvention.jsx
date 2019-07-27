@@ -3,9 +3,10 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Form, Input, Select, Spin, Button, InputNumber } from "antd";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { baseSite } from '../../config'
 
 const { Option } = Select;
-const baseSite = "http://localhost:8000";
+
 class RegistrationForm extends React.Component {
   state = {
     confirmDirty: false,
@@ -99,71 +100,71 @@ class RegistrationForm extends React.Component {
         {this.state.loading ? (
           <Spin className="center container" />
         ) : (
-          <Row>
-            <Col md="9" className="mx-auto">
-              <Card>
-                <CardHeader className="text-center">
-                  <h5>Ajouter une nouvelle convention</h5>
-                </CardHeader>
-                <CardBody>
-                  <Form
-                    className="mr-10 p-5 text-center"
-                    {...formItemLayout}
-                    onSubmit={this.handleSubmit}
-                  >
-                    <Form.Item label={<span>Titre de la convention</span>}>
-                      {getFieldDecorator("title", {
-                        rules: [
-                          {
-                            required: true,
-                            message:
-                              "S'il vous plaît entrez le nom de la convention !",
-                            whitespace: true
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
+            <Row>
+              <Col md="9" className="mx-auto">
+                <Card>
+                  <CardHeader className="text-center">
+                    <h5>Ajouter une nouvelle convention</h5>
+                  </CardHeader>
+                  <CardBody>
+                    <Form
+                      className="mr-10 p-5 text-center"
+                      {...formItemLayout}
+                      onSubmit={this.handleSubmit}
+                    >
+                      <Form.Item label={<span>Titre de la convention</span>}>
+                        {getFieldDecorator("title", {
+                          rules: [
+                            {
+                              required: true,
+                              message:
+                                "S'il vous plaît entrez le nom de la convention !",
+                              whitespace: true
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
 
-                    <Form.Item label="Select" hasFeedback>
-                      {getFieldDecorator("enterprise", {
-                        rules: [
-                          {
-                            required: true,
-                            message:
-                              "S'il vous plait choisissez l'entreprise  !"
-                          }
-                        ]
-                      })(
-                        <Select placeholder="Choisir l'entreprise">
-                          {this.state.enterprises.map((enterprise, index) => {
-                            return (
-                              <Option key={index} value={enterprise.id}>
-                                {enterprise.name}
-                              </Option>
-                            );
-                          })}
-                        </Select>
-                      )}
-                    </Form.Item>
+                      <Form.Item label="Select" hasFeedback>
+                        {getFieldDecorator("enterprise", {
+                          rules: [
+                            {
+                              required: true,
+                              message:
+                                "S'il vous plait choisissez l'entreprise  !"
+                            }
+                          ]
+                        })(
+                          <Select placeholder="Choisir l'entreprise">
+                            {this.state.enterprises.map((enterprise, index) => {
+                              return (
+                                <Option key={index} value={enterprise.id}>
+                                  {enterprise.name}
+                                </Option>
+                              );
+                            })}
+                          </Select>
+                        )}
+                      </Form.Item>
 
-                    <Form.Item label="Nombre d'annees">
-                      {getFieldDecorator("life_time", { initialValue: 0 })(
-                        <InputNumber min={0} max={10} />
-                      )}
-                      <span className="ant-form-text"> Annees</span>
-                    </Form.Item>
+                      <Form.Item label="Nombre d'annees">
+                        {getFieldDecorator("life_time", { initialValue: 0 })(
+                          <InputNumber min={0} max={10} />
+                        )}
+                        <span className="ant-form-text"> Annees</span>
+                      </Form.Item>
 
-                    <Form.Item {...tailFormItemLayout}>
-                      <Button type="primary" htmlType="submit">
-                        Creer
+                      <Form.Item {...tailFormItemLayout}>
+                        <Button type="primary" htmlType="submit">
+                          Creer
                       </Button>
-                    </Form.Item>
-                  </Form>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        )}
+                      </Form.Item>
+                    </Form>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          )}
       </div>
     );
   }

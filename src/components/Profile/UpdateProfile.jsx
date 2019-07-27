@@ -12,6 +12,7 @@ import React from "react";
 import { Spin } from "antd";
 import { withRouter } from 'react-router-dom';
 import NotificationAlert from "react-notification-alert";
+import { baseSite } from '../../config'
 
 import ModalSkills from './ModalSkills';
 
@@ -58,7 +59,7 @@ class RegistrationForm extends React.Component {
           fData.append("address", values.address)
           fData.append("gender", values.gender)
           fData.append("socialStatus", values.socialStatus)
-          axios.put(`http://127.0.0.1:8000/students/${this.props.userData.id}/`, fData)
+          axios.put(`${baseSite}/students/${this.props.userData.id}/`, fData)
             .then(res => {
               console.log(res)
               this.notify(
@@ -75,7 +76,7 @@ class RegistrationForm extends React.Component {
           break;
 
         case 'framer':
-          axios.put(`http://127.0.0.1:8000/framers/${this.props.userData.id}/`, fData)
+          axios.put(`${baseSite}/framers/${this.props.userData.id}/`, fData)
             .then(res => {
               console.log(res)
               this.notify(
@@ -91,7 +92,7 @@ class RegistrationForm extends React.Component {
             .catch(err => console.log(err));
           break;
         case 'teacher':
-          axios.put(`http://127.0.0.1:8000/teachers/${this.props.userData.id}/`, fData)
+          axios.put(`${baseSite}/teachers/${this.props.userData.id}/`, fData)
             .then(res => {
               console.log(res)
               this.notify(

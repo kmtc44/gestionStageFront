@@ -4,10 +4,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { Spin, Avatar, Comment, Tooltip, List } from "antd";
 import { Card, CardTitle, CardSubtitle, CardBody, CardFooter } from "reactstrap";
-
+import { baseSite } from '../../config'
 import Editor from '../Task/FormComment'
 
-const baseSite = "http://localhost:8000";
 function Task(props) {
 	const [task, setTask] = useState([]);
 	const [loading, setLoading] = useState(false);

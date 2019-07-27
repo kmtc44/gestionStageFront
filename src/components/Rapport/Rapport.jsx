@@ -4,11 +4,11 @@ import { connect } from "react-redux"
 import moment from 'moment';
 import { Spin, Avatar, Comment, Tooltip, List } from "antd";
 import { Card, CardBody, CardFooter, Row, Col } from "reactstrap";
+import { baseSite } from '../../config'
 
 import Editor from '../Task/FormComment'
 
 
-const baseSite = "http://localhost:8000";
 
 function Rapport(props) {
 	const [student, setStudent] = useState([]);

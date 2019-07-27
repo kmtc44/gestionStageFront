@@ -22,8 +22,8 @@ import axios from "axios"
 import routes from "../../routes.js";
 import * as action from "../../store/actions/auth";
 import { connect } from "react-redux";
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
 class Header extends Component {
   state = {
     isOpen: false,

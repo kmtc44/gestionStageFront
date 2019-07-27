@@ -62,7 +62,7 @@ class Sidebar extends React.Component {
             Gestion des stages
           </Link>
         </div>
-        <div className="sidebar-wrapper" ref="sidebar">
+        <div className="sidebar-wrapper" ref="sidebar" style={this.props.style}>
           <Nav>
             <div className="nav">
               <li>

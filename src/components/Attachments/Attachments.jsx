@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { baseSite } from '../../config'
 
 import {
 	Form,
@@ -44,11 +45,11 @@ class Attachments extends React.Component {
 
 		fData.append("rapport", fileList[0])
 		fData.append("student", this.props.studentId)
-		axios.get(`http://127.0.0.1:8000/attachments/`)
+		axios.get(`${baseSite}/attachments/`)
 			.then(res => {
 				this.setState({ exist: res.data.filter(attachment => attachment.student === this.props.studentId)[0] })
 				if (!this.state.exist) {
-					axios.post(`http://127.0.0.1:8000/attachments/`, fData)
+					axios.post(`${baseSite}/attachments/`, fData)
 						.then(res1 => {
 							this.setState({
 								uploading: false,
@@ -58,7 +59,7 @@ class Attachments extends React.Component {
 						)
 						.catch(err => console.log(err));
 				} else {
-					axios.put(`http://127.0.0.1:8000/attachments/${this.state.exist.id}/`, fData)
+					axios.put(`${baseSite}/attachments/${this.state.exist.id}/`, fData)
 						.then(res1 => {
 							this.setState({
 								uploading: false,
@@ -90,11 +91,11 @@ class Attachments extends React.Component {
 
 		fData.append("cv", fileCv[0])
 		fData.append("student", this.props.studentId)
-		axios.get(`http://127.0.0.1:8000/attachments/`)
+		axios.get(`${baseSite}/attachments/`)
 			.then(res => {
 				this.setState({ exist: res.data.filter(attachment => attachment.student === this.props.studentId)[0] })
 				if (!this.state.exist) {
-					axios.post(`http://127.0.0.1:8000/attachments/`, fData)
+					axios.post(`${baseSite}/attachments/`, fData)
 						.then(res1 => {
 							this.setState({
 								uploading: false,
@@ -104,7 +105,7 @@ class Attachments extends React.Component {
 						)
 						.catch(err => console.log(err));
 				} else {
-					axios.put(`http://127.0.0.1:8000/attachments/${this.state.exist.id}/`, fData)
+					axios.put(`${baseSite}/attachments/${this.state.exist.id}/`, fData)
 						.then(res1 => {
 							this.setState({
 								uploading: false,

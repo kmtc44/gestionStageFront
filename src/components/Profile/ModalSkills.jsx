@@ -2,6 +2,7 @@ import { Modal, Button, Form, Input } from 'antd';
 import React from "react";
 import axios from "axios";
 import { withRouter } from 'react-router-dom'
+import { baseSite } from '../../config'
 
 import { Spin } from "antd";
 
@@ -22,7 +23,7 @@ class ModalSkills extends React.Component {
       "Content-Type": "application/json",
       Authorization: `Token ${user.token}`
     }
-    axios.get(`http://127.0.0.1:8000/auth/user`)
+    axios.get(`${baseSite}/auth/user`)
       .then(res => {
         this.setState({
           student: res.data,
@@ -52,10 +53,10 @@ class ModalSkills extends React.Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://127.0.0.1:8000/skills/`, { name: e.target.elements.skills.value })
+    axios.post(`${baseSite}/skills/`, { name: e.target.elements.skills.value })
       .then(res => {
         console.log(res)
-        axios.put(`http://127.0.0.1:8000/students/${this.state.studentId}/`, {
+        axios.put(`${baseSite}/students/${this.state.studentId}/`, {
           skills: [res.data.id]
         })
           .then(res => console.log(res))
@@ -69,7 +70,7 @@ class ModalSkills extends React.Component {
     e.preventDefault();
     const idSkill = e.target.value
     console.log(e.target.value)
-    axios.put(`http://127.0.0.1:8000/students/${this.state.studentId}/`, {
+    axios.put(`${baseSite}/students/${this.state.studentId}/`, {
       skill: idSkill
     })
       .then(res => {

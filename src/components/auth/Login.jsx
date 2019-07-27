@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import * as action from "../../store/actions/auth";
 import "../../assets/css/login.css";
 
+
 class Login extends Component {
   state = {};
   returnRegister(path) {

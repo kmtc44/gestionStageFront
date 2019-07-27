@@ -3,9 +3,11 @@ import { Card, Row, Col } from "reactstrap";
 import moment from 'moment';
 import { connect } from 'react-redux';
 import axios from "axios";
+import { baseSite } from '../../config'
+
 export var CharStarting;
 
-const baseSite = "http://localhost:8000";
+
 function Chat(props) {
 	const [messages, setMessages] = useState([]);
 	const [message, setMessage] = useState(null);

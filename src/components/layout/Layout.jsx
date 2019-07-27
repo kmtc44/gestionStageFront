@@ -35,8 +35,10 @@ var ps;
 
 class Layout extends Component {
   state = {
-    backgroundColor: "blue"
+    backgroundColor: "blue",
+    style: {}
   };
+
   mainPanel = React.createRef();
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -45,11 +47,23 @@ class Layout extends Component {
     }
 
     if (this.props.status === "student") {
-      this.setState({ backgroundColor: "blue" });
+      this.setState({
+        style: {
+          backgroundColor: "rgb(30, 100, 255, 0.9)"
+        }
+      });
     } else if (this.props.status === "teacher") {
-      this.setState({ backgroundColor: "orange" });
+      this.setState({
+        style: {
+          backgroundColor: "rgba(40, 150, 255, 0.9)"
+        }
+      });
     } else if (this.props.status === "framer") {
-      this.setState({ backgroundColor: "green" });
+      this.setState({
+        style: {
+          backgroundColor: "rgb(20, 200, 255, 0.9)"
+        }
+      });
     }
   }
   componentWillUnmount() {
@@ -67,15 +81,27 @@ class Layout extends Component {
   handleColorClick = color => {
     this.setState({ backgroundColor: color });
   };
-  componentWillReceiveProps(newProps) {
-    if (newProps.status === "student") {
-      this.setState({ backgroundColor: "blue" });
-    } else if (newProps.status === "teacher") {
-      this.setState({ backgroundColor: "orange" });
-    } else if (newProps.status === "framer") {
-      this.setState({ backgroundColor: "green" });
-    }
-  }
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.status === "student") {
+  //     this.setState({
+  //       style: {
+  //         backgroundColor: "rgba(14, 218, 233, 0.973)"
+  //       }
+  //     });
+  //   } else if (newProps.status === "teacher") {
+  //     this.setState({
+  //       style: {
+  //         backgroundColor: "rgba(0, 195, 255, 0.473)"
+  //       }
+  //     });
+  //   } else if (newProps.status === "framer") {
+  //     this.setState({
+  //       style: {
+  //         backgroundColor: "rgb(9, 114, 252)"
+  //       }
+  //     });
+  //   }
+  // }
 
   render() {
     return (
@@ -84,6 +110,7 @@ class Layout extends Component {
           routes={routes}
           {...this.props}
           backgroundColor={this.state.backgroundColor}
+          style={this.state.style}
         />
         <div className="main-panel" ref={this.mainPanel}>
           <PanelHeader size="sm" />

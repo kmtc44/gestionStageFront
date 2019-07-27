@@ -5,9 +5,10 @@ import { Form, Input, Select, Button } from "antd";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import NotificationAlert from "react-notification-alert";
+import { baseSite } from '../../config'
 
 const { Option } = Select;
-const baseSite = "http://localhost:8000";
+
 
 class RegistrationForm extends React.Component {
   state = {

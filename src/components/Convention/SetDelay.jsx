@@ -2,10 +2,9 @@ import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom"
 import { Form, Button, InputNumber } from "antd";
+import { baseSite } from '../../config'
 
 
-
-const baseSite = "http://localhost:8000";
 class DurationForm extends React.Component {
 
 	handleSubmit = e => {

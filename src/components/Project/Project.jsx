@@ -18,8 +18,9 @@ import Task from '../Task/Task'
 import FormTask from "../Task/FormTask"
 import { connect } from 'react-redux';
 import NotificationAlert from "react-notification-alert";
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
+
 function Project(props) {
   const [project, setProject] = useState([]);
   const [loading, setLoading] = useState(true);

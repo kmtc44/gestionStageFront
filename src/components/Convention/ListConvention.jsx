@@ -15,8 +15,9 @@ import {
   CardText,
   Col
 } from "reactstrap";
+import { baseSite } from '../../config'
 
-const baseSite = "http://localhost:8000";
+
 function ListConvention(props) {
   const [conventions, setConvention] = useState([]);
   const [loading, setLoading] = useState(false);

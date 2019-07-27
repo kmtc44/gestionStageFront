@@ -12,9 +12,9 @@ import {
 } from "reactstrap";
 import "../../assets/css/login.css";
 import Pagination from "../Pagination"
+import { baseSite } from '../../config'
 
 
-const baseSite = "http://localhost:8000";
 let thead = [];
 function EnterpriseTable(props) {
   const [enterprises, setEnterprise] = useState([]);
@@ -25,6 +25,14 @@ function EnterpriseTable(props) {
 
   const goto = url => {
     props.history.push(url);
+  };
+
+  const getStyle = (id) => {
+    if (localStorage.getItem(id)) {
+      return {
+        backgroundColor: "rgba(204, 204, 203, 0.1)"
+      };
+    }
   };
   const chooseType = path => {
     const p = path.substring(22);
@@ -116,6 +124,7 @@ function EnterpriseTable(props) {
                   {currentEnterprises.map(enterprise => {
                     return (
                       <tr
+                        style={getStyle(enterprise.id)}
                         key={enterprise.id}
                         onClick={() => {
                           goto(`/dashboard/enterprise/detail/${enterprise.id}`);

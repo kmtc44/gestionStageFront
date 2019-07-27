@@ -19,6 +19,7 @@ import {
 import { Spin } from "antd";
 
 import ModalElement from './ModalElement';
+import { baseSite } from '../../config'
 
 
 class User extends React.Component {
@@ -37,7 +38,7 @@ class User extends React.Component {
       Authorization: `Token ${token}`
     }
     if (this.props.match.params.studentId) {
-      axios.get(`http://127.0.0.1:8000/students/${this.props.match.params.studentId}`)
+      axios.get(`${baseSite}/students/${this.props.match.params.studentId}`)
         .then(res => {
           this.setState({
             userData: res.data
@@ -48,7 +49,7 @@ class User extends React.Component {
     } else {
       switch (status) {
         case 'student':
-          axios.get(`http://127.0.0.1:8000/students/${statusId}`)
+          axios.get(`${baseSite}/students/${statusId}`)
             .then(res => {
               this.setState({
                 userData: res.data
@@ -58,7 +59,7 @@ class User extends React.Component {
             .catch(err => console.log(err))
           break;
         case 'teacher':
-          axios.get(`http://127.0.0.1:8000/teachers/${statusId}`)
+          axios.get(`${baseSite}/teachers/${statusId}`)
             .then(res => {
               this.setState({
                 userData: res.data
@@ -68,7 +69,7 @@ class User extends React.Component {
             .catch(err => console.log(err))
           break;
         case 'framer':
-          axios.get(`http://127.0.0.1:8000/framers/${statusId}`)
+          axios.get(`${baseSite}/framers/${statusId}`)
             .then(res => {
               this.setState({
                 userData: res.data
