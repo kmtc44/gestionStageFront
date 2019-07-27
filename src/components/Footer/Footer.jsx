@@ -14,49 +14,16 @@ class Footer extends React.Component {
           <nav>
             <ul>
               <li>
-                <a
-                  href="https://www.creative-tim.com?ref=nudr-footer"
-                  target="_blank"
-                >
-                  Ecole Polytechnique de Thies
-                </a>
+                Ecole Polytechnique de Thies {" "}
               </li>
               <li>
-                <a
-                  href="https://presentation.creative-tim.com?ref=nudr-footer"
-                  target="_blank"
-                >
-                  Kaire Wade
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://blog.creative-tim.com?ref=nudr-footer"
-                  target="_blank"
-                >
-                  Blog
-                </a>
+                Kaire Wade
               </li>
             </ul>
           </nav>
           <div className="copyright">
             &copy; {1900 + new Date().getYear()}, Designed by{" "}
-            <a
-              href="https://www.invisionapp.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Kaire Wade
-            </a>
-            . Coded by{" "}
-            <a
-              href="https://www.creative-tim.com?ref=nudr-footer"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Kaire Wade
-            </a>
-            .
+            KM-CMW
           </div>
         </Container>
       </footer>

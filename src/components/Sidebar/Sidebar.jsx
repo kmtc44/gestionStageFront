@@ -344,6 +344,130 @@ class Sidebar extends React.Component {
                       </li>
                       <li
                         className={
+                          this.activeRoute("/project") || this.state.taskMenuOpen
+                            ? "active-pro"
+                            : null
+                        }
+                      >
+                        <a
+                          onClick={() =>
+                            this.setState({
+                              projectMenuOpen: !this.state.projectMenuOpen
+                            })
+                          }
+                          data-toggle="collapse"
+                        >
+                          <i className={"now-ui-icons tech_tv"} />
+                          <p>
+                            Projet
+                      <b className="caret" />
+                          </p>
+                        </a>
+                        <Collapse isOpen={this.state.projectMenuOpen}>
+                          <div>
+                            <li className="nav pl-2">
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/project/new")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/project/new"
+                                >
+                                  <i className={"now-ui-icons ui-1_simple-add"} />
+                                  Creer un nouveau projet
+                          </NavLink>
+                              </li>
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/project/all")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/project/all"
+                                >
+                                  <i
+                                    className={"now-ui-icons design_bullet-list-67"}
+                                  />
+                                  Liste des projets
+                          </NavLink>
+                              </li>
+                            </li>
+                          </div>
+                        </Collapse>
+                      </li>
+                      <li
+                        className={
+                          this.activeRoute("/task") || this.state.taskMenuOpen
+                            ? "active-pro"
+                            : null
+                        }
+                      >
+                        <a
+                          onClick={() =>
+                            this.setState({
+                              taskMenuOpen: !this.state.taskMenuOpen
+                            })
+                          }
+                          data-toggle="collapse"
+                        >
+                          <i className={"now-ui-icons education_agenda-bookmark"} />
+                          <p>
+                            Tache
+                      <b className="caret" />
+                          </p>
+                        </a>
+                        <Collapse isOpen={this.state.taskMenuOpen}>
+                          <div>
+                            <li className="nav pl-2">
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/task/new")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/task/new"
+                                >
+                                  <i className={"now-ui-icons ui-1_simple-add"} />
+                                  Creer une nouvelle tache
+                          </NavLink>
+                              </li>
+                              <li
+                                className={
+                                  this.activeRoute("/dashboard/task/all")
+                                    ? "active"
+                                    : null
+                                }
+                              >
+                                <NavLink
+                                  className="nav-link"
+                                  activeClassName="active"
+                                  to="/dashboard/task/all"
+                                >
+                                  <i
+                                    className={"now-ui-icons design_bullet-list-67"}
+                                  />
+                                  Liste de taches
+                          </NavLink>
+                              </li>
+                            </li>
+                          </div>
+                        </Collapse>
+                      </li>
+                      <li
+                        className={
                           this.activeRoute("/enterprise/rapports/")
                             ? "active"
                             : null
@@ -444,131 +568,72 @@ class Sidebar extends React.Component {
                   ) : ("")
                 }
 
-                <li
-                  className={
-                    this.activeRoute("/project") || this.state.taskMenuOpen
-                      ? "active-pro"
-                      : null
-                  }
-                >
-                  <a
-                    onClick={() =>
-                      this.setState({
-                        projectMenuOpen: !this.state.projectMenuOpen
-                      })
-                    }
-                    data-toggle="collapse"
-                  >
-                    <i className={"now-ui-icons tech_tv"} />
-                    <p>
-                      Projet
-                      <b className="caret" />
-                    </p>
-                  </a>
-                  <Collapse isOpen={this.state.projectMenuOpen}>
-                    <div>
-                      <li className="nav pl-2">
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/project/new")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/project/new"
-                          >
-                            <i className={"now-ui-icons ui-1_simple-add"} />
-                            Creer un nouveau projet
-                          </NavLink>
-                        </li>
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/project/all")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/project/all"
-                          >
-                            <i
-                              className={"now-ui-icons design_bullet-list-67"}
-                            />
-                            Liste des projets
-                          </NavLink>
-                        </li>
-                      </li>
-                    </div>
-                  </Collapse>
-                </li>
+                {/* Student  Showing starting  */}
 
-                <li
-                  className={
-                    this.activeRoute("/task") || this.state.taskMenuOpen
-                      ? "active-pro"
-                      : null
-                  }
-                >
-                  <a
-                    onClick={() =>
-                      this.setState({
-                        taskMenuOpen: !this.state.taskMenuOpen
-                      })
-                    }
-                    data-toggle="collapse"
-                  >
-                    <i className={"now-ui-icons education_agenda-bookmark"} />
-                    <p>
-                      Tache
-                      <b className="caret" />
-                    </p>
-                  </a>
-                  <Collapse isOpen={this.state.taskMenuOpen}>
-                    <div>
-                      <li className="nav pl-2">
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/task/new")
-                              ? "active"
-                              : null
-                          }
-                        >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/task/new"
+                {
+                  this.props.status === 'student' ? (
+                    <>
+                      {
+                        this.props.studentEnterprise ? (
+
+                          <li
+                            className={
+                              this.activeRoute("/student/enterprise/")
+                                ? "active"
+                                : null
+                            }
                           >
-                            <i className={"now-ui-icons ui-1_simple-add"} />
-                            Creer une nouvelle tache
-                          </NavLink>
-                        </li>
-                        <li
-                          className={
-                            this.activeRoute("/dashboard/task/all")
-                              ? "active"
-                              : null
-                          }
+                            <NavLink
+                              className="nav-link"
+                              activeClassName="active"
+                              to="/dashboard/student/enterprise/"
+                            >
+                              <i
+                                className={"now-ui-icons  business_globe"}
+                              />
+                              Entreprise
+                        </NavLink>
+                          </li>
+                        ) : ('')
+                      }
+                      <li
+                        className={
+                          this.activeRoute("/dashboard/project/all")
+                            ? "active"
+                            : null
+                        }
+                      >
+                        <NavLink
+                          className="nav-link"
+                          activeClassName="active"
+                          to="/dashboard/project/all"
                         >
-                          <NavLink
-                            className="nav-link"
-                            activeClassName="active"
-                            to="/dashboard/task/all"
-                          >
-                            <i
-                              className={"now-ui-icons design_bullet-list-67"}
-                            />
-                            Liste de taches
+                          <i className={"now-ui-icons tech_tv"} />
+                          Liste des projets
                           </NavLink>
-                        </li>
                       </li>
-                    </div>
-                  </Collapse>
-                </li>
+                      <li
+                        className={
+                          this.activeRoute("/student/rapport")
+                            ? "active"
+                            : null
+                        }
+                      >
+                        <NavLink
+                          className="nav-link"
+                          activeClassName="active"
+                          to="/dashboard/student/rapport"
+                        >
+                          <i
+                            className={"now-ui-icons files_paper"}
+                          />
+                          Mon rapport
+                        </NavLink>
+                      </li>
+                    </>
+                  ) : ("")
+                }
+                {/* Student showing end  */}
 
                 {this.props.routes.map((prop, key) => {
                   if (prop.redirect) return null;
@@ -591,33 +656,6 @@ class Sidebar extends React.Component {
                     </li>
                   );
                 })}
-
-                {/* Student  Showing starting  */}
-
-                {
-                  this.props.status === 'student' ? (
-
-                <li
-                  className={
-                    this.activeRoute("/student/rapport")
-                      ? "active"
-                      : null
-                  }
-                >
-                  <NavLink
-                    className="nav-link"
-                    activeClassName="active"
-                    to="dashboard/student/rapport"
-                  >
-                    <i
-                      className={"now-ui-icons files_paper"}
-                    />
-                    Mon rapport
-                  </NavLink>
-                </li>
-                  ): ("")
-                }
-                {/* Student showing end  */}
               </li>
             </div>
           </Nav>
@@ -633,7 +671,8 @@ Sidebar.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    status: state.status
+    status: state.status,
+    studentEnterprise: state.studentEnterprise
   }
 }
 export default connect(mapStateToProps)(Sidebar);

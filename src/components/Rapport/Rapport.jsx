@@ -3,7 +3,7 @@ import axios from "axios";
 import { connect } from "react-redux"
 import moment from 'moment';
 import { Spin, Avatar, Comment, Tooltip, List } from "antd";
-import { Card, CardBody, CardFooter } from "reactstrap";
+import { Card, CardBody, CardFooter, Row, Col } from "reactstrap";
 
 import Editor from '../Task/FormComment'
 
@@ -161,49 +161,54 @@ function Rapport(props) {
 				}
 
 				<hr />
-				<Card>
-					<CardBody>
-						<div>
-							<List
-								className="comment-list"
-								header={`${comments.length} commentaires`}
-								itemLayout="horizontal"
-								dataSource={comments}
-								renderItem={item => (
-									<li>
-										<Comment
-											actions={item.actions}
-											author={item.author}
-											avatar={item.avatar}
-											content={item.content}
-											datetime={item.datetime}
+				<Row>
+					<Col md="6" className="mx-auto">
+						<Card >
+							<CardBody style={{ height: "500px", overflow: "auto" }}>
+								<div>
+									<List
+										className="comment-list"
+										header={`${comments.length} commentaires`}
+										itemLayout="horizontal"
+										dataSource={comments}
+										renderItem={item => (
+											<li>
+												<Comment
+													actions={item.actions}
+													author={item.author}
+													avatar={item.avatar}
+													content={item.content}
+													datetime={item.datetime}
+												/>
+											</li>
+										)}
+									/>
+								</div>
+								<hr />
+							</CardBody>
+							<CardFooter>
+								<Comment
+									avatar={
+										<Avatar
+											src={author.image || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"}
+											alt="Han Solo"
 										/>
-									</li>
-								)}
-							/>
-						</div>
-						<hr />
-					</CardBody>
-					<CardFooter>
-						<Comment
-							avatar={
-								<Avatar
-									src={author.image || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"}
-									alt="Han Solo"
+									}
+									content={
+										<Editor
+											onChange={handleChange}
+											onSubmit={handleSubmit}
+											submitting={submitting}
+											value={commentValue}
+										/>
+									}
 								/>
-							}
-							content={
-								<Editor
-									onChange={handleChange}
-									onSubmit={handleSubmit}
-									submitting={submitting}
-									value={commentValue}
-								/>
-							}
-						/>
-					</CardFooter>
+							</CardFooter>
 
-				</Card>
+						</Card>
+					</Col>
+
+				</Row>
 			</div>
 		)
 }

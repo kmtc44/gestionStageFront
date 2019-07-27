@@ -15,6 +15,7 @@ import {
   Table
 } from "reactstrap";
 import Task from '../Task/Task'
+import FormTask from "../Task/FormTask"
 import { connect } from 'react-redux';
 import NotificationAlert from "react-notification-alert";
 
@@ -25,6 +26,7 @@ function Project(props) {
   const [loadingTask, setLoadingTask] = useState(false);
   const [tasks, setTask] = useState([])
   const [detailVisible, setVisible] = useState(false)
+  const [createTaskVisible, setCreateTaskVisible] = useState(false)
   const [selectedTaskId, setSelectedTaskId] = useState(null)
   const notificationAlert = useRef(null)
 
@@ -35,7 +37,9 @@ function Project(props) {
       setVisible(true)
     }
   };
-
+  const showModalCreate = () => {
+    setCreateTaskVisible(true)
+  }
   const handleCancel = () => {
     setVisible(false);
   };
@@ -112,6 +116,7 @@ function Project(props) {
     <Spin className="center container " />
   ) : (
       <div className="content mt-3 pl-3 ">
+
         <NotificationAlert ref={notificationAlert} />
         <Row>
           <Col className="project-center mx-auto" xs={12} md={9}>
@@ -187,6 +192,19 @@ function Project(props) {
                   </Col>
                 </Row>
               </CardBody >
+              <CardFooter>
+                <Button className="btn btn-primary" onClick={showModalCreate}>
+                  Nouvelle Tache
+                </Button>
+                <Modal
+                  visible={createTaskVisible}
+                  title="Creer une tache"
+                  onCancel={handleCancel}
+                  footer={''}
+                >
+                  <FormTask projectId={project.id} />
+                </Modal>
+              </CardFooter>
             </Card >
           </Col >
           ;
@@ -318,7 +336,7 @@ function Project(props) {
                                     target="tooltip731609871"
                                   >
                                     Edit Task
-                          </UncontrolledTooltip>
+                                  </UncontrolledTooltip>
                                   <Button
                                     className="btn-round btn-icon btn-icon-mini btn-neutral"
                                     color="danger"
@@ -332,7 +350,7 @@ function Project(props) {
                                     target="tooltip923217206"
                                   >
                                     Remove
-                          </UncontrolledTooltip>
+                                  </UncontrolledTooltip>
                                 </td>
                               </tr>
                             );

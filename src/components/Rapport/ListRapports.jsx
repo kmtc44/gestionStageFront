@@ -3,12 +3,13 @@ import axios from "axios";
 import { Link } from "react-router-dom"
 import { Spin } from "antd";
 import { Card, CardTitle, CardText, Row, Col } from "reactstrap";
+import { connect } from "react-redux"
 import Pagination from "../Pagination";
 
 const baseSite = "http://localhost:8000";
 function ListRapports(props) {
 	const [students, setStudents] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [studentPerPage] = useState(4);
 
@@ -28,22 +29,33 @@ function ListRapports(props) {
 
 	useEffect(() => {
 		const fetchStudent = async () => {
-			setLoading(true);
 			const user = JSON.parse(localStorage.getItem("user"));
 			axios.defaults.headers = {
 				"Content-Type": "Application/json",
 				Authorization: `Token ${user.token}`
 			};
-			const res = await axios(
-				`${baseSite}/classroom/${chooseRoom(props.location.pathname)}`
-			);
-			setStudents(res.data.students.filter(student => student.attachments));
-			setCurrentPage(1)
-			setLoading(false);
+			if (props.status === 'framer') {
+				if (props.enterpriseId) {
+					const res = await axios(
+						`${baseSite}/internship/enterprise/${props.enterpriseId}`
+					);
+					console.log(res)
+					setStudents(res.data.students.filter(student => student.attachments));
+					setCurrentPage(1)
+					setLoading(false);
+				}
+			} else {
+				const res = await axios(
+					`${baseSite}/classroom/${chooseRoom(props.location.pathname)}`
+				);
+				setStudents(res.data.students.filter(student => student.attachments));
+				setCurrentPage(1)
+				setLoading(false);
+			}
 		};
 
 		fetchStudent();
-	}, [props.location.pathname]);
+	}, [props.location.pathname, props.status, props.enterpriseId]);
 
 	//Guetting the current students
 
@@ -61,42 +73,49 @@ function ListRapports(props) {
 	) : (
 			< div className="content mt-3 ml-4 p-5 center" >
 				<Row className="cardRapHolder">
-					{currentStudents.map(student => {
-						return (
-							<Col key={student.id} sm="6" lg="3" md="4" xs="9">
-								{
-									student.attachments.rapport ? (
-										<Link to={`/dashboard/rapport/detail/${student.id}`}>
-											<Card body style={{ color: 'black' }}>
-												<CardTitle
-													style={{
-														fontSize: 20,
-														fontWeight: "bold",
-														height: 50,
-													}}
-												>
-													Rapport de Stage
-										</CardTitle>
-												<CardText>
-													<span style={{
-														fontSize: 18,
-														fontWeight: "bold",
+					{
+						currentStudents.length > 0 ? (
+							<>
+								{currentStudents.map(student => {
+									return (
+										<Col key={student.id} sm="6" lg="3" md="4" xs="9">
+											{
+												student.attachments.rapport ? (
+													<Link to={`/dashboard/rapport/detail/${student.id}`}>
+														<Card body style={{ color: 'black' }}>
+															<CardTitle
+																style={{
+																	fontSize: 20,
+																	fontWeight: "bold",
+																	height: 50,
+																}}
+															>
+																Rapport de Stage
+												</CardTitle>
+															<CardText>
+																<span style={{
+																	fontSize: 18,
+																	fontWeight: "bold",
 
-													}} > {student.first_name} {" "} {student.last_name} </span><br />
-													Departement : {student.department.name} {" "} <br />
-													Classe : {student.classroom.name} {" "} {new Date().getFullYear()} <br />
-												</CardText>
-											</Card>
-										</Link>
-									) : (" ")
-								}
-							</Col>
-						);
-					})}
+																}} > {student.first_name} {" "} {student.last_name} </span><br />
+																Departement : {student.department.name} {" "} <br />
+																Classe : {student.classroom.name} {" "} {new Date().getFullYear()} <br />
+															</CardText>
+														</Card>
+													</Link>
+												) : (" ")
+											}
+										</Col>
+									);
+								})}
+							</>
+						) : (
+								<h2 className="text-center text-danger">Aucun eleve n'a encore ajouter son rapport </h2>
+							)
+					}
 				</Row>
 				{
-					students.length > students ? (
-
+					students.length > studentPerPage ? (
 						<Pagination currentPage={currentPage} itemPerPage={studentPerPage}
 							totalItems={students.length}
 							paginate={paginate} />
@@ -107,5 +126,12 @@ function ListRapports(props) {
 		);
 }
 
+const mapStateToProps = state => {
+	return {
+		status: state.status,
+		enterpriseId: state.enterpriseId
+	}
+}
 
-export default ListRapports 
+
+export default connect(mapStateToProps)(ListRapports)

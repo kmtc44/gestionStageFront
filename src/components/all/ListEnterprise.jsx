@@ -20,7 +20,7 @@ function EnterpriseTable(props) {
   const [enterprises, setEnterprise] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [enterprisePerPage] = useState(3);
+  const [enterprisePerPage] = useState(10);
   const [enterpriseType, setEnterpriseType] = useState('Partenaire')
 
   const goto = url => {
@@ -72,7 +72,7 @@ function EnterpriseTable(props) {
       );
       setEnterprise(res.data);
       console.log(props.location.search)
-
+      setCurrentPage(1)
       const params = new URLSearchParams(props.location.search);
       console.log(params.get('search'))
       setLoading(false);

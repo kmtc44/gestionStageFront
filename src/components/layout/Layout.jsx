@@ -25,10 +25,11 @@ import StudentEnterprise from "../all/StudentEnterprise"
 import ListRapports from "../Rapport/ListRapports"
 import Rapport from "../Rapport/Rapport"
 import Maps from '../Maps/Maps'
-import Bread from "../Bread";
+import Bread from '../Bread'
+
 
 import PerfectScrollbar from "perfect-scrollbar";
-import NotificationAlert from "react-notification-alert";
+
 
 var ps;
 
@@ -85,7 +86,6 @@ class Layout extends Component {
           backgroundColor={this.state.backgroundColor}
         />
         <div className="main-panel" ref={this.mainPanel}>
-          <NotificationAlert ref="notificationAlert" />
           <PanelHeader size="sm" />
           <Bread />
           <DemoNavbar {...this.props} />
@@ -225,10 +225,21 @@ class Layout extends Component {
                   />
                   <Route
                     exact
+                    path="/dashboard/student/enterprise/"
+                    component={Enterprise}
+                  />
+                  <Route
+                    exact
                     path="/dashboard/students/search/"
                     component={SearchStudent}
                   />
-                  <Redirect from="/dashboard" to="/dashboard/project/all" />
+                  {
+                    this.props.studentEnterprise ? (
+                      <Redirect from="/dashboard" to="/dashboard/student/enterprise/" />
+                    ) : (
+                        <Redirect from="/dashboard" to="/dashboard/profile/" />
+                      )
+                  }
                 </Switch>
               ) : ("")
             }
@@ -246,7 +257,7 @@ const mapStateToProps = state => {
   return {
     status: state.status,
     token: state.token,
-
+    studentEnterprise: state.studentEnterprise
   };
 };
 export default connect(mapStateToProps)(Layout);

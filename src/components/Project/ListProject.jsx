@@ -22,14 +22,19 @@ function ListProject(props) {
         Authorization: `Token ${user.token}`
       };
       if (props.status === 'framer') {
-        const res = await axios(`${baseSite}/project/`);
-        setProject(res.data.filter(project => project.framer.id === props.statusId));
+        const res = await axios(`${baseSite}/framers/${props.statusId}`);
+        setProject(res.data.projects);
         setLoading(false);
       } else if (props.status === 'student') {
         const res = await axios(`${baseSite}/students/${props.statusId}`);
         setProject(res.data.projects);
         setLoading(false);
+      } else if (props.status === 'teacher') {
+        const res = await axios(`${baseSite}/project/`);
+        setProject(res.data);
+        setLoading(false);
       }
+
     };
 
     fetchProjects();
@@ -48,7 +53,6 @@ function ListProject(props) {
   return loading ? (
     <Spin className="center container " />
   ) : (
-
       <div className="content mt-3 ml-4 p-5 center">
         <Row className="cardProHolder">
           {currentProjects.map(project => {

@@ -11,7 +11,8 @@ const initialState = {
     loading: false,
     statusId: null,
     enterpriseId: null,
-    userId: null
+    userId: null,
+    studentEnterprise: null
 }
 
 const authStart = (state, action) => {
@@ -30,6 +31,7 @@ const authSuccess = (state, action) => {
         statusId: action.user.statusId,
         enterpriseId: action.user.enterpriseId,
         userId: action.user.userId,
+        studentEnterprise: action.user.studentEnterprise,
         error: null,
         loading: false
     })

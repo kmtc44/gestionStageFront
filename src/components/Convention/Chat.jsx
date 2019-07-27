@@ -86,7 +86,33 @@ function Chat(props) {
 													<div key={message.id}>
 														{message.sender_status !== props.status ? (
 															<div className="incoming_msg">
-																<div className="incoming_msg_img">  <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" /> </div>
+
+																{
+																	message.sender_status === 'teacher' ? (
+																		<div className="incoming_msg_img">
+																			{
+																				message.sender.teacher.image ? (
+																					<img style={{ borderRadius: "100%" }} src={message.sender.teacher.image} alt="sunil" />
+																				) : (
+																						<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" />
+																					)
+																			}
+																		</div>
+																	) : (
+																			<div className="incoming_msg_img">
+																				{
+																					message.sender.framer.image ? (
+																						<img style={{ borderRadius: "100%" }} src={message.sender.framer.image} alt="sunil" />
+
+																					) : (
+																							<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil" />
+																						)
+																				}
+																			</div>
+																		)
+																}
+
+
 																<div className="received_msg">
 																	<div className="received_withd_msg">
 																		<p>{message.content}</p>
@@ -103,9 +129,6 @@ function Chat(props) {
 												)
 											})
 										}
-
-
-
 									</div>
 									<div className="type_msg">
 										<form onSubmit={onNewMessage} >

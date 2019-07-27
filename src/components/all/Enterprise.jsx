@@ -17,92 +17,110 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { connect } from 'react-redux'
 
 const baseSite = "http://localhost:8000";
 
 const { confirm } = Modal;
 
-function showConfirmDelete(e) {
-  const info = e.target.value.split(",");
-  const id_enterprise = info[0];
-  const id_student = info[1];
-  const name = info[2] + " " + info[3];
-
-  confirm({
-    title: "Voulez vous vraiment enlever cet eleve de cette entreprise ?",
-    content: `nom : ${name}`,
-    onOk() {
-      const user = JSON.parse(localStorage.getItem("user"));
-      axios.defaults.headers = {
-        "Content-Type": "Application/json",
-        Authorization: `Token ${user.token}`
-      };
-      axios
-        .put(`${baseSite}/internship/enterprise/${id_enterprise}/`, {
-          student: id_student
-        })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => console.log(err));
-    },
-    onCancel() { }
-  });
-}
-function showConfirmAdd(e) {
-  const info = e.target.value.split(",");
-  const id_enterprise = info[0];
-  const name = info[1];
-
-  confirm({
-    title:
-      "Voulez vous vraiment ajoter cette entreprise a la liste des partenaires ?",
-    content: `nom de l'entreprise: ${name}`,
-    onOk() {
-      const user = JSON.parse(localStorage.getItem("user"));
-      axios.defaults.headers = {
-        "Content-Type": "Application/json",
-        Authorization: `Token ${user.token}`
-      };
-      axios
-        .put(`${baseSite}/internship/enterprise/${id_enterprise}/`, {
-          is_partner: true
-        })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => console.log(err));
-    },
-    onCancel() { }
-  });
-}
 
 function Enterprise(props) {
   const [enterprise, setEnterprise] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  function showConfirmDelete(e) {
+    const info = e.target.value.split(",");
+    const id_enterprise = info[0];
+    const id_student = info[1];
+    const name = info[2] + " " + info[3];
+
+    confirm({
+      title: "Voulez vous vraiment enlever cet eleve de cette entreprise ?",
+      content: `nom : ${name}`,
+      onOk() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        axios.defaults.headers = {
+          "Content-Type": "Application/json",
+          Authorization: `Token ${user.token}`
+        };
+        axios
+          .put(`${baseSite}/internship/enterprise/${id_enterprise}/`, {
+            student: id_student
+          })
+          .then(res => {
+            console.log(res.data);
+            props.history.push('/dashboard')
+            props.history.push(`/dashboard/enterprise/detail/${id_enterprise}`)
+          })
+          .catch(err => console.log(err));
+      },
+      onCancel() { }
+    });
+  }
+
+  function showConfirmAdd(e) {
+    const info = e.target.value.split(",");
+    const id_enterprise = info[0];
+    const name = info[1];
+
+    confirm({
+      title:
+        "Voulez vous vraiment ajouter cette entreprise a la liste des partenaires ?",
+      content: `nom de l'entreprise: ${name}`,
+      onOk() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        axios.defaults.headers = {
+          "Content-Type": "Application/json",
+          Authorization: `Token ${user.token}`
+        };
+        axios
+          .put(`${baseSite}/internship/enterprise/${id_enterprise}/`, {
+            is_partner: true
+          })
+          .then(res => {
+            console.log(res.data);
+            props.history.push('/dashboard')
+            props.history.push(`/dashboard/enterprise/detail/${id_enterprise}`)
+          })
+          .catch(err => console.log(err));
+      },
+      onCancel() { }
+    });
+  }
 
   const enterpriseId = path => path.substring(29);
 
   useEffect(() => {
     const fetchEnterprise = async () => {
-      setLoading(true);
-      const user = JSON.parse(localStorage.getItem("user"));
       axios.defaults.headers = {
         "Content-Type": "application/json",
-        Authorization: `Token ${user.token}`
+        Authorization: `Token ${props.token}`
       };
-      const res = await axios(
-        `${baseSite}/internship/enterprise/${enterpriseId(
-          props.location.pathname
-        )}`
-      );
+      if (props.status === 'student') {
+        axios.get(`${baseSite}/students/${props.statusId}`)
+          .then(res => {
+            axios.get(`${baseSite}/internship/enterprise/${res.data.enterprise.id}`)
+              .then(re => {
+                setEnterprise(re.data);
+                console.log(re.data);
+                setLoading(false);
+              })
+              .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
+      }
+      else {
+        const res = await axios(
+          `${baseSite}/internship/enterprise/${enterpriseId(
+            props.location.pathname
+          )}`)
+        setEnterprise(res.data);
+        setLoading(false);
+      }
 
-      setEnterprise(res.data);
-      setLoading(false);
     };
     fetchEnterprise();
-  }, [props.location.pathname]);
+  }, [props.location.pathname, props.status, props.statusId, props.token]);
 
   return loading ? (
     <Spin className="center container-fluid " />
@@ -122,14 +140,12 @@ function Enterprise(props) {
             </div>
             <CardBody>
               <div className="author">
-                <a href="#ok" onClick={e => e.preventDefault()}>
-                  <img
-                    alt="..."
-                    className="avatar border-gray"
-                    src={require("../../assets/img/enterprise.png")}
-                  />
-                  <h3>{enterprise.name}</h3>
-                </a>
+                <img
+                  alt="..."
+                  className="avatar border-gray"
+                  src={require("../../assets/img/enterprise.png")}
+                />
+                <h3>{enterprise.name}</h3>
                 <h4>
                   L'entreprise {enterprise.name}{" "}
                   {enterprise.is_partner ? "est" : "n'est pas"} un partenaire de
@@ -141,33 +157,102 @@ function Enterprise(props) {
                 evolue dans le domaine de {enterprise.field}"
             </p>
               <div className="container">
-                <p>
-                  <i className="now-ui-icons ui-1_email-85" /> :{" "}
-                  <a href={`mailto:${enterprise.email}`}>{enterprise.email}</a>
-                </p>
-                <p>
-                  <i className="now-ui-icons tech_mobile" /> : {enterprise.phone}
-                </p>
-                <p>
-                  <i className="now-ui-icons location_pin" /> :{" "}
-                  {enterprise.address}
-                </p>
-                <p>
-                  <i className="now-ui-icons business_globe" /> :{" "}
-                  <a
-                    href={enterprise.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {enterprise.website}
-                  </a>
-                </p>
+                <div className="row">
+                  <Col md={6}>
+                    <p>
+                      <span>DG</span>: <span style={{ fontSize: "bold" }}> {enterprise.leader_name}</span>
+                    </p>
+                    <p>
+                      <i className="now-ui-icons ui-1_email-85" /> :{" "}
+                      <a href={`mailto:${enterprise.email}`}>{enterprise.email}</a>
+                    </p>
+                    <p>
+                      <i className="now-ui-icons tech_mobile" /> : {enterprise.phone}
+                    </p>
+                    <p>
+                      <i className="now-ui-icons location_pin" /> :{" "}
+                      {enterprise.address}
+                    </p>
+                    <p>
+                      <i className="now-ui-icons business_globe" /> :{" "}
+                      <a
+                        href={enterprise.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {enterprise.website}
+                      </a>
+                    </p>
+                    {
+                      enterprise.is_partner ? (
+                        <>
+                          {
+                            props.status === 'teacher' ? (
+                              <AddStudents enterpriseId={enterprise.id} />
+                            ) : ('')
+                          }
+                        </>
+                      ) : ('')
+                    }
+                  </Col>
+                </div>
               </div>
             </CardBody>
           </Card>
         </Col>
         {enterprise.is_partner ? (
           <div className="container ">
+
+            <h3 className="text-center">
+              {" "}
+              {enterprise.students[0]
+                ? " Listes des encadreurs dans cette entreprise "
+                : ""}
+            </h3>
+            <Row>
+              <CardGroup className="mx-auto cardHolder" >
+                {enterprise.framers.map(framer => {
+                  return (
+                    <Col md="4" lg="3" sm="9" xs="9">
+                      {/* <Link to={`/dashboard/student/detail/${framer.id}`}> */}
+                      <Card style={{ color: 'black' }} key={framer.id}>
+                        {framer.image ? (
+                          <CardImg
+                            className="img-student-enterprise"
+                            top
+                            src={framer.image}
+                            alt="Card image cap"
+                          />
+                        ) : (
+                            <CardImg
+                              className="img-student-enterprise"
+                              top
+                              src={require("../../assets/img/student.png")}
+                              alt="Card image cap"
+                            />
+                          )}
+                        <CardBody>
+                          <CardTitle style={{ fontSize: "18px" }}>
+                            {framer.first_name} {framer.last_name}
+                          </CardTitle>
+
+                          <CardText>
+                            <div className="text-left">
+                              {/* <p>Email : {framer.user.email} </p>
+                                <p>Numero : {framer.phone} </p> */}
+                              <p> <i className="now-ui-icons tech_mobile" /> : {framer.phone}</p>
+                              <p>  <i className="now-ui-icons ui-1_email-85" /> : {framer.user.email}</p>
+                            </div>
+                          </CardText>
+                        </CardBody>
+                      </Card>
+                      {/* </Link> */}
+                    </Col>
+                  );
+                })}
+              </CardGroup>
+            </Row>
+
             <h3 className="text-center">
               {" "}
               {enterprise.students[0]
@@ -200,7 +285,6 @@ function Enterprise(props) {
                             <CardTitle style={{ fontSize: "18px" }}>
                               {student.first_name} {student.last_name}
                             </CardTitle>
-
                             <CardText>
                               <div className="text-left">
                                 <p>Departement : {student.department.name} </p>
@@ -212,25 +296,27 @@ function Enterprise(props) {
                           </CardBody>
                         </Card>
                       </Link>
-                      <Button
-                        value={[
-                          enterprise.id,
-                          student.id,
-                          student.first_name,
-                          student.last_name
-                        ]}
-                        className="btn btn-danger"
-                        onClick={showConfirmDelete}
-                      >
-                        Retirer
+                      {
+                        props.status === 'teacher' ? (
+                          <Button
+                            value={[
+                              enterprise.id,
+                              student.id,
+                              student.first_name,
+                              student.last_name
+                            ]}
+                            className="btn btn-danger"
+                            onClick={showConfirmDelete}
+                          >
+                            Retirer
                         </Button>
+                        ) : ('')
+                      }
                     </Col>
                   );
                 })}
               </CardGroup>
             </Row>
-
-            <AddStudents enterpriseId={enterprise.id} />
             <hr />
             {enterprise.projects.length ? (
               <div className="container mt-5 ml-4 p-5 center">
@@ -284,4 +370,12 @@ function Enterprise(props) {
     );
 }
 
-export default Enterprise;
+const mapStateToProps = state => {
+  return {
+    status: state.status,
+    statusId: state.statusId,
+    token: state.token
+  }
+}
+
+export default connect(mapStateToProps)(Enterprise);

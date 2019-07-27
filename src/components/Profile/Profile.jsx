@@ -128,6 +128,7 @@ class User extends React.Component {
                             <ListGroup className="list-group-flush" style={{ position: 'center' }}>
                               <Row>
                                 <Col md="6">
+                                  
                                   <ListGroupItem ><u><strong>Prénom :</strong></u>&nbsp;  &nbsp; {this.state.userData.first_name}</ListGroupItem>
 
                                   <ListGroupItem ><u><strong>Nom :</strong></u>&nbsp; &nbsp; {this.state.userData.last_name}</ListGroupItem>
@@ -150,10 +151,10 @@ class User extends React.Component {
 
                                 </Col>
 
+                                <Col md="6">
                                 {
                                   this.props.status === 'student' || this.props.match.params.studentId ? (
-                                    <Col md="6">
-
+                                      <>
                                       <ListGroupItem ><u><strong>Departement :</strong></u>&nbsp; &nbsp; {this.state.userData.department.name}</ListGroupItem>
                                       {
                                         this.state.userData.enterprise ? (
@@ -164,10 +165,11 @@ class User extends React.Component {
                                       <ListGroupItem ><u><strong>Promotion :</strong></u>&nbsp; &nbsp; {this.state.userData.promotion.name}</ListGroupItem>
 
                                       <ListGroupItem ><u><strong>Date de naissance :</strong></u>&nbsp; &nbsp; {moment(this.state.userData.birthday).format("DD-MM-YYYY")}</ListGroupItem>
-
-                                    </Col>
-                                  ) : ('')
-                                }
+                                      </>
+                                      ) : ('')
+                                  }
+                                
+                                </Col>
 
                               </Row>
                               {this.props.status === 'student' || this.props.match.params.studentId ? (

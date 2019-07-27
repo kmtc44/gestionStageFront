@@ -6,7 +6,6 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -18,18 +17,22 @@ import {
   Input
 } from "reactstrap";
 import { Badge } from 'antd';
+import axios from "axios"
 
 import routes from "../../routes.js";
 import * as action from "../../store/actions/auth";
 import { connect } from "react-redux";
 
-
+const baseSite = "http://localhost:8000";
 class Header extends Component {
   state = {
     isOpen: false,
     dropdownOpen: false,
     color: "transparent",
-    searchValue: ''
+    searchValue: '',
+    dropdownOpenNotif: false,
+    notifications: [],
+    loading: true
   };
   sidebarToggle = React.createRef();
   toggle = () => {
@@ -51,6 +54,31 @@ class Header extends Component {
       dropdownOpen: !this.state.dropdownOpen
     });
   };
+  fetchNotification = (token, status, statusId) => {
+    axios.defaults.headers = {
+      "Content-Type": "Application/json",
+      Authorization: `Token ${token}`
+    }
+    axios.get(`${baseSite}/${status}/${statusId}`)
+      .then(res => {
+        this.setState({ notifications: res.data.user.receivedNotif })
+        console.log(res.data.user.receivedNotif);
+        this.setState({ loading: false })
+      })
+  }
+  dropdownToggleNotif = e => {
+    this.setState({
+      dropdownOpenNotif: !this.state.dropdownOpenNotif
+    });
+  };
+  onReadNotif = (e) => {
+    console.log(e.target.getAttribute('value'))
+    axios.put(`${baseSite}/notifications/${e.target.getAttribute('value')}/`, {
+      read: this.props.userId
+    })
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err))
+  }
   getBrand = () => {
     var name;
     routes.map((prop, key) => {
@@ -94,7 +122,28 @@ class Header extends Component {
   };
   componentDidMount() {
     window.addEventListener("resize", this.updateColor.bind(this));
+    setInterval(this.fetchNotification, 5000)
+    this.fetchNotification()
   }
+  fetchNotification = () => {
+    axios.defaults.headers = {
+      "Content-Type": "Application/json",
+      Authorization: `Token ${this.props.token}`
+    }
+    axios.get(`${baseSite}/${this.props.status}/${this.props.statusId}`)
+      .then(res => {
+        this.setState({ notifications: res.data.user.receivedNotif })
+        console.log(res.data.user.receivedNotif);
+        this.setState({ loading: false })
+      })
+  }
+  // componentWillReceiveProps(newProps) {
+  //   const { status, statusId, token } = newProps
+
+  //   this.fetchNotification(token, status, statusId)
+  //   setTimeout(this.fetchNotification, 1000)
+
+  // }
   componentDidUpdate(e) {
     if (
       window.innerWidth < 993 &&
@@ -160,46 +209,132 @@ class Header extends Component {
             navbar
             className="justify-content-end"
           >
-            <form onSubmit={this.handleSearchEnterprise}>
-              <InputGroup className="no-border">
-                <Input placeholder="Entreprises..." onChange={this.onSearch} />
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>
-                    <i className="now-ui-icons ui-1_zoom-bold" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </form>
-            <form onSubmit={this.handleSearchStudent}>
-              <InputGroup className="no-border">
-                <Input placeholder="Eleves..." onChange={this.onSearch} />
-                <InputGroupAddon addonType="append">
-                  <InputGroupText>
-                    <i className="now-ui-icons ui-1_zoom-bold" />
-                  </InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </form>
+            {
+              this.props.status === 'teachers' ? (
+
+                <form onSubmit={this.handleSearchEnterprise}>
+                  <InputGroup className="no-border">
+                    <Input placeholder="Entreprises..." onChange={this.onSearch} />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>
+                        <i className="now-ui-icons ui-1_zoom-bold" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </form>
+              ) : ('')
+            }
+            {
+              this.props.status !== 'framers' ? (
+
+                <form onSubmit={this.handleSearchStudent}>
+                  <InputGroup className="no-border">
+                    <Input placeholder="Eleves..." onChange={this.onSearch} />
+                    <InputGroupAddon addonType="append">
+                      <InputGroupText>
+                        <i className="now-ui-icons ui-1_zoom-bold" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </form>
+              ) : ('')
+            }
             <Nav navbar>
 
-              <NavItem>
+              {/* <NavItem>
                 <Link to="#pablo" className="nav-link">
                   <i className="now-ui-icons media-2_sound-wave" />
                   <p>
                     <span className="d-lg-none d-md-block">Stats</span>
                   </p>
                 </Link>
-              </NavItem>
-              <NavItem>
-                <Link to="#pablo" className="nav-link">
+              </NavItem> */}
+
+
+              <Dropdown
+                nav
+                isOpen={this.state.dropdownOpenNotif}
+                toggle={e => this.dropdownToggleNotif(e)}
+              >
+                <DropdownToggle caret nav>
                   <i className="now-ui-icons ui-1_bell-53" />
                   <p>
                     <span className="d-lg-none d-md-block">Notification</span>
-                    <Badge count={1} style={{ width: "1px", height: "15px", paddingBottom: "2px" }} />
-
+                    <Badge count={this.state.notifications.length} style={{ width: "1px", height: "15px", paddingBottom: "2px" }} />
                   </p>
-                </Link>
-              </NavItem>
+                </DropdownToggle>
+                <DropdownMenu right>
+                  {
+                    this.state.notifications ? (
+                      <>
+                        {
+                          this.state.notifications.map(notification => {
+                            return (
+                              <>
+                                {
+                                  this.props.status === 'students' ? (
+                                    <>
+                                      {
+                                        notification.rapport_student ? (
+                                          <DropdownItem >
+                                            {" "}
+                                            <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/student/rapport/`}>
+                                              {notification.title}{" "}
+                                            </Link>
+                                          </DropdownItem>
+                                        ) : (
+                                            <>
+                                              {
+                                                notification.rapport ? (
+                                                  <DropdownItem >
+                                                    {" "}
+                                                    <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/project/detail/${notification.rapport}`}>
+                                                      {notification.title}{" "}
+                                                    </Link>
+                                                  </DropdownItem>
+                                                ) : ('')
+                                              }
+                                            </>
+                                          )
+                                      }
+                                    </>
+                                  ) : (
+                                      <>
+                                        {
+                                          notification.rapport_student ? (
+                                            <DropdownItem >
+                                              {" "}
+                                              <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/rapport/detail/${notification.rapport_student}`}>
+                                                {notification.title}{" "}
+                                              </Link>
+                                            </DropdownItem>
+                                          ) : (
+                                              <>
+                                                {
+                                                  notification.rapport ? (
+                                                    <DropdownItem >
+                                                      {" "}
+                                                      <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/project/detail/${notification.rapport}`}>
+                                                        {notification.title}{" "}
+                                                      </Link>
+                                                    </DropdownItem>
+                                                  ) : ('')
+                                                }
+                                              </>
+                                            )
+                                        }
+                                      </>
+                                    )
+                                }
+                              </>
+                            )
+                          })
+                        }
+                      </>
+                    ) : ('')
+                  }
+                </DropdownMenu>
+              </Dropdown>
               <Dropdown
                 nav
                 isOpen={this.state.dropdownOpen}
@@ -237,6 +372,15 @@ class Header extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    status: state.status + 's',
+    statusId: state.statusId,
+    token: state.token,
+    userId: state.userId
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => {
@@ -247,6 +391,6 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withRouter(Header));

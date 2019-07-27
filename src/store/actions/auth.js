@@ -56,6 +56,7 @@ export const authLogin = (username, password, status) => {
         let status_user = null
         let status_id = null
         let enterpriseId = null
+        let studentEnterprise = null
 
         if (res.data.user.teacher !== null) {
           status_user = res.data.user.teacher.status
@@ -69,6 +70,9 @@ export const authLogin = (username, password, status) => {
         } else if (res.data.user.student !== null) {
           status_user = res.data.user.student.status
           status_id = res.data.user.student.id
+          if (res.data.user.student.enterprise) {
+            studentEnterprise = res.data.user.student.enterprise.id
+          }
         }
         if (status !== status_user) {
           dispatch(authFail("Vous n'avez pas les droits acces dans cette espace"))
@@ -81,6 +85,7 @@ export const authLogin = (username, password, status) => {
             statusId: status_id,
             userId: res.data.user.id,
             enterpriseId,
+            studentEnterprise
           }
           localStorage.setItem("user", JSON.stringify(user));
           dispatch(authSuccess(user));
