@@ -16,7 +16,8 @@ class RegistrationForm extends Component {
   state = {
     confirmDirty: false,
     loading: true,
-    enterprises: null
+    enterprises: null,
+    promotions: null
   };
 
   returnLogin(path) {
@@ -44,12 +45,16 @@ class RegistrationForm extends Component {
     axios
       .get(`${baseSite}/internship/enterprise/register`)
       .then(res => {
+
         this.setState({
           enterprises: res.data
         });
 
-        console.log(this.state.students);
-        this.setState({ loading: false });
+        axios.get(`${baseSite}/promosregister`)
+          .then(re => {
+            this.setState({ promotions: re.data })
+            this.setState({ loading: false });
+          })
       })
       .catch(err => console.log(err));
   }
@@ -79,7 +84,7 @@ class RegistrationForm extends Component {
               values.phone,
               values.department,
               values.classe,
-              "44",
+              values.promotion,
               values.birthday
             );
             break;
@@ -159,6 +164,32 @@ class RegistrationForm extends Component {
     );
   };
 
+  promotionSelector = () => {
+    return (
+      <Form.Item label="Promotion">
+        {this.props.form.getFieldDecorator("promotion", {
+          rules: [
+            {
+              required: true,
+              message: "S'il vous plaît choississez votre promotion"
+            }
+          ]
+        })(
+          <Select initialValue="" style={{ width: 120 }}>
+            {
+              this.state.promotions.map(promotion => {
+                return (
+                  <Option key={promotion.id} value={promotion.name}>{promotion.name}</Option>
+                )
+              })
+            }
+
+          </Select>
+        )}
+      </Form.Item>
+    );
+  };
+
   framerEnterprise = () => {
     return (
       <Form.Item label="Selectionner votre entreprise">
@@ -172,7 +203,7 @@ class RegistrationForm extends Component {
         })(
           <Select placeholder="Entreprise">
             {this.state.enterprises.map(enterprise => {
-              return <Option value={enterprise.id}>{enterprise.name}</Option>;
+              return <Option key={enterprise.id} value={enterprise.id}>{enterprise.name}</Option>;
             })}
           </Select>
         )}
@@ -258,7 +289,7 @@ class RegistrationForm extends Component {
     );
 
     return (
-      <div classNameName="container">
+      <div >
         {this.state.loading ? (
           <Spin className="center container " />
         ) : (
@@ -384,6 +415,9 @@ class RegistrationForm extends Component {
 
                             {this.props.location.pathname === "/register/student"
                               ? this.classeSelector()
+                              : ""}
+                            {this.props.location.pathname === "/register/student"
+                              ? this.promotionSelector()
                               : ""}
                             {this.props.location.pathname === "/register/student"
                               ? this.birthdayAsk()

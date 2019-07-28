@@ -55,30 +55,38 @@ function ListProject(props) {
     <Spin className="center container " />
   ) : (
       <div className="content mt-3 ml-4 p-5 center">
-        <Row className="cardProHolder">
-          {currentProjects.map(project => {
-            return (
-              <Col key={project.id} sm="6" lg="3" md="4" xs="12">
-                <Link to={`/dashboard/project/detail/${project.id}`}>
-                  <Card body style={{ color: 'black' }}>
-                    <CardTitle
-                      style={{
-                        fontSize: 18,
-                        fontWeight: "bold",
-                        height: 80,
-                      }}
-                    >
-                      {project.name}
-                    </CardTitle>
-                    <CardText>
-                      {project.description.substring(0, 50)}...
+        {
+          currentProjects.length ? (
+            <Row className="cardProHolder">
+              {currentProjects.map(project => {
+                return (
+                  <Col key={project.id} sm="6" lg="3" md="4" xs="12">
+                    <Link to={`/dashboard/project/detail/${project.id}`}>
+                      <Card body style={{ color: 'black' }}>
+                        <CardTitle
+                          style={{
+                            fontSize: 18,
+                            fontWeight: "bold",
+                            height: 80,
+                          }}
+                        >
+                          {project.name}
+                        </CardTitle>
+                        <CardText>
+                          {project.description.substring(0, 50)}...
                   </CardText>
-                  </Card>
-                </Link>
-              </Col>
-            );
-          })}
-        </Row>
+                      </Card>
+                    </Link>
+                  </Col>
+                );
+              })}
+            </Row>
+          ) : (
+              <div className="text-center">
+                <h3 className="text-danger"> Aucun projet n'est encore creer</h3>
+              </div>
+            )
+        }
         {
           projects.length > projectPerPage ? (
 

@@ -106,7 +106,6 @@ function Convention(props) {
                   {
                     props.is_responsible ? (
                       <>
-
                         {
                           convention.life_time === 0 ? (
                             <Button onClick={showModal} className="btn btn-primary">
@@ -121,30 +120,44 @@ function Convention(props) {
                       </>
                     ) : ('')
                   }
-
                 </CardBody>
               </Card>
             </Col>
-          ) : ('')
-        }
-        {
-          props.match.params.convId ? (
-            <Chat convID={props.match.params.convId} />
           ) : (
-
-              <Chat convID={convention.id} />
+              <div className="text-center">
+                <h3 className="text-danger"> Pas de convention avec l'EPT</h3>
+              </div>
             )
         }
+        {
+          convention ? (
+            <>
 
-        <Modal
+              {
+                props.match.params.convId ? (
+                  <Chat convID={props.match.params.convId} />
+                ) : (
 
-          visible={visibleSetTime}
-          title="Etablir duree de la convention"
-          onCancel={handleCancel}
-          footer={''}
-        >
-          <SetDuration conventionId={convention.id} token={props.token} />
-        </Modal>
+                    <Chat convID={convention.id} />
+                  )
+              }
+            </>
+          ) : ('')
+        }
+
+        {
+          convention ? (
+
+            <Modal
+              visible={visibleSetTime}
+              title="Etablir duree de la convention"
+              onCancel={handleCancel}
+              footer={''}
+            >
+              <SetDuration conventionId={convention.id} token={props.token} />
+            </Modal>
+          ) : ('')
+        }
       </div>
     );
 }

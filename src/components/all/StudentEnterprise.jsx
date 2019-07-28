@@ -42,50 +42,58 @@ function StudentEnterprise(props) {
 		<Spin className="center container-fluid " />
 	) : (
 			<div className="container">
-				<Row>
-					<CardGroup className="mx-auto cardHolder" >
-						{enterprise.students.map(student => {
-							return (
-								<Col key={student.id} md="4" lg="3" sm="9" xs="9">
-									<Link to={`/dashboard/student/detail/${student.id}`}>
-										<Card style={{ color: 'black' }} >
-											{student.image ? (
-												<CardImg
-													className="img-student-enterprise"
-													top
-													src={student.image}
-													alt="Card image cap"
-												/>
-											) : (
-													<CardImg
-														className="img-student-enterprise"
-														top
-														src={require("../../assets/img/student.png")}
-														alt="Card image cap"
-													/>
-												)}
+				{
+					enterprise.students.length ? (
+						<Row>
+							<CardGroup className="mx-auto cardHolder" >
+								{enterprise.students.map(student => {
+									return (
+										<Col key={student.id} md="4" lg="3" sm="9" xs="9">
+											<Link to={`/dashboard/student/detail/${student.id}`}>
+												<Card style={{ color: 'black' }} >
+													{student.image ? (
+														<CardImg
+															className="img-student-enterprise"
+															top
+															src={student.image}
+															alt="Card image cap"
+														/>
+													) : (
+															<CardImg
+																className="img-student-enterprise"
+																top
+																src={require("../../assets/img/student.png")}
+																alt="Card image cap"
+															/>
+														)}
 
-											<CardTitle style={{ fontSize: "18px" }}>
-												{student.first_name} {student.last_name}
-											</CardTitle>
-											<CardBody>
+													<CardTitle style={{ fontSize: "18px" }}>
+														{student.first_name} {student.last_name}
+													</CardTitle>
+													<CardBody>
 
 
-												<div className="text-left">
-													<p>Departement : {student.department.name} </p>
-													<p>Classe : {student.classroom.name} </p>
-													<p> <i className="now-ui-icons tech_mobile" /> : {student.phone}</p>
-													<p>  <i className="now-ui-icons ui-1_email-85" /> : {student.user.email}</p>
-												</div>
+														<div className="text-left">
+															<p>Departement : {student.department.name} </p>
+															<p>Classe : {student.classroom.name} </p>
+															<p> <i className="now-ui-icons tech_mobile" /> : {student.phone}</p>
+															<p>  <i className="now-ui-icons ui-1_email-85" /> : {student.user.email}</p>
+														</div>
 
-											</CardBody>
-										</Card>
-									</Link>
-								</Col>
-							);
-						})}
-					</CardGroup>
-				</Row>
+													</CardBody>
+												</Card>
+											</Link>
+										</Col>
+									);
+								})}
+							</CardGroup>
+						</Row>
+					) : (
+							<div className="text-center">
+								<h3 className="text-danger"> Pas encore d'eleve dans cette enteprise</h3>
+							</div>
+						)
+				}
 			</div>
 		)
 }

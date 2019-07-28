@@ -43,6 +43,7 @@ function Project(props) {
   }
   const handleCancel = () => {
     setCreateTaskVisible(false);
+    setVisible(false)
   };
 
   const notify = (place, message, type) => {

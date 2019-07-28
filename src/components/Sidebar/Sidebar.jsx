@@ -640,6 +640,24 @@ class Sidebar extends React.Component {
                           Mon rapport
                         </NavLink>
                       </li>
+                      <li
+                        className={
+                          this.activeRoute("/Attachments/")
+                            ? "active"
+                            : null
+                        }
+                      >
+                        <NavLink
+                          className="nav-link"
+                          activeClassName="active"
+                          to="/dashboard/Attachments/"
+                        >
+                          <i
+                            className={"now-ui-icons files_paper"}
+                          />
+                          Joindre Rapport ou CV
+                        </NavLink>
+                      </li>
                     </>
                   ) : ("")
                 }

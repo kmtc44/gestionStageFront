@@ -96,8 +96,9 @@ export const authLogin = (username, password, status) => {
         }
       })
       .catch(err => {
-        console.log("il ya erreur")
+
         dispatch(authFail("Le nom utilisateur ou mot de passe pas valide"));
+        console.log(err)
       });
   };
 };
@@ -120,20 +121,25 @@ export const authRegisterStudent = (username, email, password, status, firstname
         birthday
       })
       .then(res => {
-        const user = {
-          username: res.data.user.username,
-          token: res.data.token,
-          expirationDate: new Date(new Date().getTime() + 3600 * 1000),
-          status,
-          statusId: res.data.user.student.id,
-          userId: res.data.user.id
+        if (res.data.error) {
+          dispatch(authFail(res.data.error))
+        } else {
+          const user = {
+            username: res.data.user.username,
+            token: res.data.token,
+            expirationDate: new Date(new Date().getTime() + 3600 * 1000),
+            status,
+            statusId: res.data.user.student.id,
+            userId: res.data.user.id
+          }
+          localStorage.setItem("user", JSON.stringify(user));
+          dispatch(authSuccess(user));
+          dispatch(checkAuthTimeout(3600));
         }
-        localStorage.setItem("user", JSON.stringify(user));
-        dispatch(authSuccess(user));
-        dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
         dispatch(authFail("Nom utilisateur ou email deja pris"));
+        console.log(err)
       });
   };
 };
@@ -153,21 +159,26 @@ export const authRegisterAdministration = (username, email, password, status, fi
         department
       })
       .then(res => {
-        const user = {
-          username: res.data.user.username,
-          token: res.data.token,
-          expirationDate: new Date(new Date().getTime() + 3600 * 1000),
-          status,
-          statusId: res.data.user.teacher.id,
-          userId: res.data.user.id,
-          is_responsible: false
+        if (res.data.error) {
+          dispatch(authFail(res.data.error))
+        } else {
+          const user = {
+            username: res.data.user.username,
+            token: res.data.token,
+            expirationDate: new Date(new Date().getTime() + 3600 * 1000),
+            status,
+            statusId: res.data.user.teacher.id,
+            userId: res.data.user.id,
+            is_responsible: false
+          }
+          localStorage.setItem("user", JSON.stringify(user));
+          dispatch(authSuccess(user));
+          dispatch(checkAuthTimeout(3600));
         }
-        localStorage.setItem("user", JSON.stringify(user));
-        dispatch(authSuccess(user));
-        dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
         dispatch(authFail("Nom utilisateur ou email deja pris"));
+        console.log(err)
       });
   };
 };
@@ -186,21 +197,26 @@ export const authRegisterEnterprise = (username, email, password, status, firstn
         enterprise
       })
       .then(res => {
-        const user = {
-          username: res.data.user.username,
-          token: res.data.token,
-          expirationDate: new Date(new Date().getTime() + 3600 * 1000),
-          status,
-          statusId: res.data.user.framer.id,
-          enterpriseId: res.data.user.framer.enterprise.id,
-          userId: res.data.user.id
+        if (res.data.error) {
+          dispatch(authFail(res.data.error))
+        } else {
+          const user = {
+            username: res.data.user.username,
+            token: res.data.token,
+            expirationDate: new Date(new Date().getTime() + 3600 * 1000),
+            status,
+            statusId: res.data.user.framer.id,
+            enterpriseId: res.data.user.framer.enterprise.id,
+            userId: res.data.user.id
+          }
+          localStorage.setItem("user", JSON.stringify(user));
+          dispatch(authSuccess(user));
+          dispatch(checkAuthTimeout(3600));
         }
-        localStorage.setItem("user", JSON.stringify(user));
-        dispatch(authSuccess(user));
-        dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
         dispatch(authFail("Nom utilisateur ou email deja pris"));
+        console.log(err)
       });
   };
 };

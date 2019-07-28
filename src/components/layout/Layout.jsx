@@ -26,6 +26,7 @@ import ListRapports from "../Rapport/ListRapports"
 import Rapport from "../Rapport/Rapport"
 import Maps from '../Maps/Maps'
 import Bread from '../Bread'
+import Attachment from '../Attachments/Attachments'
 
 
 import PerfectScrollbar from "perfect-scrollbar";
@@ -245,6 +246,11 @@ class Layout extends Component {
             {
               this.props.status === 'student' ? (
                 <Switch>
+                  <Route
+                    exact
+                    path="/dashboard/Attachments"
+                    component={Attachment}
+                  />
                   <Route
                     exact
                     path="/dashboard/student/rapport/"
