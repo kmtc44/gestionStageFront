@@ -1,5 +1,8 @@
 import axios from "axios";
 import * as actionType from "./actionsType";
+import {
+  baseSite
+} from '../../config'
 
 export const authStart = () => {
   return {
@@ -26,7 +29,7 @@ export const authLogout = () => {
   // axios.defaults.headers = {
   //   "Authorization": `Token ${user.token}`
   // }
-  // axios.post("http://localhost:8000/auth/logout")
+  // axios.post("${baseSite}/auth/logout")
   //   .then(res => {
   return {
     type: actionType.AUTH_LOGOUT
@@ -48,7 +51,7 @@ export const authLogin = (username, password, status) => {
     dispatch(authStart());
 
     axios
-      .post("http://localhost:8000/auth/login", {
+      .post(`${baseSite}/auth/login`, {
         username: username,
         password: password
       })
@@ -107,7 +110,7 @@ export const authRegisterStudent = (username, email, password, status, firstname
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("http://localhost:8000/auth/register", {
+      .post(`${baseSite}/auth/register`, {
         username: username,
         email: email,
         password: password,
@@ -148,7 +151,7 @@ export const authRegisterAdministration = (username, email, password, status, fi
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("http://localhost:8000/auth/register", {
+      .post(`${baseSite}/auth/register`, {
         username,
         email,
         password,
@@ -186,7 +189,7 @@ export const authRegisterEnterprise = (username, email, password, status, firstn
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("http://localhost:8000/auth/register", {
+      .post(`${baseSite}/auth/register`, {
         username,
         email,
         password,
