@@ -8,15 +8,9 @@ class Footer extends Component {
         <div>
           <section id="block-block-1">
             <p>
-              Propulsé par
-              <a
-                href="http://www.ept.sn"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {" "}
-                le département G.I.T. de l'E.P.T.
-              </a>
+              Ecole Polytechnique de Thies {" "}
+              &copy; {1900 + new Date().getYear()}, Designed by{" "}
+              KM-CMW
             </p>
           </section>
         </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import NotificationAlert from "react-notification-alert";
 import { baseSite } from '../../config'
 
 import {
@@ -23,8 +24,32 @@ class Attachments extends React.Component {
 		exist: null,
 		fileList: [],
 		fileCv: [],
-		uploading: false
+		uploadingRapport: false,
+		uploadingCv: false
 	}
+
+	constructor(props) {
+		super(props);
+		this.notify = this.notify.bind(this);
+	}
+
+
+	notify(place, message, type) {
+		var options = {};
+		options = {
+			place: place,
+			message: (
+				<div>
+					<div>{message}</div>
+				</div>
+			),
+			type: type,
+			icon: "now-ui-icons ui-1_bell-53",
+			autoDismiss: 7
+		};
+		this.refs.notificationAlert.notificationAlert(options);
+	}
+
 
 	handleFormSubmit = (e) => {
 		e.preventDefault();
@@ -40,7 +65,7 @@ class Attachments extends React.Component {
 		const fData = new FormData()
 
 		this.setState({
-			uploading: true,
+			uploadingRapport: true,
 		});
 
 		fData.append("rapport", fileList[0])
@@ -52,9 +77,14 @@ class Attachments extends React.Component {
 					axios.post(`${baseSite}/attachments/`, fData)
 						.then(res1 => {
 							this.setState({
-								uploading: false,
+								uploadingRapport: false,
 							})
-							console.log(res1)
+							// console.log(res1)
+							this.notify(
+								"tc",
+								`Votre rapport est envoye avec succes`,
+								"success"
+							);
 						}
 						)
 						.catch(err => console.log(err));
@@ -62,7 +92,7 @@ class Attachments extends React.Component {
 					axios.put(`${baseSite}/attachments/${this.state.exist.id}/`, fData)
 						.then(res1 => {
 							this.setState({
-								uploading: false,
+								uploadingRapport: false,
 							});
 							console.log(res1)
 						})
@@ -86,7 +116,7 @@ class Attachments extends React.Component {
 		const fData = new FormData()
 
 		this.setState({
-			uploading: true,
+			uploadingCv: true,
 		});
 
 		fData.append("cv", fileCv[0])
@@ -98,9 +128,14 @@ class Attachments extends React.Component {
 					axios.post(`${baseSite}/attachments/`, fData)
 						.then(res1 => {
 							this.setState({
-								uploading: false,
+								uploadingCv: false,
 							})
-							console.log(res1)
+							// console.log(res1)
+							this.notify(
+								"tc",
+								`Votre CV  est envoye avec succes`,
+								"success"
+							);
 						}
 						)
 						.catch(err => console.log(err));
@@ -108,7 +143,7 @@ class Attachments extends React.Component {
 					axios.put(`${baseSite}/attachments/${this.state.exist.id}/`, fData)
 						.then(res1 => {
 							this.setState({
-								uploading: false,
+								uploadingCv: false,
 							});
 							console.log(res1)
 						})
@@ -117,11 +152,9 @@ class Attachments extends React.Component {
 			})
 	}
 
-
-
 	render() {
 
-		const { uploading, fileList, fileCv } = this.state;
+		const { uploadingRapport, uploadingCv, fileList, fileCv } = this.state;
 
 		const props = {
 			beforeUpload: file => {
@@ -145,6 +178,7 @@ class Attachments extends React.Component {
 
 		return (
 			<div className="container">
+				<NotificationAlert ref="notificationAlert" />
 				<Row>
 					<Card>
 						<CardBody>
@@ -160,9 +194,9 @@ class Attachments extends React.Component {
 											type="primary"
 											htmlType="Submit"
 											disabled={fileList.length === 0}
-											loading={uploading}
+											loading={uploadingRapport}
 											style={{ marginTop: 16 }}>
-											{uploading ? 'Uploading' : 'Sauvegarder'}
+											{uploadingRapport ? 'Uploading' : 'Sauvegarder'}
 										</Button>
 									</Form>
 								</div>
@@ -182,9 +216,9 @@ class Attachments extends React.Component {
 											type="primary"
 											htmlType="Submit"
 											disabled={fileCv.length === 0}
-											loading={uploading}
+											loading={uploadingCv}
 											style={{ marginTop: 16 }}>
-											{uploading ? 'Uploading' : 'Sauvegarder'}
+											{uploadingCv ? 'Uploading' : 'Sauvegarder'}
 										</Button>
 									</Form>
 								</div>

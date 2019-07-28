@@ -285,10 +285,10 @@ class Header extends Component {
                                         ) : (
                                             <>
                                               {
-                                                notification.rapport ? (
+                                                notification.project ? (
                                                   <DropdownItem >
                                                     {" "}
-                                                    <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/project/detail/${notification.rapport}`}>
+                                                    <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/project/detail/${notification.project}`}>
                                                       {notification.title}{" "}
                                                     </Link>
                                                   </DropdownItem>
@@ -311,10 +311,10 @@ class Header extends Component {
                                           ) : (
                                               <>
                                                 {
-                                                  notification.rapport ? (
+                                                  notification.project ? (
                                                     <DropdownItem >
                                                       {" "}
-                                                      <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/project/detail/${notification.rapport}`}>
+                                                      <Link onClick={this.onReadNotif} value={notification.id} style={{ color: "black" }} to={`/dashboard/project/detail/${notification.project}`}>
                                                         {notification.title}{" "}
                                                       </Link>
                                                     </DropdownItem>

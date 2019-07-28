@@ -132,15 +132,20 @@ function Chat(props) {
 											})
 										}
 									</div>
-									<div className="type_msg">
-										<form onSubmit={onNewMessage} >
-											<div className="input_msg_write" >
-												<input type="text" className="write_msg" placeholder="Ecrire Votre message" onChange={onMessage} value={message} />
-												<button className="msg_send_btn" type="submit">  </button>
+									{
+										props.is_responsible ? (
+
+											<div className="type_msg">
+												<form onSubmit={onNewMessage} >
+													<div className="input_msg_write" >
+														<input type="text" className="write_msg" placeholder="Ecrire Votre message" onChange={onMessage} value={message} />
+														<button className="msg_send_btn" type="submit">  </button>
+													</div>
+												</form>
 											</div>
-										</form>
-										<div ref={msgEnd} />
-									</div>
+										) : ("")
+									}
+									<div ref={msgEnd} />
 								</div>
 							</div>
 						</div>
@@ -155,7 +160,8 @@ const mapStateToProps = state => {
 	return {
 		token: state.token,
 		status: state.status,
-		userId: state.userId
+		userId: state.userId,
+		is_responsible: state.is_responsible
 	}
 }
 export default connect(mapStateToProps)(Chat) 

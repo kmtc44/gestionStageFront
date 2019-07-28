@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Spin, Modal } from "antd";
 import { Link } from "react-router-dom";
 import "../../assets/css/login.css";
 import AddStudents from "./AddStudents";
 import Maps from '../Maps/Maps'
+import NotificationAlert from "react-notification-alert";
 
 import {
   Button,
@@ -20,14 +21,12 @@ import {
 import { connect } from 'react-redux'
 import { baseSite } from '../../config'
 
-
-
 const { confirm } = Modal;
-
 
 function Enterprise(props) {
   const [enterprise, setEnterprise] = useState({});
   const [loading, setLoading] = useState(true);
+  const notificationAlert = useRef(null)
 
   function showConfirmDelete(e) {
     const info = e.target.value.split(",");
@@ -88,6 +87,57 @@ function Enterprise(props) {
       onCancel() { }
     });
   }
+  function showConfirmSupp(e) {
+    const info = e.target.value.split(",");
+    const id_enterprise = info[0];
+    const name = info[1];
+
+    confirm({
+      title:
+        "Voulez vous vraiment supprimer cette entreprise  ?",
+      content: `Nom de l'entreprise: ${name}`,
+      onOk() {
+        axios.defaults.headers = {
+          "Content-Type": "Application/json",
+          Authorization: `Token ${props.token}`
+        };
+        axios
+          .put(`${baseSite}/internship/enterprise/${id_enterprise}/`, {
+            is_deleted: true
+          })
+          .then(res => {
+            console.log(res.data);
+            notify(
+              "tc",
+              `L'enterprise ${res.data.name} est supprimer avec succes`,
+              "success"
+            );
+            setTimeout(() => {
+              props.history.push('/dashboard')
+            }, 2000)
+          })
+          .catch(err => console.log(err));
+      },
+      onCancel() { }
+    });
+  }
+
+  const notify = (place, message, type) => {
+    var options = {};
+    options = {
+      place: place,
+      message: (
+        <div>
+          <div>{message}</div>
+        </div>
+      ),
+      type: type,
+      icon: "now-ui-icons ui-1_bell-53",
+      autoDismiss: 7
+    };
+
+    notificationAlert.current.notificationAlert(options);
+  }
 
   const enterpriseId = path => path.substring(29);
 
@@ -129,6 +179,7 @@ function Enterprise(props) {
     <Spin className="center container-fluid " />
   ) : (
       <div>
+        <NotificationAlert ref={notificationAlert} />
         <Col className="mx-auto" lg="9" md="9">
           <Card className="card-user">
             <div className="image">
@@ -359,16 +410,34 @@ function Enterprise(props) {
           </div>
         ) : (
             <div className="container text-center">
-              <Button
-                value={[enterprise.id, enterprise.name]}
-                className="btn btn-primary"
-                onClick={showConfirmAdd}
-              >
-                {" "}
-                Ajouter comme partenaire{" "}
-              </Button>
+              {
+                props.status === 'teacher' && props.is_responsible ? (
+                  <Button
+                    value={[enterprise.id, enterprise.name]}
+                    className="btn btn-primary"
+                    onClick={showConfirmAdd}
+                  >
+                    {" "}
+                    Ajouter comme partenaire{" "}
+                  </Button>
+                ) : ('')
+              }
             </div>
           )}
+        {
+          props.status === 'teacher' && props.is_responsible ? (
+            <div className="container text-center">
+              <Button
+                value={[enterprise.id, enterprise.name]}
+                className="btn btn-danger"
+                onClick={showConfirmSupp}
+              >
+                {" "}
+                Supprimer cette enterprise{" "}
+              </Button>
+            </div>
+          ) : ('')
+        }
       </div>
     );
 }
@@ -377,7 +446,8 @@ const mapStateToProps = state => {
   return {
     status: state.status,
     statusId: state.statusId,
-    token: state.token
+    token: state.token,
+    is_responsible: state.is_responsible
   }
 }
 

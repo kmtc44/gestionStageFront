@@ -13,12 +13,12 @@ class Footer extends React.Component {
         <Container fluid={this.props.fluid ? true : false}>
           <nav>
             <ul>
-              <li>
+              <span>
                 Ecole Polytechnique de Thies {" "}
-              </li>
-              <li>
-                Kaire Wade
-              </li>
+              </span>
+              <span>
+                {" Kaire Wade "}
+              </span>
             </ul>
           </nav>
           <div className="copyright">

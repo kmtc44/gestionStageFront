@@ -6,9 +6,10 @@ import "../../assets/css/login.css";
 import Chat from './Chat'
 import "../../assets/css/chat.css"
 import SetDuration from './SetDelay'
-import {baseSite} from '../../config'
+import { baseSite } from '../../config'
 
 import { Card, CardBody, Col, Button } from "reactstrap";
+
 
 
 function Convention(props) {
@@ -33,6 +34,7 @@ function Convention(props) {
     }
   }
 
+
   const showModal = (e) => {
     console.log(e)
     setVisible(true)
@@ -45,10 +47,9 @@ function Convention(props) {
   useEffect(() => {
     const fetchEnterprise = async () => {
       setLoading(true);
-      const user = JSON.parse(localStorage.getItem("user"));
       axios.defaults.headers = {
         "Content-Type": "application/json",
-        Authorization: `Token ${user.token}`
+        Authorization: `Token ${props.token}`
       };
       let res = null
       if (props.match.params.convId) {
@@ -67,7 +68,7 @@ function Convention(props) {
       }
     };
     fetchEnterprise();
-  }, [props.match.params.convId, props.enterpriseId]);
+  }, [props.match.params.convId, props.enterpriseId, props.token]);
   console.log(convention);
 
   return loading ? (
@@ -103,15 +104,22 @@ function Convention(props) {
                     de {convention.enterprise.field}
                   </p>
                   {
-                    convention.life_time === 0 ? (
-                      <Button onClick={showModal} className="btn btn-primary">
-                        Etablir la duree
-                      </Button>
-                    ) : (
-                        <Button onClick={showModal} className="btn btn-primary">
-                          Modifier la duree
-                      </Button>
-                      )
+                    props.is_responsible ? (
+                      <>
+
+                        {
+                          convention.life_time === 0 ? (
+                            <Button onClick={showModal} className="btn btn-primary">
+                              Etablir la duree
+                            </Button>
+                          ) : (
+                              <Button onClick={showModal} className="btn btn-primary">
+                                Modifier la duree
+                              </Button>
+                            )
+                        }
+                      </>
+                    ) : ('')
                   }
 
                 </CardBody>

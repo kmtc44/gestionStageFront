@@ -7,7 +7,7 @@ import {
   CardTitle,
   Row,
   Col,
-  UncontrolledTooltip,
+  // UncontrolledTooltip,
   CardFooter,
   CardHeader,
   CardBody,
@@ -42,7 +42,7 @@ function Project(props) {
     setCreateTaskVisible(true)
   }
   const handleCancel = () => {
-    setVisible(false);
+    setCreateTaskVisible(false);
   };
 
   const notify = (place, message, type) => {
@@ -203,7 +203,7 @@ function Project(props) {
                   onCancel={handleCancel}
                   footer={''}
                 >
-                  <FormTask projectId={project.id} />
+                  <FormTask taille={12} projectId={project.id} />
                 </Modal>
               </CardFooter>
             </Card >
@@ -323,7 +323,7 @@ function Project(props) {
                                     })}
                                   </p>
                                 </td>
-                                <td className="td-actions text-right">
+                                {/* <td className="td-actions text-right">
                                   <Button
                                     className="btn-round btn-icon btn-icon-mini btn-neutral"
                                     color="info"
@@ -352,7 +352,7 @@ function Project(props) {
                                   >
                                     Remove
                                   </UncontrolledTooltip>
-                                </td>
+                                </td> */}
                               </tr>
                             );
                           })}

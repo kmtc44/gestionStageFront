@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux"
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { Spin, Avatar, Comment, Tooltip, List } from "antd";
 import { Card, CardBody, CardFooter, Row, Col } from "reactstrap";
 import { baseSite } from '../../config'
@@ -152,63 +153,96 @@ function Rapport(props) {
 		<Spin className="center container " />
 	) : (
 			<div className="container">
+
 				{
 					props.match.params.rapportId ? (
-						<a href={student.attachments.rapport} className="btn btn-primary">Telecharger Rapport</a>
+						<> {
+							student.attachments ? (
+								<>
+									{
+										student.attachments.rapport ? (
+											<a href={student.attachments.rapport} className="btn btn-primary">Telecharger Rapport</a>
+										) : ('')
+									}
+								</>
+							) : ("")
+						}
+						</>
 					) : (
-							<a href={author.attachments.rapport} className="btn btn-primary">Telecharger Rapport</a>
+							<>
+								{
+									author.attachments ? (
+										<>
+											{
+												author.attachments.rapport ? (
+													<a href={author.attachments.rapport} className="btn btn-primary">Telecharger Rapport</a>
+												) : ('')
+											}
+										</>
+									) : (
+											<div className="container text-center">
+												<h3 className="text text-danger">Vous n'avez pas encore joint votre rapport de stage</h3>
+												<Link to='/dashboard/Attachments'> joindre votre rapport </Link>
+											</div>
+										)
+								}
+							</>
 						)
 				}
 
 				<hr />
-				<Row>
-					<Col md="6" className="mx-auto">
-						<Card >
-							<CardBody style={{ height: "500px", overflow: "auto" }}>
-								<div>
-									<List
-										className="comment-list"
-										header={`${comments.length} commentaires`}
-										itemLayout="horizontal"
-										dataSource={comments}
-										renderItem={item => (
-											<li>
-												<Comment
-													actions={item.actions}
-													author={item.author}
-													avatar={item.avatar}
-													content={item.content}
-													datetime={item.datetime}
+				{
+					comments ? (
+						<Row>
+							<Col md="6" className="mx-auto">
+								<Card >
+									<CardBody style={{ height: "500px", overflow: "auto" }}>
+										<div>
+											<List
+												className="comment-list"
+												header={`${comments.length} commentaires`}
+												itemLayout="horizontal"
+												dataSource={comments}
+												renderItem={item => (
+													<li>
+														<Comment
+															actions={item.actions}
+															author={item.author}
+															avatar={item.avatar}
+															content={item.content}
+															datetime={item.datetime}
+														/>
+													</li>
+												)}
+											/>
+										</div>
+										<hr />
+									</CardBody>
+									<CardFooter>
+										<Comment
+											avatar={
+												<Avatar
+													src={author.image || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"}
+													alt="Han Solo"
 												/>
-											</li>
-										)}
-									/>
-								</div>
-								<hr />
-							</CardBody>
-							<CardFooter>
-								<Comment
-									avatar={
-										<Avatar
-											src={author.image || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"}
-											alt="Han Solo"
+											}
+											content={
+												<Editor
+													onChange={handleChange}
+													onSubmit={handleSubmit}
+													submitting={submitting}
+													value={commentValue}
+												/>
+											}
 										/>
-									}
-									content={
-										<Editor
-											onChange={handleChange}
-											onSubmit={handleSubmit}
-											submitting={submitting}
-											value={commentValue}
-										/>
-									}
-								/>
-							</CardFooter>
+									</CardFooter>
 
-						</Card>
-					</Col>
+								</Card>
+							</Col>
 
-				</Row>
+						</Row>
+					) : ('')
+				}
 			</div>
 		)
 }

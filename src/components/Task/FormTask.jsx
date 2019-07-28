@@ -1,10 +1,11 @@
 import React from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { Form, Input, Select, Button } from "antd";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import NotificationAlert from "react-notification-alert";
+import PropTypes from "prop-types";
 import { baseSite } from '../../config'
 
 const { Option } = Select;
@@ -90,13 +91,19 @@ class RegistrationForm extends React.Component {
           Authorization: `Token ${this.state.user.token}`
         };
 
+        let project = null
+        if (this.props.projectId) {
+          project = this.props.projectId
+        } else {
+          project = values.project
+        }
         axios
           .post(`${baseSite}/task/`, {
             title: values.title,
             description: values.description,
             students: values.students,
             framer: this.props.statusId,
-            project: values.project
+            project: project
           })
           .then(res => {
             console.log(res);
@@ -105,9 +112,17 @@ class RegistrationForm extends React.Component {
               `La tache  ${values.title} est cree avec succes`,
               "success"
             );
-            setTimeout(() => {
-              this.setState({ sended: true });
-            }, 2000);
+            if (this.props.projectId) {
+              setTimeout(() => {
+                this.props.history.push(`/dashboard`)
+                this.props.history.push(`/dashboard/project/detail/${this.props.projectId}`)
+              }, 1500)
+            } else {
+
+              setTimeout(() => {
+                this.setState({ sended: true });
+              }, 2000);
+            }
           })
           .catch(err => console.log(err));
       }
@@ -155,7 +170,7 @@ class RegistrationForm extends React.Component {
           ""
         ) : (
             <Row>
-              <Col md="9" className="mx-auto">
+              <Col md={this.props.taille || 9} className="mx-auto">
                 <Card>
                   <CardHeader className="text-center">
                     <h5>Ajouter une nouvelle tache </h5>
@@ -191,24 +206,27 @@ class RegistrationForm extends React.Component {
                           ]
                         })(<Input />)}
                       </Form.Item>
-
-                      <Form.Item label="Selectionner le projet">
-                        {getFieldDecorator("project", {
-                          rules: [
-                            {
-                              required: false
-                            }
-                          ]
-                        })(
-                          <Select placeholder="Selectionner le projet">
-                            {this.state.projects.map(project => {
-                              return (
-                                <Option value={project.id}>{project.name}</Option>
-                              );
-                            })}
-                          </Select>
-                        )}
-                      </Form.Item>
+                      {
+                        !this.props.projectId ? (
+                          <Form.Item label="Selectionner le projet">
+                            {getFieldDecorator("project", {
+                              rules: [
+                                {
+                                  required: false
+                                }
+                              ]
+                            })(
+                              <Select placeholder="Selectionner le projet">
+                                {this.state.projects.map(project => {
+                                  return (
+                                    <Option value={project.id}>{project.name}</Option>
+                                  );
+                                })}
+                              </Select>
+                            )}
+                          </Form.Item>
+                        ) : ('')
+                      }
 
                       <Form.Item label="Selectionner etudiants">
                         {getFieldDecorator("students", {
@@ -253,6 +271,9 @@ class RegistrationForm extends React.Component {
 
 const WrappedTaskForm = Form.create({ name: "register" })(RegistrationForm);
 
+WrappedTaskForm.propTypes = {
+  projectId: PropTypes.number
+};
 const mapStateToProps = state => {
   return {
     statusId: state.statusId,
@@ -260,4 +281,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(WrappedTaskForm);
+export default connect(mapStateToProps)(withRouter(WrappedTaskForm));

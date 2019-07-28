@@ -53,14 +53,14 @@ class Sidebar extends React.Component {
         data-color={this.props.backgroundColor}
       >
         <div className="logo">
-          <Link to="/dashboard" className="simple-text logo-mini">
+          <a href="/dashboard" className="simple-text logo-mini">
             <div className="logo-img">
               <img src={logo} alt="ept-logo" />
             </div>
-          </Link>
-          <Link to="/dashboard" className="simple-text logo-normal">
+          </a>
+          <a href="/dashboard" className="simple-text logo-normal">
             Gestion des stages
-          </Link>
+          </a>
         </div>
         <div className="sidebar-wrapper" ref="sidebar" style={this.props.style}>
           <Nav>
@@ -95,22 +95,27 @@ class Sidebar extends React.Component {
                         <Collapse isOpen={this.state.enterpriseMenuOpen}>
                           <div>
                             <ul className="nav pl-3">
-                              <li
-                                className={
-                                  this.activeRoute("/dashboard/enterprise/new")
-                                    ? "active"
-                                    : null
-                                }
-                              >
-                                <NavLink
-                                  className="nav-link"
-                                  activeClassName="active"
-                                  to="/dashboard/enterprise/new"
-                                >
-                                  <i className={"now-ui-icons ui-1_simple-add"} />
-                                  Ajouter
-                            </NavLink>
-                              </li>
+                              {
+                                this.props.is_responsible ? (
+
+                                  <li
+                                    className={
+                                      this.activeRoute("/dashboard/enterprise/new")
+                                        ? "active"
+                                        : null
+                                    }
+                                  >
+                                    <NavLink
+                                      className="nav-link"
+                                      activeClassName="active"
+                                      to="/dashboard/enterprise/new"
+                                    >
+                                      <i className={"now-ui-icons ui-1_simple-add"} />
+                                      Ajouter
+                                </NavLink>
+                                  </li>
+                                ) : ('')
+                              }
                               <li
                                 className={
                                   this.activeRoute("/dashboard/enterprise/partner")
@@ -175,20 +180,25 @@ class Sidebar extends React.Component {
                         </a>
                         <Collapse isOpen={this.state.conventionMenuOpen}>
                           <div className="nav pl-3">
-                            <li
-                              className={
-                                this.activeRoute("/conventions/new") ? "active" : null
-                              }
-                            >
-                              <NavLink
-                                className="nav-link"
-                                activeClassName="active"
-                                to="/dashboard/conventions/new"
-                              >
-                                <i className={"now-ui-icons ui-1_simple-add"} />
-                                Creer une nouvelle convention
-                        </NavLink>
-                            </li>
+                            {
+                              this.props.is_responsible ? (
+                                <li
+                                  className={
+                                    this.activeRoute("/conventions/new") ? "active" : null
+                                  }
+                                >
+                                  <NavLink
+                                    className="nav-link"
+                                    activeClassName="active"
+                                    to="/dashboard/conventions/new"
+                                  >
+                                    <i className={"now-ui-icons ui-1_simple-add"} />
+                                    Creer une nouvelle convention
+                              </NavLink>
+                                </li>
+
+                              ) : ('')
+                            }
                             <li
                               className={
                                 this.activeRoute("/conventions/all")
@@ -672,7 +682,8 @@ Sidebar.propTypes = {
 const mapStateToProps = state => {
   return {
     status: state.status,
-    studentEnterprise: state.studentEnterprise
+    studentEnterprise: state.studentEnterprise,
+    is_responsible: state.is_responsible
   }
 }
 export default connect(mapStateToProps)(Sidebar);

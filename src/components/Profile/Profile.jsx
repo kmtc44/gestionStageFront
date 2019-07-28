@@ -129,7 +129,7 @@ class User extends React.Component {
                             <ListGroup className="list-group-flush" style={{ position: 'center' }}>
                               <Row>
                                 <Col md="6">
-                                  
+
                                   <ListGroupItem ><u><strong>Prénom :</strong></u>&nbsp;  &nbsp; {this.state.userData.first_name}</ListGroupItem>
 
                                   <ListGroupItem ><u><strong>Nom :</strong></u>&nbsp; &nbsp; {this.state.userData.last_name}</ListGroupItem>
@@ -153,23 +153,23 @@ class User extends React.Component {
                                 </Col>
 
                                 <Col md="6">
-                                {
-                                  this.props.status === 'student' || this.props.match.params.studentId ? (
+                                  {
+                                    this.props.status === 'student' || this.props.match.params.studentId ? (
                                       <>
-                                      <ListGroupItem ><u><strong>Departement :</strong></u>&nbsp; &nbsp; {this.state.userData.department.name}</ListGroupItem>
-                                      {
-                                        this.state.userData.enterprise ? (
-                                          <ListGroupItem ><u><strong>Enterprise :</strong></u>&nbsp; &nbsp; {this.state.userData.enterprise.name}</ListGroupItem>
-                                        ) : (<ListGroupItem ><u><strong>Classe :</strong></u>&nbsp;  &nbsp; {this.state.userData.classroom.name}</ListGroupItem>)
-                                      }
+                                        <ListGroupItem ><u><strong>Departement :</strong></u>&nbsp; &nbsp; {this.state.userData.department.name}</ListGroupItem>
+                                        {
+                                          this.state.userData.enterprise ? (
+                                            <ListGroupItem ><u><strong>Enterprise :</strong></u>&nbsp; &nbsp; {this.state.userData.enterprise.name}</ListGroupItem>
+                                          ) : (<ListGroupItem ><u><strong>Classe :</strong></u>&nbsp;  &nbsp; {this.state.userData.classroom.name}</ListGroupItem>)
+                                        }
 
-                                      <ListGroupItem ><u><strong>Promotion :</strong></u>&nbsp; &nbsp; {this.state.userData.promotion.name}</ListGroupItem>
+                                        <ListGroupItem ><u><strong>Promotion :</strong></u>&nbsp; &nbsp; {this.state.userData.promotion.name}</ListGroupItem>
 
-                                      <ListGroupItem ><u><strong>Date de naissance :</strong></u>&nbsp; &nbsp; {moment(this.state.userData.birthday).format("DD-MM-YYYY")}</ListGroupItem>
+                                        <ListGroupItem ><u><strong>Date de naissance :</strong></u>&nbsp; &nbsp; {moment(this.state.userData.birthday).format("DD-MM-YYYY")}</ListGroupItem>
                                       </>
-                                      ) : ('')
+                                    ) : ('')
                                   }
-                                
+
                                 </Col>
 
                               </Row>
@@ -209,6 +209,18 @@ class User extends React.Component {
                                                     })
                                                     } </ul>
                                                   </ListGroupItem>
+                                                  {
+                                                    this.state.userData.attachments ? (
+                                                      <>
+                                                        {
+                                                          this.state.userData.attachments.cv ? (
+                                                            <a href={this.state.userData.attachments.rapport} className="btn btn-primary">Telecharger CV</a>
+                                                          ) : ('')
+                                                        }
+                                                      </>
+                                                    ) : ('')
+                                                  }
+
                                                 </Col>
                                               </Row>
                                             </ListGroup>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import moment from "moment";
 import axios from "axios";
-import { Spin } from "antd";
+import { Spin, Modal } from "antd";
 import { Link } from "react-router-dom";
 import "../../assets/css/login.css";
 import {
@@ -16,11 +16,70 @@ import {
   Col
 } from "reactstrap";
 import { baseSite } from '../../config'
+import NotificationAlert from "react-notification-alert";
+import { connect } from 'react-redux'
 
-
+const { confirm } = Modal;
 function ListConvention(props) {
   const [conventions, setConvention] = useState([]);
   const [loading, setLoading] = useState(false);
+  const notificationAlert = useRef(null)
+
+  function showConfirmDelete(e) {
+    const info = e.target.value.split(",");
+    const id_convention = info[0];
+    const name = info[1];
+    const enterprise_name = info[2]
+
+
+    confirm({
+      title: `Voulez vous vraiment supprimer cette convention avec l'entreprise ${enterprise_name} ?`,
+      content: `Convention : ${name}`,
+      onOk() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        axios.defaults.headers = {
+          "Content-Type": "Application/json",
+          Authorization: `Token ${user.token}`
+        };
+        axios
+          .put(`${baseSite}/internship/enterprise/${id_convention}/`, {
+            is_delete: true
+          })
+          .then(res => {
+            notify(
+              "tc",
+              `La convention ${res.data.name} est supprimer avec succes`,
+              "success"
+            );
+            setTimeout(() => {
+              props.history.push('/dashboard')
+
+            }, 1000)
+
+          })
+          .catch(err => console.log(err));
+      },
+      onCancel() { }
+    });
+  }
+
+  const notify = (place, message, type) => {
+    var options = {};
+    options = {
+      place: place,
+      message: (
+        <div>
+          <div>{message}</div>
+        </div>
+      ),
+      type: type,
+      icon: "now-ui-icons ui-1_bell-53",
+      autoDismiss: 7
+    };
+
+    notificationAlert.current.notificationAlert(options);
+  }
+
 
   useEffect(() => {
     const fetchConvention = async () => {
@@ -42,6 +101,7 @@ function ListConvention(props) {
     <Spin className="center container" />
   ) : (
       <div className="container">
+        <NotificationAlert ref={notificationAlert} />
         <CardGroup className="mx-auto cardHolder">
           {conventions.map((convention) => {
             return (
@@ -80,9 +140,21 @@ function ListConvention(props) {
                     </CardBody>
                   </Card>
                 </Link>
-                <Button className="btn btn-danger">
-                  Supprimer
+                {
+                  props.status === 'teacher' && props.is_responsible ? (
+                    <Button
+                      value={[
+                        convention.id,
+                        convention.name,
+                        convention.enterprise.name
+                      ]}
+                      className="btn btn-danger"
+                      onClick={showConfirmDelete}
+                    >
+                      Supprimer
                     </Button>
+                  ) : ('')
+                }
               </Col>
             );
           })}
@@ -90,4 +162,11 @@ function ListConvention(props) {
       </div>
     );
 }
-export default ListConvention;
+
+const mapStateToProps = state => {
+  return {
+    status: state.status,
+    is_responsible: state.is_responsible
+  }
+}
+export default connect(mapStateToProps)(ListConvention);

@@ -5,6 +5,7 @@ import { Form, Input, Select, Checkbox, Button, AutoComplete, Upload, Icon } fro
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import NotificationAlert from "react-notification-alert";
 import { baseSite } from '../../config'
+import { apiKey } from '../../config'
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -31,7 +32,7 @@ class RegistrationForm extends React.Component {
       "https://maps.googleapis.com/maps/api/geocode/json", {
         params: {
           address: location,
-          key: 'AIzaSyCn1DG_iIuTXQ6yvR7PBrjKMHTU-crV0lA'
+          key: { apiKey }
         }
       }
     )

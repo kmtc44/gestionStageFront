@@ -57,10 +57,12 @@ export const authLogin = (username, password, status) => {
         let status_id = null
         let enterpriseId = null
         let studentEnterprise = null
+        let is_responsible = null
 
         if (res.data.user.teacher !== null) {
           status_user = res.data.user.teacher.status
           status_id = res.data.user.teacher.id
+          is_responsible = res.data.user.teacher.responsible_dept || res.data.user.teacher.responsible
 
         } else if (res.data.user.framer !== null) {
           status_user = res.data.user.framer.status
@@ -85,7 +87,8 @@ export const authLogin = (username, password, status) => {
             statusId: status_id,
             userId: res.data.user.id,
             enterpriseId,
-            studentEnterprise
+            studentEnterprise,
+            is_responsible
           }
           localStorage.setItem("user", JSON.stringify(user));
           dispatch(authSuccess(user));
@@ -156,7 +159,8 @@ export const authRegisterAdministration = (username, email, password, status, fi
           expirationDate: new Date(new Date().getTime() + 3600 * 1000),
           status,
           statusId: res.data.user.teacher.id,
-          userId: res.data.user.id
+          userId: res.data.user.id,
+          is_responsible: false
         }
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));
