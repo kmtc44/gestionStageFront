@@ -194,6 +194,8 @@ function Project(props) {
                   </Col>
                 </Row>
               </CardBody >
+              {
+                props.status === 'framer'  ? (
               <CardFooter>
                 <Button className="btn btn-primary" onClick={showModalCreate}>
                   Nouvelle Tache
@@ -207,6 +209,8 @@ function Project(props) {
                   <FormTask taille={12} projectId={project.id} />
                 </Modal>
               </CardFooter>
+                ) : ('')
+              }
             </Card >
           </Col >
           ;

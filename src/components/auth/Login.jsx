@@ -75,7 +75,7 @@ class Login extends Component {
     return (
       <div >
         <Row>
-          <Col md="9" lg="6" className="mx-auto p-5 m-2">
+          <Col md="12" lg="6" className="mx-auto p-3 mt-2">
             <Card>
               <CardHeader className="text-center">
                 <h1>

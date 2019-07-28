@@ -53,14 +53,14 @@ class Sidebar extends React.Component {
         data-color={this.props.backgroundColor}
       >
         <div className="logo">
-          <a href="/dashboard" className="simple-text logo-mini">
+          <Link to="/dashboard" className="simple-text logo-mini">
             <div className="logo-img">
               <img src={logo} alt="ept-logo" />
             </div>
-          </a>
-          <a href="/dashboard" className="simple-text logo-normal">
+          </Link>
+          <Link to="/dashboard" className="simple-text logo-normal">
             Gestion des stages
-          </a>
+          </Link>
         </div>
         <div className="sidebar-wrapper" ref="sidebar" style={this.props.style}>
           <Nav>
@@ -452,9 +452,9 @@ class Sidebar extends React.Component {
                                 >
                                   <i className={"now-ui-icons ui-1_simple-add"} />
                                   Creer une nouvelle tache
-                          </NavLink>
+                                </NavLink>
                               </li>
-                              <li
+                              {/* <li
                                 className={
                                   this.activeRoute("/dashboard/task/all")
                                     ? "active"
@@ -470,8 +470,8 @@ class Sidebar extends React.Component {
                                     className={"now-ui-icons design_bullet-list-67"}
                                   />
                                   Liste de taches
-                          </NavLink>
-                              </li>
+                                </NavLink>
+                              </li> */}
                             </li>
                           </div>
                         </Collapse>

@@ -166,7 +166,7 @@ class RegistrationForm extends Component {
 
   promotionSelector = () => {
     return (
-      <Form.Item label="Promotion">
+      <Form.Item label="promotion">
         {this.props.form.getFieldDecorator("promotion", {
           rules: [
             {
@@ -262,12 +262,12 @@ class RegistrationForm extends Component {
 
     const formItemLayout = {
       labelCol: {
-        xs: { span: 8 },
-        sm: { span: 8 }
+        xs: { span: 10 },
+        sm: { span: 10 }
       },
       wrapperCol: {
-        xs: { span: 8 },
-        sm: { span: 8 }
+        xs: { span: 10 },
+        sm: { span: 10 }
       }
     };
     const tailFormItemLayout = {
@@ -294,7 +294,7 @@ class RegistrationForm extends Component {
           <Spin className="center container " />
         ) : (
             <Row>
-              <Col md="9" lg="6" className="mx-auto p-5 m-2">
+              <Col md="12" lg="7" className="mx-auto p-3 m-2">
                 <Card>
                   <CardHeader className="text-center">
                     <h1>

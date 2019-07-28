@@ -133,7 +133,7 @@ function Chat(props) {
 										}
 									</div>
 									{
-										props.is_responsible ? (
+										props.is_responsible || props.status === 'framer' ? (
 
 											<div className="type_msg">
 												<form onSubmit={onNewMessage} >
