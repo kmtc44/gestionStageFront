@@ -112,7 +112,6 @@ function ListConvention(props) {
                         src={convention.enterprise.logo}
                         alt="Card image cap"
                       />
-
                     ) : (
 
                         <CardImg
