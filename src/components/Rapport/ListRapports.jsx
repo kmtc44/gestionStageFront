@@ -111,7 +111,7 @@ function ListRapports(props) {
 								})}
 							</>
 						) : (
-								<h2 className="text-center text-danger">Aucun eleve n'a encore ajouter son rapport </h2>
+								<h2 className="text-center text-danger">Aucun eleve n'a encore ajoute son rapport </h2>
 							)
 					}
 				</Row>

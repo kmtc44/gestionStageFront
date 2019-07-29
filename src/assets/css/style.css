@@ -63,7 +63,7 @@ td {
 .cardHolder .card {
     position: relative;
     width: 240px;
-    height: 380px;
+    height: 400px;
     text-align: center;
     box-shadow: 10px 10px 60px lightgray;
     transition: .2s;

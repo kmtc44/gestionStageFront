@@ -86,9 +86,9 @@ class RegistrationForm extends React.Component {
               `Le projet ${values.name} est cree avec succes`,
               "success"
             );
-            setTimeout(() => {
-              this.setState({ sended: true });
-            }, 1500);
+
+            this.setState({ sended: true });
+
           })
           .catch(err => console.log(err));
       }
@@ -199,12 +199,12 @@ class RegistrationForm extends React.Component {
                         {this.state.students.map(student => {
                           return student.enterprise.id ===
                             this.props.enterpriseId ? (
-                            <Option value={student.id}>
-                              {student.first_name} {student.last_name}
-                            </Option>
-                          ) : (
-                            ""
-                          );
+                              <Option value={student.id}>
+                                {student.first_name} {student.last_name}
+                              </Option>
+                            ) : (
+                              ""
+                            );
                         })}
                       </Select>
                     )}
