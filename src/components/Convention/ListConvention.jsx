@@ -42,7 +42,7 @@ function ListConvention(props) {
           Authorization: `Token ${user.token}`
         };
         axios
-          .put(`${baseSite}/internship/enterprise/${id_convention}/`, {
+          .put(`${baseSite}/internship/convention/${id_convention}/`, {
             is_deleted: true
           })
           .then(res => {
@@ -51,10 +51,7 @@ function ListConvention(props) {
               `La convention ${res.data.name} est supprimer avec succes`,
               "success"
             );
-            setTimeout(() => {
-              props.history.push('/dashboard')
-
-            }, 1000)
+            props.history.push('/dashboard')
 
           })
           .catch(err => console.log(err));
