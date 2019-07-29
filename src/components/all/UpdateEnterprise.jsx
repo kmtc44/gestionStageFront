@@ -1,0 +1,396 @@
+import React from "react";
+import axios from "axios";
+import { Redirect, withRouter } from "react-router-dom";
+import { Spin, Form, Input, Select, Checkbox, Button, AutoComplete, Upload, Icon } from "antd";
+import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import NotificationAlert from "react-notification-alert";
+import { connect } from 'react-redux'
+import { baseSite } from '../../config'
+
+
+const { Option } = Select;
+const AutoCompleteOption = AutoComplete.Option;
+
+class RegistrationForm extends React.Component {
+	state = {
+		confirmDirty: false,
+		autoCompleteResult: [],
+		logo: false,
+		sended: false,
+		partner: false,
+		loading: true,
+		enterprise: null
+
+	};
+	constructor(props) {
+		super(props);
+		this.notify = this.notify.bind(this);
+	}
+
+	componentDidMount() {
+		const { token, enterpriseId } = this.props
+		console.log(enterpriseId)
+
+		axios.defaults.headers = {
+			"Content-Type": "application/json",
+			Authorization: `Token ${token}`
+		}
+
+		this.setState({ loading: true })
+		axios.get(`${baseSite}/internship/enterprise/${enterpriseId}/`)
+			.then(res => {
+				this.setState({
+					enterprise: res.data
+				});
+				this.setState({ loading: false })
+			})
+			.catch(err => console.log(err))
+
+	}
+
+
+	notify(place, message, type) {
+		var options = {};
+		options = {
+			place: place,
+			message: (
+				<div>
+					<div>{message}</div>
+				</div>
+			),
+			type: type,
+			icon: "now-ui-icons ui-1_bell-53",
+			autoDismiss: 7
+		};
+		this.refs.notificationAlert.notificationAlert(options);
+	}
+
+	onLogo(e) {
+		console.log(e.target.files[0]);
+		this.setState({ logo: e.target.files[0] });
+	}
+
+	handleSubmit = e => {
+		e.preventDefault();
+		this.props.form.validateFieldsAndScroll((err, values) => {
+			if (!err) {
+				console.log("Received values of form: ", values);
+				const user = JSON.parse(localStorage.getItem("user"));
+				axios.defaults.headers = {
+					"Content-Type": " application/json",
+					Authorization: `Token ${user.token}`
+				};
+				const enterprise = new FormData();
+				if (values.is_partner) {
+					enterprise.append("is_partner", "True");
+
+				}
+				if (this.state.logo) {
+					enterprise.append("logo", this.state.logo[0]);
+				}
+				if (this.state.latitude) {
+					enterprise.append("latitude", this.state.latitude)
+					enterprise.append("longitude", this.state.longitude)
+				}
+				enterprise.append("name", values.name);
+				enterprise.append("field", values.field);
+				enterprise.append("email", values.email);
+				enterprise.append("address", values.address);
+				enterprise.append("website", values.website);
+				enterprise.append("phone", values.phone);
+				enterprise.append("leader_name", values.leader_name);
+				enterprise.append("latitude", values.latitude)
+				enterprise.append("longitude", values.longitude)
+				axios
+					.put(`${baseSite}/internship/enterprise/${this.props.enterpriseId}/`, enterprise)
+					.then(res => {
+						console.log(res);
+						this.notify(
+							"tc",
+							`L'entreprise ${values.name} est modifier`,
+							"success"
+						)
+						this.props.history.push('/dashboard')
+						this.props.history.push(`/dashboard/enterprise/detail/${this.props.enterpriseId}`)
+					})
+					.catch(err => console.log(err));
+			}
+		});
+	};
+
+	handleConfirmBlur = e => {
+		const { value } = e.target;
+		this.setState({ confirmDirty: this.state.confirmDirty || !!value });
+	};
+
+	handleWebsiteChange = value => {
+		let autoCompleteResult;
+		if (!value) {
+			autoCompleteResult = [];
+		} else {
+			autoCompleteResult = [".com", ".org", ".net", ".sn"].map(
+				domain => `${value}${domain}`
+			);
+		}
+		this.setState({ autoCompleteResult });
+	};
+
+	render() {
+		if (this.state.sended && this.state.partner) {
+			return <Redirect to="/dashboard/enterprise/partner" />;
+		} else if (this.state.sended && !this.state.partner) {
+			return <Redirect to="/dashboard/enterprise/potential" />;
+		}
+
+
+		const { getFieldDecorator } = this.props.form;
+		const { autoCompleteResult, logo } = this.state;
+
+		const props = {
+			beforeUpload: file => {
+				this.setState({
+					logo: [file]
+				});
+				return false;
+			},
+			logo,
+		}
+
+		const formItemLayout = {
+			labelCol: {
+				xs: { span: 8 },
+				sm: { span: 8 }
+			},
+			wrapperCol: {
+				xs: { span: 4 },
+				sm: { span: 10 }
+			}
+		};
+		const tailFormItemLayout = {
+			wrapperCol: {
+				xs: {
+					span: 10,
+					offset: 0
+				},
+				sm: {
+					span: 10,
+					offset: 8
+				}
+			}
+		};
+		const prefixSelector = getFieldDecorator("prefix", {
+			initialValue: "221"
+		})(
+			<Select style={{ width: 80 }}>
+				<Option value="221">+221</Option>
+				<Option value="53">+53</Option>
+			</Select>
+		);
+
+		const websiteOptions = autoCompleteResult.map(website => (
+			<AutoCompleteOption key={website}>{website}</AutoCompleteOption>
+		));
+
+		return (
+			<div >
+				{
+					this.state.loading ? (
+						<Spin className="center container " />
+					) : (
+							<>
+								<NotificationAlert ref="notificationAlert" />
+								<Row>
+									<Col md={this.props.taille || 9} className="mx-auto">
+										<Card>
+											<CardHeader className="text-center">
+												<h5>Modifer cette entreprise</h5>
+											</CardHeader>
+											<CardBody>
+												<Form
+													className="mr-10 p-5 text-left"
+													{...formItemLayout}
+													onSubmit={this.handleSubmit}
+												>
+													<Form.Item label={<span>Nom de l'entreprise</span>}>
+														{getFieldDecorator("name", {
+															initialValue: this.state.enterprise.name,
+															rules: [
+																{
+																	required: true,
+
+																	message:
+																		"S'il vous plaît entrer le nom de l'entreprise !",
+																	whitespace: true
+																}
+															]
+														})(<Input onBlur={this.onEnterprise} />)}
+													</Form.Item>
+													<Form.Item label={<span>Domaine de l'entreprise</span>}>
+														{getFieldDecorator("field", {
+															initialValue: this.state.enterprise.field,
+															rules: [
+																{
+																	required: true,
+
+																	message:
+																		"S'il vous plaît entrer le domaine de l'entreprise !",
+																	whitespace: true
+																}
+															]
+														})(<Input />)}
+													</Form.Item>
+													<Form.Item label={<span>Adresse de l'entreprise</span>}>
+														{getFieldDecorator("address", {
+															initialValue: this.state.enterprise.address,
+															// setFieldsValue: this.state.address,
+															rules: [
+																{
+																	required: true,
+
+																	message:
+																		"S'il vous plaît entrer l'adresse de l'entreprise !",
+																	whitespace: true
+																}
+															]
+														})(<Input />)}
+													</Form.Item>
+													<Form.Item label={<span>Nom du Directeur </span>}>
+														{getFieldDecorator("leader_name", {
+															initialValue: this.state.enterprise.leader_name,
+															rules: [
+																{
+																	required: true,
+																	message:
+																		"S'il vous plaît entrer le nom du directeur de l'entreprise !",
+																	whitespace: true
+																}
+															]
+														})(<Input />)}
+													</Form.Item>
+													<Form.Item label="E-mail">
+														{getFieldDecorator("email", {
+															initialValue: this.state.enterprise.email,
+															rules: [
+																{
+																	type: "email",
+																	message: "L'entrée n'est pas valide E-mail!"
+																},
+																{
+																	required: true,
+																	message: "S'il vous plaît entrer votre e-mail!"
+																}
+															]
+														})(<Input />)}
+													</Form.Item>
+													<Form.Item label="Phone Number">
+														{getFieldDecorator("phone", {
+															initialValue: this.state.enterprise.phone,
+															rules: [
+																{
+																	required: true,
+																	message:
+																		"S'il vous plaît entrer le numero de l'enterprise!"
+																}
+															]
+														})(
+															<Input
+																addonBefore={prefixSelector}
+																style={{ width: "100%" }}
+															/>
+														)}
+													</Form.Item>
+													<Form.Item label="Website">
+														{getFieldDecorator("website", {
+															initialValue: this.state.enterprise.website,
+															rules: [
+																{ required: true, message: "Please input website!" }
+															]
+														})(
+															<AutoComplete
+																dataSource={websiteOptions}
+																onChange={this.handleWebsiteChange}
+																placeholder="website"
+															>
+																<Input />
+															</AutoComplete>
+														)}
+													</Form.Item>
+
+													<Form.Item label="Logo enterprise" className="uploadImg">
+														<Upload beforeUpload={props.beforeUpload} fileList={props.logo}>
+															<Button>
+																<Icon type="upload" /> Ajouter Logo
+						        </Button>
+														</Upload>
+													</Form.Item>
+
+													<Form.Item label="Latitude">
+														{getFieldDecorator("latitude", {
+															initialValue: this.state.enterprise.latitude,
+															rules: [
+																{
+																	required: false,
+
+																}
+															]
+														})(
+															<Input
+
+															/>
+														)}
+													</Form.Item>
+
+													<Form.Item label="Longitude">
+														{getFieldDecorator("longitude", {
+															initialValue: this.state.enterprise.longitude,
+															rules: [
+																{
+																	required: false,
+
+																}
+															]
+														})(
+															<Input
+
+															/>
+														)}
+													</Form.Item>
+
+													<Form.Item {...tailFormItemLayout}>
+														{getFieldDecorator("is_partner", {
+															initialValue: this.state.enterprise.is_partner,
+															valuePropName: "checked"
+														})(<Checkbox>Entreprise partenaire</Checkbox>)}
+													</Form.Item>
+
+													<Form.Item {...tailFormItemLayout}>
+														<Button type="primary" htmlType="submit">
+															Mettre a jour
+                    </Button>
+													</Form.Item>
+												</Form>
+											</CardBody>
+										</Card>
+									</Col>
+								</Row>
+							</>
+						)
+				}
+			</div>
+		);
+	}
+}
+
+const WrappedRegistrationForm = Form.create({ name: "register" })(
+	RegistrationForm
+);
+
+const mapStateToProps = state => {
+	return {
+		status: state.status,
+		statusId: state.statusId,
+		token: state.token
+	}
+}
+
+export default connect(mapStateToProps)(withRouter(WrappedRegistrationForm))

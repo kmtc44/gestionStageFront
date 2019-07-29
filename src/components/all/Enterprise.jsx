@@ -16,16 +16,19 @@ import {
   CardTitle,
   CardText,
   Row,
-  Col
+  Col,
+  CardFooter
 } from "reactstrap";
 import { connect } from 'react-redux'
 import { baseSite } from '../../config'
+import UpdateEnterprise from "./UpdateEnterprise";
 
 const { confirm } = Modal;
 
 function Enterprise(props) {
   const [enterprise, setEnterprise] = useState({});
   const [loading, setLoading] = useState(true);
+  const [updateVisible, setVisible] = useState(false)
   const notificationAlert = useRef(null)
 
   function showConfirmDelete(e) {
@@ -120,6 +123,13 @@ function Enterprise(props) {
       },
       onCancel() { }
     });
+  }
+
+  const showModalUpdate = () => {
+    setVisible(true)
+  }
+  const handleCancel = () => {
+    setVisible(false)
   }
 
   const notify = (place, message, type) => {
@@ -252,6 +262,24 @@ function Enterprise(props) {
                 </div>
               </div>
             </CardBody>
+            {
+              props.is_responsible ? (
+                <CardFooter>
+                  <Button className="btn btn-primary" onClick={showModalUpdate}>
+                    Mettre a jour
+                  </Button>
+                  <Modal
+                    visible={updateVisible}
+                    title="Mettre a jour Entreprise"
+                    onCancel={handleCancel}
+                    footer={''}
+                  >
+                    <UpdateEnterprise taille={12} enterpriseId={enterprise.id} />
+                  </Modal>
+                </CardFooter>
+              ) : ('')
+            }
+
           </Card>
         </Col>
         {enterprise.is_partner ? (

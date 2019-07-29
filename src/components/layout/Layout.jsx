@@ -25,7 +25,7 @@ import StudentEnterprise from "../all/StudentEnterprise"
 import ListRapports from "../Rapport/ListRapports"
 import Rapport from "../Rapport/Rapport"
 import Maps from '../Maps/Maps'
-import Bread from '../Bread'
+// import Bread from '../Bread'
 import Attachment from '../Attachments/Attachments'
 
 
@@ -115,7 +115,7 @@ class Layout extends Component {
         />
         <div className="main-panel" ref={this.mainPanel}>
           <PanelHeader size="sm" />
-          <Bread />
+          {/* <Bread /> */}
           <DemoNavbar {...this.props} />
           <Switch>
             <Route
