@@ -165,7 +165,8 @@ function Convention(props) {
 const matStateToProps = state => {
   return {
     enterpriseId: state.enterpriseId,
-    token: state.token
+    token: state.token,
+    is_responsible: state.is_responsible
   }
 }
 

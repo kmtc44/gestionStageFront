@@ -83,7 +83,7 @@ function ListProject(props) {
             </Row>
           ) : (
               <div className="text-center">
-                <h3 className="text-danger"> Aucun projet n'est encore creer</h3>
+                <h3 className="text-danger"> Pas encore de projet </h3>
               </div>
             )
         }

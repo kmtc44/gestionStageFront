@@ -20,6 +20,8 @@ function Rapport(props) {
 	const [comments, setComment] = useState([])
 	const [commentValue, setCommentValue] = useState('')
 	const [author, setAuthor] = useState('')
+	const [editComment, setEditComment] = useState(true)
+
 	const handleSubmit = () => {
 		if (!commentValue) {
 			return;
@@ -153,7 +155,6 @@ function Rapport(props) {
 		<Spin className="center container " />
 	) : (
 			<div className="container">
-
 				{
 					props.match.params.rapportId ? (
 						<> {
@@ -183,6 +184,7 @@ function Rapport(props) {
 											<div className="container text-center">
 												<h3 className="text text-danger">Vous n'avez pas encore joint votre rapport de stage</h3>
 												<Link to='/dashboard/Attachments'> joindre votre rapport </Link>
+												{setEditComment(false)}
 											</div>
 										)
 								}
@@ -219,22 +221,26 @@ function Rapport(props) {
 										<hr />
 									</CardBody>
 									<CardFooter>
-										<Comment
-											avatar={
-												<Avatar
-													src={author.image || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"}
-													alt="Han Solo"
+										{
+											editComment ? (
+												<Comment
+													avatar={
+														<Avatar
+															src={author.image || "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"}
+															alt="Han Solo"
+														/>
+													}
+													content={
+														<Editor
+															onChange={handleChange}
+															onSubmit={handleSubmit}
+															submitting={submitting}
+															value={commentValue}
+														/>
+													}
 												/>
-											}
-											content={
-												<Editor
-													onChange={handleChange}
-													onSubmit={handleSubmit}
-													submitting={submitting}
-													value={commentValue}
-												/>
-											}
-										/>
+											) : ("")
+										}
 									</CardFooter>
 
 								</Card>

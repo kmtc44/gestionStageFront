@@ -70,7 +70,7 @@ class RegistrationForm extends React.Component {
               setTimeout(() => {
                 this.props.history.push('dashboard')
                 this.props.history.push('/dashboard/profile')
-              }, 1500)
+              }, 1000)
             })
             .catch(err => console.log(err));
           break;
@@ -87,7 +87,7 @@ class RegistrationForm extends React.Component {
               setTimeout(() => {
                 this.props.history.push('dashboard')
                 this.props.history.push('/dashboard/profile')
-              }, 1500)
+              }, 1000)
             })
             .catch(err => console.log(err));
           break;
@@ -103,7 +103,7 @@ class RegistrationForm extends React.Component {
               setTimeout(() => {
                 this.props.history.push('dashboard')
                 this.props.history.push('/dashboard/profile')
-              }, 1500)
+              }, 1000)
             })
             .catch(err => console.log(err));
           break;
