@@ -43,7 +43,7 @@ function ListConvention(props) {
         };
         axios
           .put(`${baseSite}/internship/enterprise/${id_convention}/`, {
-            is_delete: true
+            is_deleted: true
           })
           .then(res => {
             notify(
@@ -90,7 +90,7 @@ function ListConvention(props) {
         Authorization: `Token ${user.token}`
       };
       const res = await axios(`${baseSite}/internship/convention/`);
-      setConvention(res.data);
+      setConvention(res.data.filter(convention => !convention.is_deleted));
       setLoading(false);
     };
 

@@ -84,10 +84,10 @@ class RegistrationForm extends React.Component {
                 `Votre profile a ete modifier avec success`,
                 "success"
               );
-              setTimeout(() => {
-                this.props.history.push('dashboard')
-                this.props.history.push('/dashboard/profile')
-              }, 1000)
+
+              this.props.history.push('dashboard')
+              this.props.history.push('/dashboard/profile')
+
             })
             .catch(err => console.log(err));
           break;
